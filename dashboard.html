@@ -343,10 +343,67 @@
           </button>
         </div>
 
+        <!-- Step 2: Data Entry & ASCII Binary Conversion Section (Appears after location confirmation) -->
+        <div class="data-input-section" id="dataInputSection" style="display: none;">
+          <div class="data-input-card">
+            <div class="data-input-header">
+              <div class="data-input-title-group">
+                <span class="step-badge-mini">STEP 2: DATA PREPARATION</span>
+                <h3 class="data-input-title">Enter the message you want to transmit</h3>
+              </div>
+              <span class="input-hint-badge">8-Bit ASCII Encoding</span>
+            </div>
+
+            <div class="data-input-row">
+              <div class="input-with-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <input type="text" id="userMessageInput" class="user-msg-input" placeholder="Enter message here (e.g. Hello, I am Sriram!)" value="Hello, I am Sriram!">
+              </div>
+              <button type="button" id="btnDataOk" class="btn-data-ok">
+                <span>OK</span>
+              </button>
+            </div>
+
+            <!-- Conversion Display (Appears when OK is clicked) -->
+            <div class="data-conversion-results" id="dataConversionResults" style="display: none;">
+              <div class="results-meta-bar">
+                <div class="meta-item">
+                  <span class="meta-label">Original Message:</span>
+                  <span class="meta-value msg-highlight" id="resOriginalMsg">-</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Total Characters:</span>
+                  <span class="meta-value" id="resTotalChars">0</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Total Bits:</span>
+                  <span class="meta-value bits-highlight" id="resTotalBits">0 bits</span>
+                </div>
+                <div class="meta-item status-pill-item">
+                  <span class="ready-status-pill" id="readyStatusPill">✓ Ready for Transmission</span>
+                </div>
+              </div>
+
+              <!-- Combined Binary Bits Stream -->
+              <div class="binary-stream-display">
+                <div class="stream-title">Combined Binary Bitstream (8-Bit ASCII Physical Layer Stream):</div>
+                <div class="stream-code-box" id="resBinaryStream"></div>
+              </div>
+
+              <!-- Character-by-Character Breakdown -->
+              <div class="char-breakdown-section">
+                <div class="breakdown-title">Character-by-Character Conversion:</div>
+                <div class="char-chips-container" id="resCharChips"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         <!-- 3 Main Simulation Controls Bar -->
         <div class="sim-controls-bar">
           <div class="sim-buttons-group">
-            <button type="button" id="simStartBtn" class="btn-sim-action primary-start">
+            <button type="button" id="simStartBtn" class="btn-sim-action primary-start" disabled title="Confirm locations and click OK on data input to enable">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               <span>Start Simulation</span>
             </button>
@@ -358,6 +415,9 @@
               <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
               <span>Reset</span>
             </button>
+          </div>
+          <div class="sim-flow-hint" id="simFlowHint">
+            <span>1. Confirm Locations &nbsp;➔&nbsp; 2. Enter Message &amp; Click OK &nbsp;➔&nbsp; 3. Start Simulation</span>
           </div>
         </div>
 
