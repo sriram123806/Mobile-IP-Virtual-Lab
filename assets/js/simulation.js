@@ -535,6 +535,58 @@
     }
   }
 
+  // --- INDEPENDENT SIGNAL & PACKET VISUALIZATION RUNNER ---
+  const btnSignalRun = document.getElementById('btnSignalRun');
+  let signalPreviewTimer = null;
+  let isSignalPreviewRunning = false;
+  let signalPreviewStage = 1;
+
+  function stopSignalPreview() {
+    isSignalPreviewRunning = false;
+    clearTimeout(signalPreviewTimer);
+    if (btnSignalRun) {
+      btnSignalRun.classList.remove('running');
+      btnSignalRun.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+      btnSignalRun.title = 'Run / Replay Signal Visualization independently';
+    }
+  }
+
+  function runSignalPreviewStep(stage) {
+    if (!isSignalPreviewRunning) return;
+    signalPreviewStage = stage;
+    updateSignalBox(stage);
+    state.currentStep = stage;
+
+    signalPreviewTimer = setTimeout(() => {
+      if (!isSignalPreviewRunning) return;
+      if (stage < 6) {
+        runSignalPreviewStep(stage + 1);
+      } else {
+        stopSignalPreview();
+      }
+    }, 4500);
+  }
+
+  function startSignalPreview() {
+    isSignalPreviewRunning = true;
+    if (btnSignalRun) {
+      btnSignalRun.classList.add('running');
+      btnSignalRun.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+      btnSignalRun.title = 'Pause / Stop Signal Preview';
+    }
+    runSignalPreviewStep(1);
+  }
+
+  if (btnSignalRun) {
+    btnSignalRun.addEventListener('click', () => {
+      if (isSignalPreviewRunning) {
+        stopSignalPreview();
+      } else {
+        startSignalPreview();
+      }
+    });
+  }
+
   // --- 7. THE 6 STEP SYNCHRONIZED EXECUTION ENGINE ---
   function updateStepPanel(step) {
     document.querySelectorAll('.step-item-card').forEach((card, idx) => {
@@ -592,7 +644,7 @@
       if (state.isPlaying && !state.isPaused) {
         interpolateRoute([cn.lat, cn.lng], [ha.lat, ha.lng], 3800, false, false, () => {
           if (state.isPlaying && !state.isPaused) {
-            state.timerId = setTimeout(() => executeStep(2), 1100);
+            state.timerId = setTimeout(() => executeStep(2), 5000);
           }
         });
       }
@@ -618,7 +670,7 @@
       }
 
       if (state.isPlaying && !state.isPaused) {
-        state.timerId = setTimeout(() => executeStep(3), 2400);
+        state.timerId = setTimeout(() => executeStep(3), 5000);
       }
     }
 
@@ -642,7 +694,7 @@
       }
 
       if (state.isPlaying && !state.isPaused) {
-        state.timerId = setTimeout(() => executeStep(4), 2600);
+        state.timerId = setTimeout(() => executeStep(4), 5000);
       }
     }
 
@@ -667,7 +719,7 @@
       if (state.isPlaying && !state.isPaused) {
         interpolateRoute([ha.lat, ha.lng], [fa.lat, fa.lng], 4600, true, true, () => {
           if (state.isPlaying && !state.isPaused) {
-            state.timerId = setTimeout(() => executeStep(5), 1100);
+            state.timerId = setTimeout(() => executeStep(5), 5000);
           }
         });
       }
@@ -692,7 +744,7 @@
       }
 
       if (state.isPlaying && !state.isPaused) {
-        state.timerId = setTimeout(() => executeStep(6), 2500);
+        state.timerId = setTimeout(() => executeStep(6), 5000);
       }
     }
 
@@ -767,6 +819,7 @@
     startBtn.addEventListener('click', () => {
       if (!state.isConfirmed || !state.isDataReady) return;
 
+      stopSignalPreview();
       state.isPlaying = true;
       state.isPaused = false;
       state.pausedFraction = 0;
@@ -811,6 +864,7 @@
 
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
+      stopSignalPreview();
       state.isPlaying = false;
       state.isPaused = false;
       state.pausedFraction = 0;
