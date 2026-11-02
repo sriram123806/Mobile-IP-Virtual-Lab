@@ -95,6 +95,13 @@ html, body {
   background-image: url('../images/bg-cases.jpg');
 }
 
+/* New Uploaded Image -> Individual Case Study Workflow View */
+.bg-layer-cases-workflow {
+  background-image: url('../images/bg-cases-workflow.jpg');
+  background-position: center 30%;
+  background-size: cover;
+}
+
 .bg-layer.active {
   opacity: 1;
   transform: scale(1);
@@ -1326,6 +1333,17 @@ html, body {
   display: none;
   max-width: 980px;
   margin: 0 auto;
+}
+
+.case-workflow-view .glass-panel {
+  background: linear-gradient(145deg, rgba(6, 24, 44, 0.90), rgba(10, 36, 62, 0.86));
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow: 
+    0 0 0 4px rgba(255, 255, 255, 0.05),
+    0 25px 65px rgba(2, 12, 22, 0.65),
+    0 0 35px rgba(56, 189, 248, 0.2);
 }
 
 .case-workflow-view.active {

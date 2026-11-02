@@ -17,7 +17,8 @@
     video: document.getElementById('bgLayerVideo'),
     concepts: document.getElementById('bgLayerConcepts'),
     simulation: document.getElementById('bgLayerSimulation'),
-    cases: document.getElementById('bgLayerCases')
+    cases: document.getElementById('bgLayerCases'),
+    casesWorkflow: document.getElementById('bgLayerCasesWorkflow')
   };
 
   function updateBackground(tabName) {
@@ -29,7 +30,7 @@
   }
 
   function switchTab(targetId, updateHash = true) {
-    const cleanId = (targetId || 'simulation').replace('#', '');
+    const cleanId = (targetId || 'video').replace('#', '');
 
     // Reset case workflow view back to list when navigating tabs
     if (casesListView) casesListView.style.display = 'block';
@@ -77,7 +78,7 @@
   });
 
   window.addEventListener('hashchange', () => {
-    const hash = window.location.hash || '#simulation';
+    const hash = window.location.hash || '#video';
     if (hash.startsWith('#case-')) {
       const caseNum = hash.replace('#case-', '');
       openCaseWorkflow(caseNum, false);
@@ -87,7 +88,7 @@
   });
 
   // Initial load
-  const initialHash = window.location.hash || '#simulation';
+  const initialHash = window.location.hash || '#video';
   if (initialHash.startsWith('#case-')) {
     switchTab('cases', false);
     openCaseWorkflow(initialHash.replace('#case-', ''), false);
@@ -404,6 +405,9 @@
       renderWorkflow(caseNum, 0);
     }
 
+    // Switch specifically to the new uploaded background image for individual Case Study -> View workflow pages
+    updateBackground('casesWorkflow');
+
     if (updateHash) {
       history.replaceState(null, null, `#case-${caseNum}`);
     }
@@ -484,6 +488,7 @@
       if (casesListView) casesListView.style.display = 'block';
       const workflowView = document.getElementById('caseWorkflowView');
       if (workflowView) workflowView.classList.remove('active');
+      updateBackground('cases');
       history.replaceState(null, null, '#cases');
     });
   }

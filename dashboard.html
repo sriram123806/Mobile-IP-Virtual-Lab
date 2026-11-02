@@ -18,12 +18,13 @@
 </head>
 <body>
 
-  <!-- Full-Page Dynamic Background Image Layers (Images 1-4) -->
+  <!-- Full-Page Dynamic Background Image Layers (Images 1-4 + Case Workflow Image) -->
   <div class="bg-viewport-container" aria-hidden="true">
-    <div class="bg-layer bg-layer-video" id="bgLayerVideo"></div>
+    <div class="bg-layer bg-layer-video active" id="bgLayerVideo"></div>
     <div class="bg-layer bg-layer-concepts" id="bgLayerConcepts"></div>
-    <div class="bg-layer bg-layer-simulation active" id="bgLayerSimulation"></div>
+    <div class="bg-layer bg-layer-simulation" id="bgLayerSimulation"></div>
     <div class="bg-layer bg-layer-cases" id="bgLayerCases"></div>
+    <div class="bg-layer bg-layer-cases-workflow" id="bgLayerCasesWorkflow"></div>
   </div>
 
   <!-- =========================================================================
@@ -47,7 +48,7 @@
 
       <!-- 4 Dashboard Navigation Tabs -->
       <nav class="nav-tabs" role="tablist" aria-label="Dashboard Views">
-        <a href="#video" class="tab-btn" id="tabVideo" role="tab" aria-selected="false">
+        <a href="#video" class="tab-btn active" id="tabVideo" role="tab" aria-selected="true">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 8.64L15.27 12 10 15.36V8.64M8 5v14l11-7L8 5z"/></svg>
           <span>Video Learning</span>
         </a>
@@ -57,7 +58,7 @@
           <span>Concepts &amp; Q&amp;A</span>
         </a>
 
-        <a href="#simulation" class="tab-btn active" id="tabSim" role="tab" aria-selected="true">
+        <a href="#simulation" class="tab-btn" id="tabSim" role="tab" aria-selected="false">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           <span>Simulation</span>
         </a>
@@ -85,7 +86,7 @@
     <!-- =======================================================================
          PAGE 1: VIDEO LEARNING (Image 1 Background)
          ======================================================================= -->
-    <section class="tab-view" id="video" role="tabpanel" aria-labelledby="tabVideo">
+    <section class="tab-view active" id="video" role="tabpanel" aria-labelledby="tabVideo">
       <div class="video-learning-layout">
         
         <div class="video-player-card">
@@ -306,7 +307,7 @@
     <!-- =======================================================================
          PAGE 3: INTERACTIVE MOBILE IP SIMULATION (Image 3 Background)
          ======================================================================= -->
-    <section class="tab-view active" id="simulation" role="tabpanel" aria-labelledby="tabSim">
+    <section class="tab-view" id="simulation" role="tabpanel" aria-labelledby="tabSim">
       <div class="sim-page-layout">
 
         <!-- Clean Location Selection Glass Bar -->
