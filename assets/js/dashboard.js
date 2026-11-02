@@ -1,24 +1,24 @@
 /**
- * Mobile IP Virtual Lab - Dashboard Core Script
- * Handles Tab Navigation, Video Player, Concepts Accordion & Search, Cases, and Modals.
+ * Mobile IP Virtual Lab - Dashboard Script
+ * Handles Tab Navigation, Video Player, 10-Question Accordion, and 5 Case Workflows.
  */
 
 (function () {
   'use strict';
 
-  // --- 1. TAB ROUTING & NAVIGATION ---
+  // --- 1. GLOBAL TAB NAVIGATION ---
   const navTabs = document.querySelectorAll('.tab-btn');
   const tabViews = document.querySelectorAll('.tab-view');
+  const casesListView = document.getElementById('casesListView');
+  const caseWorkflowViews = document.querySelectorAll('.case-workflow-view');
 
-  function switchTab(targetTabId, updateHash = true) {
-    if (!targetTabId) targetTabId = 'simulation'; // Default priority tab
+  function switchTab(targetId, updateHash = true) {
+    const cleanId = (targetId || 'simulation').replace('#', '');
 
-    // Normalize id
-    const cleanId = targetTabId.replace('#', '');
-    const activeView = document.getElementById(cleanId);
-    if (!activeView) return;
+    // Reset case workflow views back to list when navigating tabs
+    if (casesListView) casesListView.style.display = 'block';
+    caseWorkflowViews.forEach(v => v.classList.remove('active'));
 
-    // Update Tab Buttons
     navTabs.forEach(btn => {
       const href = btn.getAttribute('href').replace('#', '');
       if (href === cleanId) {
@@ -30,7 +30,6 @@
       }
     });
 
-    // Update Views
     tabViews.forEach(view => {
       if (view.id === cleanId) {
         view.classList.add('active');
@@ -43,7 +42,7 @@
       history.replaceState(null, null, `#${cleanId}`);
     }
 
-    // Leaflet map needs resize trigger when becoming visible
+    // Invalidate map for smooth rendering
     if (cleanId === 'simulation' && window.MobileIPSimulation && window.MobileIPSimulation.invalidateMap) {
       setTimeout(() => {
         window.MobileIPSimulation.invalidateMap();
@@ -54,22 +53,32 @@
   navTabs.forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      const target = btn.getAttribute('href');
-      switchTab(target, true);
+      switchTab(btn.getAttribute('href'), true);
     });
   });
 
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash || '#simulation';
-    switchTab(hash, false);
+    // If hash starts with case-, open that case
+    if (hash.startsWith('#case-')) {
+      const caseNum = hash.replace('#case-', '');
+      openCaseWorkflow(caseNum, false);
+    } else {
+      switchTab(hash, false);
+    }
   });
 
-  // Initial tab load
+  // Initial load
   const initialHash = window.location.hash || '#simulation';
-  switchTab(initialHash, false);
+  if (initialHash.startsWith('#case-')) {
+    switchTab('cases', false);
+    openCaseWorkflow(initialHash.replace('#case-', ''), false);
+  } else {
+    switchTab(initialHash, false);
+  }
 
 
-  // --- 2. VIDEO LEARNING PLAYER ---
+  // --- 2. VIDEO LEARNING MODULE ---
   const video = document.getElementById('labVideo');
   const videoPlaceholder = document.getElementById('videoPlaceholder');
   const playPauseBtn = document.getElementById('playPauseBtn');
@@ -79,52 +88,47 @@
   const timeDisplay = document.getElementById('timeDisplay');
   const muteBtn = document.getElementById('muteBtn');
   const volumeSlider = document.getElementById('volumeSlider');
-  const speedSelect = document.getElementById('speedSelect');
   const fullscreenBtn = document.getElementById('fullscreenBtn');
   const customVideoInput = document.getElementById('customVideoInput');
 
-  function formatTime(seconds) {
-    if (isNaN(seconds) || seconds < 0) return '00:00';
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
+  function formatTime(sec) {
+    if (isNaN(sec) || sec < 0) return '00:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
-  function updateVideoTime() {
+  function updateVideoProgress() {
     if (!video || !video.duration) return;
-    const progress = (video.currentTime / video.duration) * 100;
-    if (videoProgressFill) videoProgressFill.style.width = `${progress}%`;
+    const pct = (video.currentTime / video.duration) * 100;
+    if (videoProgressFill) videoProgressFill.style.width = `${pct}%`;
     if (timeDisplay) timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
   }
 
   function togglePlay() {
     if (!video) return;
     if (!video.src || video.src === window.location.href || video.src.endsWith('/')) {
-      alert('Explanation video will be available soon! You can load and preview any MP4 file using the "Load Custom MP4" button below.');
+      alert('Your anime-style Shin-chan video placeholder is ready! Place your video at assets/explanation.mp4 or use the preview button below to test.');
       return;
     }
 
     if (video.paused || video.ended) {
       video.play().then(() => {
         if (videoPlaceholder) videoPlaceholder.classList.add('hidden');
-        updatePlayIcons(true);
-      }).catch(err => {
-        console.warn('Playback error:', err);
-      });
+        setPlayIcon(true);
+      }).catch(() => {});
     } else {
       video.pause();
-      updatePlayIcons(false);
+      setPlayIcon(false);
     }
   }
 
-  function updatePlayIcons(isPlaying) {
+  function setPlayIcon(isPlaying) {
     if (!playPauseBtn) return;
     if (isPlaying) {
       playPauseBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
-      playPauseBtn.setAttribute('title', 'Pause');
     } else {
       playPauseBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-      playPauseBtn.setAttribute('title', 'Play');
     }
   }
 
@@ -132,16 +136,16 @@
   if (bigPlayBtn) bigPlayBtn.addEventListener('click', togglePlay);
 
   if (video) {
-    video.addEventListener('timeupdate', updateVideoTime);
-    video.addEventListener('loadedmetadata', updateVideoTime);
-    video.addEventListener('play', () => updatePlayIcons(true));
-    video.addEventListener('pause', () => updatePlayIcons(false));
+    video.addEventListener('timeupdate', updateVideoProgress);
+    video.addEventListener('loadedmetadata', updateVideoProgress);
+    video.addEventListener('play', () => setPlayIcon(true));
+    video.addEventListener('pause', () => setPlayIcon(false));
     video.addEventListener('ended', () => {
-      updatePlayIcons(false);
+      setPlayIcon(false);
       if (videoPlaceholder) videoPlaceholder.classList.remove('hidden');
     });
 
-    // Check if assets/explanation.mp4 exists or can be played
+    // Check if assets/explanation.mp4 exists
     fetch('assets/explanation.mp4', { method: 'HEAD' })
       .then(res => {
         if (res.ok) {
@@ -152,24 +156,20 @@
       .catch(() => {});
   }
 
-  // Scrubbing
   if (videoProgressContainer) {
     videoProgressContainer.addEventListener('click', (e) => {
       if (!video || !video.duration) return;
       const rect = videoProgressContainer.getBoundingClientRect();
       const pos = (e.clientX - rect.left) / rect.width;
       video.currentTime = pos * video.duration;
-      updateVideoTime();
+      updateVideoProgress();
     });
   }
 
-  // Volume
   if (volumeSlider) {
     volumeSlider.addEventListener('input', (e) => {
       if (!video) return;
       video.volume = parseFloat(e.target.value);
-      video.muted = video.volume === 0;
-      updateMuteIcon();
     });
   }
 
@@ -177,27 +177,10 @@
     muteBtn.addEventListener('click', () => {
       if (!video) return;
       video.muted = !video.muted;
-      updateMuteIcon();
+      muteBtn.style.color = video.muted ? 'var(--pink-accent)' : 'var(--white)';
     });
   }
 
-  function updateMuteIcon() {
-    if (!muteBtn || !video) return;
-    if (video.muted || video.volume === 0) {
-      muteBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>`;
-    } else {
-      muteBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
-    }
-  }
-
-  // Playback Speed
-  if (speedSelect) {
-    speedSelect.addEventListener('change', (e) => {
-      if (video) video.playbackRate = parseFloat(e.target.value);
-    });
-  }
-
-  // Fullscreen
   if (fullscreenBtn) {
     fullscreenBtn.addEventListener('click', () => {
       const card = document.querySelector('.video-player-card');
@@ -210,188 +193,307 @@
     });
   }
 
-  // Local File Selector
   if (customVideoInput) {
     customVideoInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file && video) {
-        const fileURL = URL.createObjectURL(file);
-        video.src = fileURL;
+        video.src = URL.createObjectURL(file);
         video.load();
         if (videoPlaceholder) videoPlaceholder.classList.add('hidden');
-        video.play().then(() => updatePlayIcons(true)).catch(() => {});
+        video.play().then(() => setPlayIcon(true)).catch(() => {});
       }
     });
   }
 
 
-  // --- 3. CONCEPTS & QUESTIONS ACCORDION & SEARCH ---
+  // --- 3. PAGE TWO: 10 CONCEPTS ACCORDION ---
   const qaCards = document.querySelectorAll('.qa-card');
-  const searchInput = document.getElementById('searchQuestions');
-  const filterPills = document.querySelectorAll('.filter-pill');
-  const expandAllBtn = document.getElementById('expandAllBtn');
-  const collapseAllBtn = document.getElementById('collapseAllBtn');
-  const noQuestionsNotice = document.getElementById('noQuestionsFound');
 
-  // Toggle single card
   qaCards.forEach(card => {
     const header = card.querySelector('.qa-header');
     if (!header) return;
+
     header.addEventListener('click', () => {
       const isOpen = card.classList.contains('open');
+
+      // Close all others for a neat, focused view
+      qaCards.forEach(c => {
+        if (c !== card) c.classList.remove('open');
+      });
+
       card.classList.toggle('open', !isOpen);
-      card.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
     });
   });
 
-  // Expand / Collapse All
-  if (expandAllBtn) {
-    expandAllBtn.addEventListener('click', () => {
-      qaCards.forEach(card => {
-        if (card.style.display !== 'none') {
-          card.classList.add('open');
-          card.setAttribute('aria-expanded', 'true');
+
+  // --- 4. PAGE FOUR & FIVE: CASE WORKFLOWS ---
+  const caseData = {
+    1: {
+      title: "Case 1: Home Agent Has No Mobile Node Location",
+      intro: "A Correspondent Node transmits packets to the Mobile Node's permanent Home Address, but the Home Agent has no valid registration binding in its cache.",
+      steps: [
+        {
+          name: "START",
+          title: "Step 1: CN Transmits Datagram",
+          desc: "The Correspondent Node addresses an IP datagram to the Mobile Node's permanent Home Address. Standard IP routing forwards the datagram across the Internet to the Home Network."
+        },
+        {
+          name: "HA Check",
+          title: "Step 2: Home Agent Cache Lookup",
+          desc: "The Home Agent intercepts the packet on the home link and searches its internal Binding Cache. The binding is missing or expired, meaning HA does not know any current Care-of Address (CoA)."
+        },
+        {
+          name: "Local ARP",
+          title: "Step 3: Home Link ARP Broadcast",
+          desc: "Because no Care-of Address exists, the HA assumes the MN might be at home. It broadcasts an ARP request on the local home subnet seeking the MN's MAC address."
+        },
+        {
+          name: "Timeout",
+          title: "Step 4: ARP Request Times Out",
+          desc: "Since the Mobile Node is physically away in a distant location and not registered, no device replies to the ARP broadcast on the home link."
+        },
+        {
+          name: "RESULT: Packet Loss",
+          title: "Result: Packet Dropped & ICMP Error",
+          desc: "The Home Agent drops the datagram and transmits an ICMP Destination Host Unreachable message back to the Correspondent Node. The communication session fails."
         }
-      });
-    });
-  }
-
-  if (collapseAllBtn) {
-    collapseAllBtn.addEventListener('click', () => {
-      qaCards.forEach(card => {
-        card.classList.remove('open');
-        card.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
-
-  // Filter & Search Logic
-  let currentCategory = 'all';
-  let searchQuery = '';
-
-  function applyQuestionsFilter() {
-    let visibleCount = 0;
-    const q = searchQuery.toLowerCase().trim();
-
-    qaCards.forEach(card => {
-      const category = card.getAttribute('data-category') || '';
-      const title = card.querySelector('.qa-title').textContent.toLowerCase();
-      const content = card.querySelector('.qa-content').textContent.toLowerCase();
-
-      const matchesCat = (currentCategory === 'all' || category === currentCategory);
-      const matchesSearch = (!q || title.includes(q) || content.includes(q));
-
-      if (matchesCat && matchesSearch) {
-        card.style.display = 'block';
-        visibleCount++;
-        // Auto-open matching card if user typed a specific search query
-        if (q.length > 2) {
-          card.classList.add('open');
+      ]
+    },
+    2: {
+      title: "Case 2: Foreign Agent Registration Relay Failure",
+      intro: "The Mobile Node enters a visited network and requests registration via the Foreign Agent, but the FA fails to forward the request to the Home Agent.",
+      steps: [
+        {
+          name: "START",
+          title: "Step 1: MN Sends Registration Request",
+          desc: "The Mobile Node connects to a foreign network, obtains the Foreign Agent's Care-of Address from an Agent Advertisement, and delivers a Registration Request to the FA."
+        },
+        {
+          name: "FA Relay",
+          title: "Step 2: Foreign Agent Relay Attempt",
+          desc: "The Foreign Agent is expected to forward this request to the Home Agent over UDP port 434. However, network congestion or firewall filtering drops the registration packet."
+        },
+        {
+          name: "No Binding",
+          title: "Step 3: Home Agent Unaware of Move",
+          desc: "Because the Registration Request never reaches the Home Agent, the HA's binding table remains unchanged. It either holds an obsolete CoA or no location at all."
+        },
+        {
+          name: "RESULT: Black Hole",
+          title: "Result: Communication Black Hole",
+          desc: "Packets sent by the Correspondent Node continue to be tunneled to the old location or dropped at the Home Agent. The Mobile Node cannot receive incoming traffic."
         }
-      } else {
-        card.style.display = 'none';
-      }
-    });
+      ]
+    },
+    3: {
+      title: "Case 3: Encapsulation Failure at Home Agent",
+      intro: "The Home Agent attempts to encapsulate the original packet inside an outer IP header, but the resulting packet exceeds the path Maximum Transmission Unit (MTU).",
+      steps: [
+        {
+          name: "START",
+          title: "Step 1: Inbound Packet Reaches HA",
+          desc: "A full-sized IP packet (e.g. 1500 bytes) arrives at the Home Agent with the Don't Fragment (DF) flag set in the IP header."
+        },
+        {
+          name: "Encap Check",
+          title: "Step 2: Adding 20-Byte Outer IP Header",
+          desc: "The Home Agent prepares to wrap the packet for forward tunneling by adding an outer IP header (20 bytes). The new total size becomes 1520 bytes."
+        },
+        {
+          name: "MTU Exceeded",
+          title: "Step 3: Tunnel Path MTU Exceeded",
+          desc: "The outgoing tunnel interface only supports standard 1500-byte MTU. Because the packet has the DF bit set, the router is forbidden from fragmenting it."
+        },
+        {
+          name: "RESULT: Packet Dropped",
+          title: "Result: Datagram Discarded & PMTUD Triggered",
+          desc: "The Home Agent discards the packet and sends an ICMP 'Fragmentation Needed and DF Set' notification to the Correspondent Node to reduce its segment size."
+        }
+      ]
+    },
+    4: {
+      title: "Case 4: Decapsulation Failure at Foreign Agent",
+      intro: "The encapsulated packet traverses the tunnel to the Foreign Agent, but the FA cannot decapsulate the packet due to header checksum errors or unsupported tunneling protocols.",
+      steps: [
+        {
+          name: "START",
+          title: "Step 1: Tunneled Packet Arrives at FA",
+          desc: "The Foreign Agent receives the encapsulated datagram addressed to its Care-of Address over the forward tunnel from the Home Agent."
+        },
+        {
+          name: "Header Verify",
+          title: "Step 2: Outer Header Protocol Verification",
+          desc: "The Foreign Agent inspects the IP Protocol field. A transit corruption or mismatched tunneling format (such as unsupported GRE or corrupted IP Protocol 4) is detected."
+        },
+        {
+          name: "Strip Failed",
+          title: "Step 3: Decapsulation Engine Rejects Packet",
+          desc: "Because the header cannot be safely parsed, the FA's decapsulation engine refuses to strip the outer header to prevent delivering corrupted payloads."
+        },
+        {
+          name: "RESULT: Silently Dropped",
+          title: "Result: Packet Discarded at Visited Agent",
+          desc: "The Foreign Agent increments its protocol error counter and silently drops the packet. The Mobile Node never receives the message."
+        }
+      ]
+    },
+    5: {
+      title: "Case 5: Mobile Node Moves Mid-Transmission",
+      intro: "While encapsulated packets are in flight through the tunnel towards Foreign Agent A, the Mobile Node abruptly dissociates and connects to Foreign Agent B.",
+      steps: [
+        {
+          name: "START",
+          title: "Step 1: HA Tunnels to Old Location (FA-A)",
+          desc: "The Home Agent forwards packets through the established tunnel towards Foreign Agent A based on the active binding cache."
+        },
+        {
+          name: "In-Flight Move",
+          title: "Step 2: MN Roams to Foreign Agent B",
+          desc: "Before the tunneled packets arrive at FA-A, the Mobile Node physically roams out of range and attaches to a new foreign network managed by FA-B."
+        },
+        {
+          name: "Arrival at FA-A",
+          title: "Step 3: FA-A Decapsulates Packet",
+          desc: "FA-A successfully removes the outer IP header and looks for the Mobile Node on its local wireless link to deliver the packet."
+        },
+        {
+          name: "RESULT: In-Flight Loss",
+          title: "Result: Local Delivery Times Out",
+          desc: "Because the Mobile Node is no longer on FA-A's subnet, local Layer-2 delivery fails and in-flight packets are dropped until HA receives the updated registration for FA-B."
+        }
+      ]
+    }
+  };
 
-    if (noQuestionsNotice) {
-      noQuestionsNotice.style.display = visibleCount === 0 ? 'block' : 'none';
+  const caseState = {
+    currentCase: 1,
+    currentStep: 0 // index in steps
+  };
+
+  function openCaseWorkflow(caseNum, updateHash = true) {
+    caseNum = parseInt(caseNum, 10);
+    if (!caseData[caseNum]) caseNum = 1;
+
+    caseState.currentCase = caseNum;
+    caseState.currentStep = 0;
+
+    // Switch tab view to Cases
+    switchTab('cases', false);
+
+    // Hide list, show workflow
+    if (casesListView) casesListView.style.display = 'none';
+    caseWorkflowViews.forEach(v => v.classList.remove('active'));
+
+    const workflowView = document.getElementById('caseWorkflowView');
+    if (workflowView) {
+      workflowView.classList.add('active');
+      renderWorkflow(caseNum, 0);
+    }
+
+    if (updateHash) {
+      history.replaceState(null, null, `#case-${caseNum}`);
     }
   }
 
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      applyQuestionsFilter();
-    });
-  }
+  function renderWorkflow(caseNum, stepIndex) {
+    const data = caseData[caseNum];
+    if (!data) return;
 
-  filterPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      filterPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      currentCategory = pill.getAttribute('data-filter') || 'all';
-      applyQuestionsFilter();
-    });
-  });
+    const steps = data.steps;
+    if (stepIndex < 0) stepIndex = 0;
+    if (stepIndex >= steps.length) stepIndex = steps.length - 1;
+    caseState.currentStep = stepIndex;
 
+    // Title & Intro
+    const titleEl = document.getElementById('wfCaseTitle');
+    const introEl = document.getElementById('wfCaseIntro');
+    if (titleEl) titleEl.textContent = data.title;
+    if (introEl) introEl.textContent = data.intro;
 
-  // --- 4. FAILURE SCENARIOS (CASES) INTERACTION ---
-  const caseCards = document.querySelectorAll('.case-card');
+    // Render flowchart blocks
+    const flowContainer = document.getElementById('wfFlowchartBlocks');
+    if (flowContainer) {
+      flowContainer.innerHTML = '';
+      steps.forEach((step, idx) => {
+        const isTerminal = idx === 0 || idx === steps.length - 1;
+        const block = document.createElement('div');
+        block.className = `flow-block ${isTerminal ? 'terminal-block' : ''} ${idx === stepIndex ? 'active' : ''}`;
+        block.textContent = step.name;
 
-  caseCards.forEach(card => {
-    const testBtn = card.querySelector('.btn-test-case');
-    const flowArea = card.querySelector('.case-mini-flow-area');
-    if (!testBtn || !flowArea) return;
+        // Clicking a block jumps directly to it
+        block.addEventListener('click', () => {
+          renderWorkflow(caseNum, idx);
+        });
 
-    testBtn.addEventListener('click', () => {
-      const isSimulating = testBtn.getAttribute('data-state') === 'running';
+        flowContainer.appendChild(block);
 
-      if (!isSimulating) {
-        testBtn.setAttribute('data-state', 'running');
-        testBtn.innerHTML = `<span>Reset Diagram</span>`;
-        testBtn.style.background = '#fef2f2';
-        testBtn.style.color = '#ef4444';
-        testBtn.style.borderColor = '#fecaca';
-
-        // Animate pulse on failure point
-        const cross = flowArea.querySelector('.mini-break-cross');
-        const brokenLine = flowArea.querySelector('.mini-flow-line.broken');
-
-        if (cross) {
-          cross.style.animation = 'bannerPop 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28)';
-          cross.style.transform = 'translate(-50%, -50%) scale(1.3)';
-          setTimeout(() => {
-            cross.style.transform = 'translate(-50%, -50%) scale(1)';
-          }, 400);
+        // Arrow between blocks
+        if (idx < steps.length - 1) {
+          const arrow = document.createElement('div');
+          arrow.className = 'flow-arrow';
+          arrow.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>`;
+          flowContainer.appendChild(arrow);
         }
-        if (brokenLine) {
-          brokenLine.style.animation = 'pulseDot 1.5s infinite';
-        }
-      } else {
-        testBtn.setAttribute('data-state', 'idle');
-        testBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Simulate Scenario`;
-        testBtn.style.background = '#ffffff';
-        testBtn.style.color = 'var(--sky-deep)';
-        testBtn.style.borderColor = 'var(--card-border)';
-
-        const cross = flowArea.querySelector('.mini-break-cross');
-        const brokenLine = flowArea.querySelector('.mini-flow-line.broken');
-        if (cross) cross.style.transform = 'translate(-50%, -50%) scale(1)';
-        if (brokenLine) brokenLine.style.animation = 'none';
-      }
-    });
-  });
-
-
-  // --- 5. REFERENCE MAP MODAL LIGHTBOX ---
-  const openRefMapBtn = document.getElementById('viewRefMapBtn');
-  const refMapModal = document.getElementById('mapRefModal');
-  const closeRefMapBtn = document.getElementById('closeRefMapBtn');
-
-  function openRefModal() {
-    if (!refMapModal) return;
-    refMapModal.classList.add('open');
-    refMapModal.setAttribute('aria-hidden', 'false');
-  }
-
-  function closeRefModal() {
-    if (!refMapModal) return;
-    refMapModal.classList.remove('open');
-    refMapModal.setAttribute('aria-hidden', 'true');
-  }
-
-  if (openRefMapBtn) openRefMapBtn.addEventListener('click', openRefModal);
-  if (closeRefMapBtn) closeRefMapBtn.addEventListener('click', closeRefModal);
-  if (refMapModal) {
-    refMapModal.addEventListener('click', (e) => {
-      if (e.target === refMapModal) closeRefModal();
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && refMapModal && refMapModal.classList.contains('open')) {
-      closeRefModal();
+      });
     }
+
+    // Explanation panel
+    const currentStepData = steps[stepIndex];
+    const stepTagEl = document.getElementById('wfStepTag');
+    const stepTitleEl = document.getElementById('wfStepTitle');
+    const stepDescEl = document.getElementById('wfStepDesc');
+
+    if (stepTagEl) stepTagEl.textContent = `Workflow Step ${stepIndex + 1} of ${steps.length}`;
+    if (stepTitleEl) stepTitleEl.textContent = currentStepData.title;
+    if (stepDescEl) stepDescEl.textContent = currentStepData.desc;
+
+    // Nav buttons state
+    const prevBtn = document.getElementById('wfPrevBtn');
+    const nextBtn = document.getElementById('wfNextBtn');
+
+    if (prevBtn) prevBtn.disabled = stepIndex === 0;
+    if (nextBtn) {
+      if (stepIndex === steps.length - 1) {
+        nextBtn.textContent = 'Completed';
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.textContent = 'Next Step ›';
+        nextBtn.disabled = false;
+      }
+    }
+  }
+
+  // Bind View Case buttons in Page 4
+  document.querySelectorAll('.btn-view-case').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const caseNum = btn.getAttribute('data-case');
+      openCaseWorkflow(caseNum, true);
+    });
   });
+
+  // Workflow navigation controls
+  const backToCasesBtn = document.getElementById('wfBackToCasesBtn');
+  if (backToCasesBtn) {
+    backToCasesBtn.addEventListener('click', () => {
+      if (casesListView) casesListView.style.display = 'block';
+      const workflowView = document.getElementById('caseWorkflowView');
+      if (workflowView) workflowView.classList.remove('active');
+      history.replaceState(null, null, '#cases');
+    });
+  }
+
+  const wfPrevBtn = document.getElementById('wfPrevBtn');
+  if (wfPrevBtn) {
+    wfPrevBtn.addEventListener('click', () => {
+      renderWorkflow(caseState.currentCase, caseState.currentStep - 1);
+    });
+  }
+
+  const wfNextBtn = document.getElementById('wfNextBtn');
+  if (wfNextBtn) {
+    wfNextBtn.addEventListener('click', () => {
+      renderWorkflow(caseState.currentCase, caseState.currentStep + 1);
+    });
+  }
 
 })();
