@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mobile IP Virtual Lab – Dashboard</title>
+
+  <!-- Google Fonts: Fredoka & Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS (Local offline fallback + unpkg) -->
+  <link rel="stylesheet" href="assets/vendor/leaflet.css">
+
+  <!-- Dashboard Custom Styles -->
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+  <!-- Ambient Light Animated Gradient Background -->
+  <div class="dashboard-bg" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       TOP NAVIGATION BAR
+       ========================================================================= -->
+  <header class="lab-header">
+    <div class="nav-container">
+      <div class="lab-brand">
+        <div class="lab-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5M7.8 7.8c-2.3 2.3-2.3 6.1 0 8.5"/>
+            <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19M4.9 4.9C1 8.8 1 15.1 4.9 19"/>
+          </svg>
+        </div>
+        <div class="lab-brand-text">
+          <h1>MOBILE IP VIRTUAL LAB</h1>
+          <span class="lab-badge">DCN SIMULATION SUITE</span>
+        </div>
+      </div>
+
+      <!-- 4 Dashboard Navigation Tabs -->
+      <nav class="nav-tabs" role="tablist" aria-label="Dashboard Sections">
+        <a href="#video" class="tab-btn" id="tabVideo" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 8.64L15.27 12 10 15.36V8.64M8 5v14l11-7L8 5z"/></svg>
+          <span>1. Video Learning</span>
+        </a>
+
+        <a href="#concepts" class="tab-btn" id="tabConcepts" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+          <span>2. Concepts &amp; Q&amp;A</span>
+        </a>
+
+        <a href="#simulation" class="tab-btn priority-tab active" id="tabSim" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>3. Simulation</span>
+        </a>
+
+        <a href="#cases" class="tab-btn" id="tabCases" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v6h-2V7zm1 10.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>
+          <span>4. Cases</span>
+        </a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="index.html" class="btn-home" title="Return to Landing Page">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span>Landing Page</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN DASHBOARD CONTENT AREA
+       ========================================================================= -->
+  <main class="dashboard-main">
+
+    <!-- =======================================================================
+         PAGE 1: VIDEO LEARNING
+         ======================================================================= -->
+    <section class="tab-view" id="video" role="tabpanel" aria-labelledby="tabVideo">
+      <div class="video-learning-layout">
+        
+        <div class="section-banner">
+          <div class="section-banner-title">
+            <h2>Video Learning Module</h2>
+            <p>Comprehensive video lecture on Mobile IPv4 Tunneling, Home Agent &amp; Foreign Agent Mechanics.</p>
+          </div>
+        </div>
+
+        <!-- Video Player Card (16:9 Aspect Ratio) -->
+        <div class="video-player-card">
+          <div class="video-wrapper-16-9">
+            <video id="labVideo" playsinline preload="metadata">
+              <source src="assets/explanation.mp4" type="video/mp4">
+            </video>
+
+            <!-- Video Placeholder State -->
+            <div class="video-placeholder-state" id="videoPlaceholder">
+              <div class="video-placeholder-badge">
+                <span class="video-placeholder-pulse"></span>
+                <span>DCN Educational Series</span>
+              </div>
+              <h3 class="video-placeholder-title">EXPLANATION VIDEO WILL BE AVAILABLE SOON</h3>
+              <p class="video-placeholder-desc">
+                The anime-style Shin-chan Mobile IP Virtual Lab explanation video is currently being prepared. Once uploaded to <code>assets/explanation.mp4</code>, it will play directly inside this player.
+              </p>
+              <button class="video-big-play-btn" id="bigPlayBtn" type="button" aria-label="Play video">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Video Custom Controls Bar -->
+          <div class="video-controls-bar">
+            <!-- Timeline / Scrub bar -->
+            <div class="video-progress-container" id="videoProgressContainer" title="Seek timeline">
+              <div class="video-progress-fill" id="videoProgressFill"></div>
+            </div>
+
+            <div class="video-controls-row">
+              <div class="video-controls-left">
+                <button class="ctrl-btn" id="playPauseBtn" type="button" title="Play">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
+                <div class="volume-slider-group">
+                  <button class="ctrl-btn" id="muteBtn" type="button" title="Mute/Unmute">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                  </button>
+                  <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" title="Volume">
+                </div>
+              </div>
+
+              <div class="video-controls-right">
+                <select class="speed-select" id="speedSelect" title="Playback Speed">
+                  <option value="0.75">0.75x</option>
+                  <option value="1" selected>1.0x</option>
+                  <option value="1.25">1.25x</option>
+                  <option value="1.5">1.5x</option>
+                  <option value="2">2.0x</option>
+                </select>
+                <button class="ctrl-btn" id="fullscreenBtn" type="button" title="Fullscreen">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructor / Video File Replacement Note -->
+        <div class="video-uploader-note">
+          <div class="note-content">
+            <h3>Ready to add or test your MP4 video?</h3>
+            <p>Save your completed anime MP4 file as <code>assets/explanation.mp4</code>, or select any local MP4 right now to preview playback with full controls.</p>
+          </div>
+          <div class="video-file-input-wrapper">
+            <label for="customVideoInput" class="file-input-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+              <span>Load / Preview Local MP4</span>
+            </label>
+            <input type="file" id="customVideoInput" accept="video/mp4,video/webm">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         PAGE 2: CONCEPTS & QUESTIONS
+         ======================================================================= -->
+    <section class="tab-view" id="concepts" role="tabpanel" aria-labelledby="tabConcepts">
+      <div class="concepts-layout">
+        
+        <div class="section-banner">
+          <div class="section-banner-title">
+            <h2>Mobile IP Core Concepts &amp; Q&amp;A</h2>
+            <p>Essential theoretical foundations, protocol mechanisms, and examination questions for ECE students.</p>
+          </div>
+        </div>
+
+        <!-- Abbreviations Quick-Reference Panel -->
+        <div class="abbreviations-panel">
+          <div class="abbreviations-header">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--blue)"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+            <h3>Standard Mobile IP Protocol Abbreviations</h3>
+          </div>
+          <div class="abbreviation-grid">
+            <div class="abbr-card">
+              <div class="abbr-code">MN</div>
+              <div class="abbr-meaning">
+                <h4>Mobile Node</h4>
+                <span>Host moving across networks</span>
+              </div>
+            </div>
+            <div class="abbr-card">
+              <div class="abbr-code">CN</div>
+              <div class="abbr-meaning">
+                <h4>Correspondent Node</h4>
+                <span>Peer host / Sender</span>
+              </div>
+            </div>
+            <div class="abbr-card">
+              <div class="abbr-code">HA</div>
+              <div class="abbr-meaning">
+                <h4>Home Agent</h4>
+                <span>Router on Home Network</span>
+              </div>
+            </div>
+            <div class="abbr-card">
+              <div class="abbr-code">FA</div>
+              <div class="abbr-meaning">
+                <h4>Foreign Agent</h4>
+                <span>Router on Visited Network</span>
+              </div>
+            </div>
+            <div class="abbr-card">
+              <div class="abbr-code">CoA</div>
+              <div class="abbr-meaning">
+                <h4>Care-of Address</h4>
+                <span>Current temporary address</span>
+              </div>
+            </div>
+            <div class="abbr-card">
+              <div class="abbr-code">IP</div>
+              <div class="abbr-meaning">
+                <h4>Internet Protocol</h4>
+                <span>Layer 3 datagram protocol</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls: Search & Category Filter Pills -->
+        <div class="concepts-controls-bar">
+          <div class="search-box-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="searchQuestions" class="search-input" placeholder="Search questions or keywords (e.g. encapsulation, CoA, tunnel)...">
+          </div>
+
+          <div class="category-filter-pills">
+            <button class="filter-pill active" data-filter="all" type="button">All (20)</button>
+            <button class="filter-pill" data-filter="entities" type="button">Entities &amp; Networks</button>
+            <button class="filter-pill" data-filter="addresses" type="button">Addresses &amp; Bindings</button>
+            <button class="filter-pill" data-filter="tunneling" type="button">Tunneling &amp; Headers</button>
+            <button class="filter-pill" data-filter="mobility" type="button">Mobility Lifecycle</button>
+          </div>
+
+          <div class="accordion-action-btns">
+            <button class="btn-secondary" id="expandAllBtn" type="button">Expand All</button>
+            <button class="btn-secondary" id="collapseAllBtn" type="button">Collapse All</button>
+          </div>
+        </div>
+
+        <!-- No questions notice -->
+        <div id="noQuestionsFound" style="display:none; text-align:center; padding: 2rem; color: var(--text-muted);">
+          No questions matched your search query. Try clearing the search filter.
+        </div>
+
+        <!-- 20 Expandable Questions List -->
+        <div class="questions-list">
+
+          <!-- Q1 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">1</span>
+                <h3 class="qa-title">What is Mobile IP?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p><strong>Mobile IP (RFC 5944)</strong> is an Internet Engineering Task Force (IETF) standard communications protocol designed to allow mobile device users to move from one network to another while permanently maintaining their assigned IP address.</p>
+              <div class="qa-example-box">
+                <strong>Real-World Analogy:</strong>
+                Think of Mobile IP like a mail forwarding service. When you go on vacation, you do not change your permanent residential address with your bank or friends; the local postal office forwards incoming letters to your temporary hotel address.
+              </div>
+              <p>Without Mobile IP, a node changing subnets would have to obtain a completely new IP address, which immediately terminates all active TCP connections and application sessions.</p>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">2</span>
+                <h3 class="qa-title">What is a Mobile Node (MN)?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Mobile Node (MN)</strong> is any host or router that changes its point of attachment from one network or subnetwork to another without altering its permanent IP address.</p>
+              <p>Examples include a laptop moving from home Wi-Fi to a university campus Wi-Fi, a smartphone transitioning between cellular towers, or an avionics router on a moving aircraft.</p>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">3</span>
+                <h3 class="qa-title">What is a Correspondent Node (CN)?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Correspondent Node (CN)</strong> is a peer entity with which a Mobile Node is communicating. The CN can be stationary (such as a remote web server, database, or streaming host) or it can also be another mobile node.</p>
+              <p>Crucially, in basic Mobile IPv4, the Correspondent Node has <strong>zero awareness of mobility</strong>. It simply addresses standard IP packets to the Mobile Node's permanent Home Address.</p>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">4</span>
+                <h3 class="qa-title">What is a Home Network?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Home Network</strong> is the subnetwork to which the Mobile Node's permanent IP address (Home Address) logically belongs. The network prefix of the Home Address matches the network prefix of the Home Network.</p>
+              <div class="qa-example-box">
+                <strong>Example:</strong>
+                If the Mobile Node's Home Address is <code>192.168.10.50/24</code>, its Home Network is the subnet <code>192.168.10.0/24</code> located in Kanyakumari.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">5</span>
+                <h3 class="qa-title">What is a Foreign Network?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Foreign Network (or Visited Network)</strong> is any network other than the Mobile Node's Home Network to which the MN is currently attached.</p>
+              <p>When roaming in a Foreign Network (e.g. Ooty on subnet <code>172.16.50.0/24</code>), normal IP routing cannot deliver packets addressed to <code>192.168.10.50</code> directly to this network without Mobile IP intervention.</p>
+            </div>
+          </div>
+
+          <!-- Q6 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">6</span>
+                <h3 class="qa-title">What is a Home Agent (HA)?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Home Agent (HA)</strong> is a router on the Mobile Node's Home Network that serves as the mobility anchor for the Mobile Node.</p>
+              <p>Key responsibilities of the HA:</p>
+              <ul>
+                <li>Maintains a <strong>Binding Cache</strong> mapping the MN's Home Address to its current Care-of Address.</li>
+                <li>Uses <strong>Proxy ARP</strong> to intercept packets destined for the MN while the MN is away.</li>
+                <li><strong>Encapsulates</strong> incoming packets in an outer IP header and forwards them through a tunnel to the Care-of Address.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Q7 -->
+          <div class="qa-card" data-category="entities">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">7</span>
+                <h3 class="qa-title">What is a Foreign Agent (FA)?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Foreign Agent (FA)</strong> is a specialized router on the Foreign Network that assists the Mobile Node during its visit.</p>
+              <p>Responsibilities of the FA:</p>
+              <ul>
+                <li>Broadcasts periodic <strong>Agent Advertisements</strong> so moving nodes can detect foreign networks.</li>
+                <li>Provides a <strong>Foreign Agent Care-of Address (FA-CoA)</strong> to visiting nodes.</li>
+                <li>Relays registration requests between the MN and the Home Agent.</li>
+                <li>Terminates the tunnel, <strong>decapsulates</strong> received packets by stripping the outer IP header, and delivers the original IP packet to the MN locally.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Q8 -->
+          <div class="qa-card" data-category="addresses">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">8</span>
+                <h3 class="qa-title">What is a Home Address?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Home Address (HoA)</strong> is an IP address assigned to the Mobile Node that remains constant regardless of where the node attaches to the Internet.</p>
+              <p>It provides transport-layer session stability. Upper-layer protocols (TCP sockets, UDP endpoints) bind to this permanent address so connections never drop when the physical interface hops between Wi-Fi and 5G.</p>
+            </div>
+          </div>
+
+          <!-- Q9 -->
+          <div class="qa-card" data-category="addresses">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">9</span>
+                <h3 class="qa-title">What is a Care-of Address (CoA)?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Care-of Address (CoA)</strong> is a temporary IP address that reflects the Mobile Node's current geographical/topological point of attachment.</p>
+              <p>There are two types of Care-of Addresses:</p>
+              <ul>
+                <li><strong>Foreign Agent CoA (FA-CoA):</strong> An IP address belonging to the Foreign Agent (shared by multiple visiting nodes).</li>
+                <li><strong>Co-located CoA (CCoA):</strong> A temporary IP address acquired directly by the Mobile Node via DHCP or manual configuration on the foreign subnet.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Q10 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">10</span>
+                <h3 class="qa-title">What is tunneling?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p><strong>Tunneling</strong> is a technique where a complete packet from one protocol is encapsulated within the payload of another packet for transport across an intermediary routing infrastructure.</p>
+              <p>In Mobile IP, tunneling allows packets addressed to the Home Address to cross standard Internet routers and arrive safely at the Care-of Address in the Foreign Network.</p>
+            </div>
+          </div>
+
+          <!-- Q11 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">11</span>
+                <h3 class="qa-title">What is encapsulation?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p><strong>Encapsulation</strong> is the process performed by the Home Agent where the entire original IP packet is inserted into the data portion of a new outer IP packet.</p>
+              <div class="qa-diagram-box">
++------------------------+------------------------------------+
+|  OUTER IP HEADER       |  ORIGINAL IP PACKET (PAYLOAD)      |
+|  Src: Home Agent (HA)  |  +----------------+--------------+ |
+|  Dst: Care-of Addr(CoA)|  | Orig IP Header | Data Payload | |
+|  Protocol: 4 (IP-in-IP)|  | Src:CN  Dst:MN | "ECE Lab"    | |
++------------------------+--+----------------+--------------+-+
+              </div>
+              <p>The standard encapsulation method is <strong>IP-in-IP Encapsulation (RFC 2003)</strong>, where IP Protocol field is set to <code>4</code>.</p>
+            </div>
+          </div>
+
+          <!-- Q12 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">12</span>
+                <h3 class="qa-title">What is decapsulation?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p><strong>Decapsulation</strong> is the reverse process performed at the tunnel endpoint (the Foreign Agent or co-located Mobile Node). The outer IP header is stripped off, exposing the original IP datagram in its exact initial state.</p>
+              <p>Because the outer header is discarded, the Mobile Node receives the exact packet that the Correspondent Node originally transmitted.</p>
+            </div>
+          </div>
+
+          <!-- Q13 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">13</span>
+                <h3 class="qa-title">What is a Forward Tunnel?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Forward Tunnel</strong> is a unidirectional tunnel established from the Home Agent to the Foreign Agent (or directly to the CCoA). It carries inbound packets intended for the Mobile Node while it is away from home.</p>
+              <p>This is the default mechanism demonstrated in our interactive simulation.</p>
+            </div>
+          </div>
+
+          <!-- Q14 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">14</span>
+                <h3 class="qa-title">What is a Reverse Tunnel?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>A <strong>Reverse Tunnel (RFC 3024)</strong> is a tunnel established from the Foreign Agent back to the Home Agent for outbound packets sent by the Mobile Node.</p>
+              <p><strong>Why is it needed?</strong> Many modern firewalls and routers perform <em>Ingress Filtering</em> (RFC 2827). If a packet originating from a foreign network has a source address belonging to the Home Network, firewalls drop it as suspected IP spoofing. Reverse tunneling tunnels the packet back to the HA, allowing normal routing to the CN.</p>
+            </div>
+          </div>
+
+          <!-- Q15 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">15</span>
+                <h3 class="qa-title">Why is an outer IP header added?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>Intermediate Internet routers route traffic solely based on the IP destination address in the packet header.</p>
+              <p>The original packet has the Mobile Node's Home Address as its destination, which directs traffic to the Home Network. Adding an <strong>outer IP header</strong> with destination set to the <strong>Care-of Address</strong> redirects the packet physically across the Internet to the Foreign Network where the MN currently resides.</p>
+            </div>
+          </div>
+
+          <!-- Q16 -->
+          <div class="qa-card" data-category="tunneling">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">16</span>
+                <h3 class="qa-title">Why is the original IP packet preserved?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>Preserving the original IP packet unchanged is fundamental to transparent mobility:</p>
+              <ul>
+                <li><strong>TCP Pseudo-Header Checksum:</strong> Transport layers calculate checksums using the original source and destination IP addresses. Modifying them in-flight would corrupt checksums and abort TCP sessions.</li>
+                <li><strong>End-to-End Transparency:</strong> Neither the sender (CN) nor receiver (MN) application layers need to be modified or made aware that physical mobility occurred.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Q17 -->
+          <div class="qa-card" data-category="mobility">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">17</span>
+                <h3 class="qa-title">How does the Home Agent identify the Mobile Node's location?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>The Home Agent maintains an internal table known as the <strong>Binding Cache</strong>. When the Mobile Node moves into a foreign network, it registers by sending a <strong>Registration Request</strong> via UDP port <code>434</code>.</p>
+              <p>The Registration Request contains: the MN's Home Address, its current Care-of Address, and a requested Lifetime. Upon authentication, the HA updates its binding cache and replies with a <strong>Registration Reply</strong>.</p>
+            </div>
+          </div>
+
+          <!-- Q18 -->
+          <div class="qa-card" data-category="mobility">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">18</span>
+                <h3 class="qa-title">What happens when the Mobile Node changes networks?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>When the Mobile Node moves from Foreign Network A to Foreign Network B:</p>
+              <ol>
+                <li><strong>Agent Discovery:</strong> MN listens for Agent Advertisements or sends an Agent Solicitation.</li>
+                <li><strong>Acquires New CoA:</strong> It discovers Foreign Agent B and gets a new Care-of Address.</li>
+                <li><strong>New Registration:</strong> MN sends an updated Registration Request to its Home Agent.</li>
+                <li><strong>Binding Update:</strong> The Home Agent replaces the old CoA with the new CoA in its binding table. Subsequent packets tunnel directly to Network B.</li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Q19 -->
+          <div class="qa-card" data-category="mobility">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">19</span>
+                <h3 class="qa-title">How does the Foreign Agent deliver the original packet?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>After stripping the outer IP header, the Foreign Agent inspects the inner destination IP address (MN's Home Address). It checks its visitor list to find the <strong>Link-Layer (MAC) address</strong> of the Mobile Node registered during the initial advertisement phase.</p>
+              <p>The FA then encapsulates the packet into a Layer-2 data link frame (e.g. Ethernet / IEEE 802.11) with the MN's MAC address as the destination and sends it over the local medium.</p>
+            </div>
+          </div>
+
+          <!-- Q20 -->
+          <div class="qa-card" data-category="mobility">
+            <div class="qa-header">
+              <div class="qa-header-left">
+                <span class="qa-number">20</span>
+                <h3 class="qa-title">What happens when the Mobile Node returns to its Home Network?</h3>
+              </div>
+              <svg class="qa-toggle-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="qa-content">
+              <p>When the Mobile Node re-enters its Home Network:</p>
+              <ul>
+                <li>It hears Router Advertisements from its own Home Agent and realizes it is back home.</li>
+                <li>It sends a <strong>Deregistration message</strong> (a Registration Request with lifetime set to <code>0</code> and CoA equal to its Home Address).</li>
+                <li>The Home Agent removes the binding from its cache and cancels Proxy ARP.</li>
+                <li>Packets destined for the MN are once again delivered directly on the local link without tunneling or encapsulation.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         PAGE 3: INTERACTIVE MOBILE IP SIMULATION (HIGHEST PRIORITY)
+         ======================================================================= -->
+    <section class="tab-view active" id="simulation" role="tabpanel" aria-labelledby="tabSim">
+      <div class="simulation-layout">
+
+        <div class="section-banner">
+          <div class="section-banner-title">
+            <h2>Interactive South India (Tamil Nadu) Simulation</h2>
+            <p>Select network nodes, trace live IP packet encapsulation, and observe forward tunneling in action.</p>
+          </div>
+        </div>
+
+        <!-- Node Selection & Control Panel -->
+        <div class="sim-controls-card">
+          <div class="node-selection-grid">
+            
+            <!-- 1. SELECT CORRESPONDENT NODE (CN) -->
+            <div class="node-select-box role-cn">
+              <div class="node-select-header">
+                <label for="cnNodeSelect">1. Correspondent Node (CN)</label>
+                <span class="role-tag tag-cn">Message Sender</span>
+              </div>
+              <select id="cnNodeSelect" class="node-dropdown"></select>
+              <div class="node-meta-info">
+                <span>Role: Initiates transmission to MN's Home Address</span>
+                <span class="node-meta-ip" id="cnMetaIp">Loading IP...</span>
+              </div>
+            </div>
+
+            <!-- 2. SELECT MOBILE NODE'S HOME LOCATION (HA) -->
+            <div class="node-select-box role-ha">
+              <div class="node-select-header">
+                <label for="homeNodeSelect">2. MN Home Location (HA)</label>
+                <span class="role-tag tag-ha">Home Agent</span>
+              </div>
+              <select id="homeNodeSelect" class="node-dropdown"></select>
+              <div class="node-meta-info">
+                <span>Role: Intercepts &amp; Encapsulates packets into tunnel</span>
+                <span class="node-meta-ip" id="haMetaIp">Loading IP...</span>
+              </div>
+            </div>
+
+            <!-- 3. SELECT MOBILE NODE'S CURRENT LOCATION (FA) -->
+            <div class="node-select-box role-fa">
+              <div class="node-select-header">
+                <label for="currentNodeSelect">3. MN Current Location (FA)</label>
+                <span class="role-tag tag-fa">Foreign Agent &amp; CoA</span>
+              </div>
+              <select id="currentNodeSelect" class="node-dropdown"></select>
+              <div class="node-meta-info">
+                <span>Role: Decapsulates tunnel &amp; delivers to Mobile Node</span>
+                <span class="node-meta-ip" id="faMetaIp">Loading IP...</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Same City Notice (When MN is at home) -->
+          <div id="sameCityNotice" style="display:none; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:0.6rem 1rem; margin-bottom:1rem; font-size:0.88rem; color:#065f46;"></div>
+
+          <!-- Quick Test Presets Row -->
+          <div class="presets-row">
+            <span class="presets-label">City Route Presets:</span>
+            <button type="button" class="preset-chip" data-cn="chennai" data-home="kanyakumari" data-curr="ooty">
+              Example 1: Chennai (CN) → Kanyakumari (HA) → Ooty (FA)
+            </button>
+            <button type="button" class="preset-chip" data-cn="madurai" data-home="chennai" data-curr="coimbatore">
+              Example 2: Madurai (CN) → Chennai (HA) → Coimbatore (FA)
+            </button>
+            <button type="button" class="preset-chip" data-cn="kanyakumari" data-home="chennai" data-curr="ooty">
+              Example 3: Kanyakumari (CN) → Chennai (HA) → Ooty (FA)
+            </button>
+            <button type="button" class="preset-chip" data-cn="tirunelveli" data-home="vellore" data-curr="trichy">
+              Example 4: Tirunelveli (CN) → Vellore (HA) → Trichy (FA)
+            </button>
+          </div>
+
+          <!-- Master Simulation Buttons Row -->
+          <div class="sim-actions-row">
+            <div class="sim-buttons-group">
+              <button type="button" id="startSimBtn" class="btn-sim-start">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Start Simulation</span>
+              </button>
+              <button type="button" id="pauseSimBtn" class="btn-sim-ctrl" disabled>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                <span>Pause</span>
+              </button>
+              <button type="button" id="prevStepBtn" class="btn-sim-ctrl" title="Step Back">
+                <span>‹ Prev Step</span>
+              </button>
+              <button type="button" id="nextStepBtn" class="btn-sim-ctrl" title="Step Forward">
+                <span>Next Step ›</span>
+              </button>
+              <button type="button" id="resetSimBtn" class="btn-sim-ctrl">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                <span>Reset</span>
+              </button>
+            </div>
+
+            <!-- Speed selector -->
+            <div class="sim-speed-control">
+              <label>Pace:</label>
+              <div class="speed-chips">
+                <button type="button" class="speed-chip-btn" data-speed="0.5">0.5x</button>
+                <button type="button" class="speed-chip-btn active" data-speed="1.0">1.0x</button>
+                <button type="button" class="speed-chip-btn" data-speed="1.5">1.5x</button>
+                <button type="button" class="speed-chip-btn" data-speed="2.0">2.0x</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6-Stage Progress Indicator -->
+        <div class="stage-progress-card">
+          <div class="stage-steps-list">
+            <div class="stage-step-item active" data-step="1">
+              <div class="stage-dot">1</div>
+              <div class="stage-name">1. Original Packet</div>
+            </div>
+            <div class="stage-step-item" data-step="2">
+              <div class="stage-dot">2</div>
+              <div class="stage-name">2. HA Interception</div>
+            </div>
+            <div class="stage-step-item" data-step="3">
+              <div class="stage-dot">3</div>
+              <div class="stage-name">3. Encapsulation</div>
+            </div>
+            <div class="stage-step-item" data-step="4">
+              <div class="stage-dot">4</div>
+              <div class="stage-name">4. Forward Tunnel</div>
+            </div>
+            <div class="stage-step-item" data-step="5">
+              <div class="stage-dot">5</div>
+              <div class="stage-name">5. FA Decapsulation</div>
+            </div>
+            <div class="stage-step-item" data-step="6">
+              <div class="stage-dot">6</div>
+              <div class="stage-name">6. Final Delivery</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split View: Interactive Map & Live Packet Inspector -->
+        <div class="sim-stage-grid">
+          
+          <!-- Leaflet Interactive Map Card -->
+          <div class="map-container-card">
+            <div class="map-header-bar">
+              <div class="map-title-row">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--blue)"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+                <h3>South India (Tamil Nadu) Network Topology</h3>
+                <span class="map-status-pill active">Interactive Node Simulation</span>
+              </div>
+              <div class="map-actions-group">
+                <button type="button" id="fitNodesBtn" class="btn-map-tool" title="Auto-center on active nodes">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                  <span>Focus Nodes</span>
+                </button>
+                <button type="button" id="viewRefMapBtn" class="btn-map-tool" title="View uploaded Tamil Nadu reference map">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                  <span>View Reference Map</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- The Map -->
+            <div id="map"></div>
+
+            <!-- Map Legend & Disclaimer Footer -->
+            <div class="map-footer-bar">
+              <div class="map-legend-items">
+                <div class="legend-item"><span class="legend-dot legend-cn"></span> CN (Sender)</div>
+                <div class="legend-item"><span class="legend-dot legend-ha"></span> HA (Home Agent)</div>
+                <div class="legend-item"><span class="legend-dot legend-fa"></span> FA (Foreign Agent)</div>
+                <div class="legend-item"><span class="legend-dot legend-mn"></span> MN (Mobile Node)</div>
+              </div>
+              <div class="map-disclaimer">
+                Educational simulation of Mobile IPv4 agent-based tunneling. Not actual cellular infrastructure.
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Packet Inspection Panel -->
+          <div class="sim-inspector-card">
+            <div class="inspector-header">
+              <h3>Live Packet Inspector</h3>
+              <span class="inspector-stage-badge" id="inspectorStageBadge">Step 1/6: Original Packet</span>
+            </div>
+
+            <!-- Visual Nested Packet Diagram -->
+            <div class="packet-structure-box">
+              <div class="packet-structure-title">
+                <span>Packet Datagram Layout</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);">IP Protocol 4</span>
+              </div>
+
+              <!-- Outer IP Header (Wraps during Encapsulation, dissolved during Decapsulation) -->
+              <div class="packet-box-outer dissolved" id="outerPacketBox">
+                <div class="outer-header-tag">
+                  <span>OUTER IP HEADER</span>
+                  <span id="outerHeaderMeta">Src: HA | Dst: CoA</span>
+                </div>
+
+                <!-- Original Inner IP Packet (Preserved Intact) -->
+                <div class="packet-box-inner" id="innerPacketBox">
+                  <div class="inner-header-tag">
+                    <span>ORIGINAL IP HEADER</span>
+                    <span id="innerHeaderMeta">Src: CN | Dst: MN HoA</span>
+                  </div>
+                  <div class="packet-payload-tag">
+                    DATA PAYLOAD: [DCN Lab Virtual Packet (64 Bytes)]
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Telemetry Data Table -->
+            <table class="telemetry-table">
+              <tbody>
+                <tr>
+                  <td class="telemetry-label">Current Stage</td>
+                  <td class="telemetry-val" id="telStage">Step 1: Original Packet</td>
+                </tr>
+                <tr>
+                  <td class="telemetry-label">Source IP</td>
+                  <td class="telemetry-val" id="telSrc">Loading...</td>
+                </tr>
+                <tr>
+                  <td class="telemetry-label">Destination IP</td>
+                  <td class="telemetry-val" id="telDst">Loading...</td>
+                </tr>
+                <tr>
+                  <td class="telemetry-label">Outer IP Header</td>
+                  <td class="telemetry-val" id="telOuter">None</td>
+                </tr>
+                <tr>
+                  <td class="telemetry-label">Original IP Packet</td>
+                  <td class="telemetry-val" id="telOriginal">Intact</td>
+                </tr>
+                <tr>
+                  <td class="telemetry-label">Active Agent</td>
+                  <td class="telemetry-val" id="telAgent">None</td>
+                </tr>
+                <tr>
+                  <td class="telemetry-label">Location</td>
+                  <td class="telemetry-val" id="telLocation">In Transit</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Educational Explanation Box -->
+            <div class="inspector-explanation-box" id="inspectorExplanation">
+              <strong>Correspondent Node Sends Packet:</strong>
+              The Correspondent Node in Chennai initiates a packet to the Mobile Node's permanent Home Address. Standard IP routing directs it to the Home Network.
+            </div>
+
+            <!-- Successful Delivery Banner -->
+            <div class="delivery-success-banner" id="deliverySuccessBanner" style="display:none;">
+              <h4>🎉 MESSAGE DELIVERED SUCCESSFULLY!</h4>
+              <p>The Mobile Node received the original uncorrupted packet via the Foreign Agent.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         PAGE 4: CASES (FAILURE SCENARIOS)
+         ======================================================================= -->
+    <section class="tab-view" id="cases" role="tabpanel" aria-labelledby="tabCases">
+      <div class="cases-layout">
+        
+        <div class="section-banner">
+          <div class="section-banner-title">
+            <h2>Mobile IP Failure Scenarios (Cases)</h2>
+            <p>Interactive analysis of real-world breakdown points, packet loss causes, and protocol mitigations.</p>
+          </div>
+        </div>
+
+        <div class="cases-intro-card">
+          <div class="cases-intro-text">
+            <h3>Protocol Resiliency &amp; Diagnostics</h3>
+            <p>Examine what occurs when agents, registration timers, or tunnels experience exceptions during transmission.</p>
+          </div>
+        </div>
+
+        <!-- 8 Failure Scenario Cards Grid -->
+        <div class="cases-grid">
+
+          <!-- CASE 1 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 1</span>
+                <h4>Home Agent Unknown Location</h4>
+              </div>
+              <span class="case-status-badge badge-fail">Packet Dropped / ICMP</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">A Correspondent Node sends a packet to the Mobile Node's Home Address, but the Home Agent has no valid Care-of Address in its Binding Cache.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">The MN never registered, or its registration lifetime expired without renewal.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">The Home Agent attempts to broadcast an ARP on the local home link. Since the MN is absent, ARP times out and the packet is dropped with an ICMP Host Unreachable returned to CN.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Unsynchronized binding state or lost registration UDP packets.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                Implement periodic registration refresh with retransmission timers before the binding lifetime expires.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#2563eb;">CN</div>
+                  <span class="mini-node-label">Sender</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">Home Agent</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#94a3b8;">FA</div>
+                  <span class="mini-node-label">No CoA</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 2 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 2</span>
+                <h4>FA Registration Relay Failure</h4>
+              </div>
+              <span class="case-status-badge badge-fail">Unregistered CoA</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">The Mobile Node arrives at a foreign network and submits a Registration Request, but the Foreign Agent fails to forward it to the Home Agent.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">Network congestion, firewall blocking UDP port 434, or FA misconfiguration.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">The Home Agent continues to forward packets to the old location or drops them. The MN cannot receive incoming communication.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Broken intermediate path between Foreign Agent and Home Agent.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                MN monitors for Registration Reply with timeout fallback and requests a Co-located Care-of Address (CCoA) via DHCP instead.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#f59e0b;">MN</div>
+                  <span class="mini-node-label">Mobile Node</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#10b981;">FA</div>
+                  <span class="mini-node-label">Foreign Agent</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">Home Agent</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 3 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 3</span>
+                <h4>Encapsulation Failure at HA</h4>
+              </div>
+              <span class="case-status-badge badge-fail">MTU / Buffer Drop</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">Packet arrives at Home Agent, but adding the 20-byte outer IP header causes the datagram to exceed the Path MTU (Maximum Transmission Unit) with the Don't Fragment (DF) flag set.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">MTU size mismatch between original link and tunneling path.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">HA discards the packet and sends an ICMP "Fragmentation Needed and DF set" message back to the CN.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Tunnel overhead (20 bytes for IPv4) exceeded path limits.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                Enable Path MTU Discovery (PMTUD) or implement Minimal Encapsulation (RFC 2004) which adds only 8 or 12 bytes of overhead.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#2563eb;">CN</div>
+                  <span class="mini-node-label">Sender</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">HA Encapsulator</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#10b981;">Tunnel</div>
+                  <span class="mini-node-label">MTU Limit</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 4 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 4</span>
+                <h4>Decapsulation Failure at FA</h4>
+              </div>
+              <span class="case-status-badge badge-fail">Header Parse Error</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">The encapsulated packet reaches the Foreign Agent, but the FA fails to strip the outer header or recognize protocol type.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">Checksum corruption in transit, unshared security associations, or unsupported encapsulation format (e.g. GRE instead of IP-in-IP).</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">Packet is silently discarded in the FA's IP stack with a decapsulation error counter incremented.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Configuration protocol mismatch between Home Agent and Foreign Agent.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                Standardize tunnel negotiation parameters in the initial Registration Request / Reply exchange.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">Tunnel Out</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#10b981;">FA</div>
+                  <span class="mini-node-label">Decapsulator</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#f59e0b;">MN</div>
+                  <span class="mini-node-label">Unreached</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 5 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 5</span>
+                <h4>MN Roams Mid-Transmission</h4>
+              </div>
+              <span class="case-status-badge badge-warn">In-Flight Packet Drop</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">The Home Agent tunnels packets to Foreign Agent A (e.g. Ooty), but the Mobile Node has just transitioned to Foreign Agent B (e.g. Coimbatore).</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">In-flight transit delay: packets were already in the network before HA received the new binding.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">Foreign Agent A cannot find the MN on its local link and drops the packets.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Handoff latency between physical link dissociation and registration completion.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                Implement Fast Handovers or Regional Tunneling where FA-A forwards packets to FA-B temporarily until the HA is fully synchronized.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">Old Tunnel</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#10b981;">FA-A</div>
+                  <span class="mini-node-label">Old Visited</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#f59e0b;">FA-B</div>
+                  <span class="mini-node-label">New Visited</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 6 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 6</span>
+                <h4>Care-of Address Becomes Invalid</h4>
+              </div>
+              <span class="case-status-badge badge-fail">Routing Black Hole</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">The Mobile Node was using a Co-located CoA obtained via DHCP, but its DHCP lease expired or the access point revoked the lease.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">DHCP lease renewal failed due to RF interference or server timeout.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">HA continues sending tunneled packets to an unallocated or reassigned IP, creating a black hole.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Address allocation lifetime de-synchronization.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                Link the Mobile IP registration lifetime directly to the minimum of the DHCP lease time and the binding duration.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">Tunnel</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#ef4444;">Expired</div>
+                  <span class="mini-node-label">DHCP Dead</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#f59e0b;">MN</div>
+                  <span class="mini-node-label">No Lease</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 7 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 7</span>
+                <h4>MN Returns to Home Network</h4>
+              </div>
+              <span class="case-status-badge badge-info">Normal Direct Route</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">The Mobile Node leaves the Foreign Network and reconnects to its physical Home Network (e.g. Kanyakumari).</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens?</span>
+                <span class="case-field-val">MN sends a Deregistration message (Lifetime = 0). The Home Agent purges its Binding Cache and discontinues Proxy ARP.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val" style="color:#059669; font-weight:600;">No encapsulation occurs! Inbound packets are routed directly to the Home Network and delivered straight to the MN on the local link.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why is this important?</span>
+                <span class="case-field-val">Eliminates unnecessary tunneling overhead and triangular routing latency while at home.</span>
+              </div>
+              <div class="case-solution-box" style="background:#eff6ff; border-color:#bfdbfe; color:#1e40af;">
+                <strong>Standard Protocol Operation:</strong>
+                This is a planned transition. Mobile IP seamlessly reverts to standard native IPv4 delivery.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#2563eb;">CN</div>
+                  <span class="mini-node-label">Sender</span>
+                </div>
+                <div class="mini-flow-line" style="background:#10b981;"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">Home</div>
+                  <span class="mini-node-label">Direct Link</span>
+                </div>
+                <div class="mini-flow-line" style="background:#10b981;"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#10b981;">MN</div>
+                  <span class="mini-node-label">At Home</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 8 -->
+          <div class="case-card">
+            <div class="case-card-header">
+              <div class="case-card-title-group">
+                <span class="case-num-badge">CASE 8</span>
+                <h4>FA Reached, But MN Unavailable</h4>
+              </div>
+              <span class="case-status-badge badge-fail">Last-Mile Loss</span>
+            </div>
+            <div class="case-card-body">
+              <div class="case-field">
+                <span class="case-field-label">Situation</span>
+                <span class="case-field-val">The tunneled packet arrives at the Foreign Agent and is successfully decapsulated, but the Mobile Node has powered off or entered an RF dead zone.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What went wrong?</span>
+                <span class="case-field-val">Mobile Node battery exhaustion, sudden antenna disconnect, or deep wireless shadow.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">What happens to the packet?</span>
+                <span class="case-field-val highlight-loss">FA broadcasts Layer-2 frames on the local medium. With zero ACK from MN, frames are dropped after maximum MAC retransmissions.</span>
+              </div>
+              <div class="case-field">
+                <span class="case-field-label">Why did the failure occur?</span>
+                <span class="case-field-val">Physical layer link loss in the wireless last-mile.</span>
+              </div>
+              <div class="case-solution-box">
+                <strong>Possible Solution:</strong>
+                Foreign Agent packet buffering combined with paging mechanisms to wake or wait for the node before dropping.
+              </div>
+
+              <div class="case-mini-flow-area">
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#7c3aed;">HA</div>
+                  <span class="mini-node-label">Tunnel OK</span>
+                </div>
+                <div class="mini-flow-line"></div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#10b981;">FA</div>
+                  <span class="mini-node-label">Decaps OK</span>
+                </div>
+                <div class="mini-flow-line broken">
+                  <span class="mini-break-cross">✕</span>
+                </div>
+                <div class="mini-node-item">
+                  <div class="mini-node-bubble" style="background:#94a3b8;">MN</div>
+                  <span class="mini-node-label">Offline</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card-footer">
+              <button type="button" class="btn-test-case" data-state="idle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Simulate Scenario</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       REFERENCE MAP LIGHTBOX MODAL
+       ========================================================================= -->
+  <div class="map-modal-backdrop" id="mapRefModal" role="dialog" aria-modal="true" aria-labelledby="mapRefTitle" aria-hidden="true">
+    <div class="map-modal-dialog">
+      <div class="map-modal-header">
+        <h3 id="mapRefTitle">Tamil Nadu Geographical Reference Map</h3>
+        <button type="button" class="modal-close-btn" id="closeRefMapBtn" aria-label="Close Reference Map">✕</button>
+      </div>
+      <div class="map-modal-body">
+        <img src="assets/tamilnadu_reference_map.png" alt="Tamil Nadu Reference Map">
+        <p>Uploaded geographical reference showcasing Tamil Nadu administrative district nodes used in our Virtual Lab simulation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS (Local with fallback) -->
+  <script src="assets/vendor/leaflet.js"></script>
+  <script>
+    // In case local file was blocked, fallback to CDN
+    if (typeof L === 'undefined') {
+      document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>');
+    }
+  </script>
+
+  <!-- Simulation Engine & Dashboard Scripts -->
+  <script src="assets/js/simulation.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+
+</body>
+</html>

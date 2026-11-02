@@ -1,0 +1,367 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mobile IP Virtual Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: full-bleed looping video, one centred title stack, two pill buttons. Everything else lives in the About Us modal. */
+:root {
+  --sky-deep: #0d3b66;
+  --sky-veil: #cfe9ff;
+  --white: #ffffff;
+  --glass-white: rgba(255, 255, 255, 0.80);
+  --glass-teal: rgba(44, 150, 176, 0.32);
+  --panel-blue: rgba(14, 76, 104, 0.64);
+  --panel-green: rgba(24, 92, 76, 0.60);
+  --mint: #c4f6e6;
+  --font-display: 'Fredoka', 'Baloo 2', 'Nunito', ui-rounded, system-ui, sans-serif;
+  --font-body: 'Nunito', ui-rounded, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--sky-deep);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px;
+  box-sizing: border-box;
+}
+
+/* ---------- Background video ---------- */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--sky-deep) url("assets/poster.jpg") center / cover no-repeat; /* fallback if video cannot play */
+  overflow: hidden;
+}
+.bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.bg::after { /* light readability overlay: soft deepening behind the title, nothing else */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(13, 59, 102, 0.28), transparent 70%),
+    linear-gradient(to bottom, rgba(13, 59, 102, 0.12), rgba(13, 59, 102, 0) 40%);
+  pointer-events: none;
+}
+@media (max-aspect-ratio: 1/1) {
+  .bg video { object-position: 14% 50%; } /* keep Shin-chan and Shiro in frame on portrait screens */
+}
+
+/* ---------- Stage ---------- */
+.stage {
+  position: relative;
+  z-index: 1;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.6rem, 4.5vh, 2.8rem);
+  padding-bottom: 9vh; /* lifts the title clear of Shin-chan and Shiro */
+  box-sizing: border-box;
+  text-align: center;
+  transition: opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, min(9vw, 12.5vh), 6rem);
+  line-height: 1.04;
+  letter-spacing: 0.035em;
+  color: var(--white);
+  text-shadow:
+    0 3px 0 rgba(13, 59, 102, 0.22),
+    0 8px 28px rgba(13, 59, 102, 0.5);
+  text-wrap: balance;
+}
+.title span {
+  display: block;
+  animation: rise 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(0.12s + var(--i) * 0.14s);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.2rem;
+  animation: rise 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.65s both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px) scale(0.98); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 11.5rem;
+  padding: 0.95rem 2.3rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.3), box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.btn:hover { transform: translateY(-3px) scale(1.03); }
+.btn:active { transform: translateY(0) scale(0.99); }
+.btn:focus-visible { outline: 3px solid var(--white); outline-offset: 4px; }
+
+.btn-primary {
+  background: var(--glass-white);
+  color: var(--sky-deep);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 28px rgba(13, 59, 102, 0.28), 0 0 26px rgba(255, 255, 255, 0.45);
+}
+.btn-primary:hover {
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 34px rgba(13, 59, 102, 0.3), 0 0 42px rgba(255, 255, 255, 0.75);
+}
+
+.btn-glass {
+  background: var(--glass-teal);
+  color: var(--white);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 8px rgba(13, 59, 102, 0.55);
+  box-shadow: 0 10px 28px rgba(13, 59, 102, 0.22), inset 0 0 18px rgba(255, 255, 255, 0.12);
+}
+.btn-glass:hover {
+  background: rgba(60, 175, 190, 0.46);
+  box-shadow: 0 14px 34px rgba(13, 59, 102, 0.26), 0 0 32px rgba(170, 245, 230, 0.5), inset 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- About Us modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 16px max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px));
+  background: rgba(8, 40, 70, 0.38);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+.modal[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.panel {
+  position: relative;
+  box-sizing: border-box;
+  width: min(640px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  border-radius: 30px;
+  background: linear-gradient(145deg, var(--panel-blue), var(--panel-green));
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+  backdrop-filter: blur(24px) saturate(1.35);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.06),
+    0 30px 80px rgba(6, 40, 70, 0.5),
+    0 0 64px rgba(150, 240, 230, 0.28);
+  transform: translateY(24px) scale(0.95);
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+.modal[data-open="true"] .panel { transform: none; }
+
+.panel h2 {
+  margin: 0 0 1rem;
+  padding-right: 3rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3.4vw, 1.55rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.panel h2.purpose {
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  padding-right: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  font-size: 1.05rem;
+  color: var(--mint);
+}
+.panel p {
+  margin: 0 0 0.9rem;
+  max-width: 62ch;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  text-shadow: 0 1px 6px rgba(6, 40, 70, 0.35);
+}
+.panel p:last-child { margin-bottom: 0; }
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.3s ease;
+}
+.close:hover { background: rgba(255, 255, 255, 0.32); transform: rotate(90deg); }
+.close:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+.close svg { width: 1.1rem; height: 1.1rem; }
+
+/* ---------- Page transition out ---------- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--sky-veil);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+body.leaving::after { opacity: 1; pointer-events: auto; }
+body.leaving .stage { opacity: 0; transform: scale(1.03); filter: blur(4px); }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 520px) {
+  .actions { flex-direction: column; align-items: stretch; width: min(100%, 20rem); }
+  .btn { min-width: 0; }
+  .panel { border-radius: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title span, .actions { animation: none; }
+  .stage, .modal, .panel, .btn, .close, body::after { transition-duration: 0.01s; }
+  .btn:hover, .close:hover { transform: none; }
+}
+</style>
+
+<div class="bg" aria-hidden="true">
+  <video id="bgVideo" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg">
+    <source src="assets/background.mp4" type="video/mp4">
+  </video>
+</div>
+
+<main class="stage">
+  <h1 class="title" aria-label="Home Agent and Foreign Agent Tunneling">
+    <span style="--i:0">HOME AGENT &amp;</span>
+    <span style="--i:1">FOREIGN AGENT</span>
+    <span style="--i:2">TUNNELING</span>
+  </h1>
+
+  <div class="actions">
+    <a class="btn btn-primary" id="getStarted" href="dashboard.html">Get Started</a>
+    <button class="btn btn-glass" id="aboutBtn" type="button" aria-haspopup="dialog" aria-controls="aboutModal">About Us</button>
+  </div>
+</main>
+
+<div class="modal" id="aboutModal" data-open="false" aria-hidden="true">
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <button class="close" id="aboutClose" type="button" aria-label="Close About Us">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+
+    <h2 id="aboutTitle">About this virtual lab</h2>
+    <p>This virtual laboratory is designed to explain Mobile IP communication in a simple, interactive and visually engaging way.</p>
+    <p>It demonstrates how a Mobile Node stays connected while moving between different networks using a Home Agent and a Foreign Agent.</p>
+    <p>Through animated explanations and interactive simulations, students can understand tunneling, encapsulation, decapsulation and packet delivery.</p>
+
+    <h2 class="purpose">Our purpose</h2>
+    <p>To make complex Data Communication Network concepts easier to understand through visual learning, animation and practical interaction.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+  var video = document.getElementById('bgVideo');
+  var modal = document.getElementById('aboutModal');
+  var openBtn = document.getElementById('aboutBtn');
+  var closeBtn = document.getElementById('aboutClose');
+  var start = document.getElementById('getStarted');
+  var lastFocus = null;
+
+  /* Video: some browsers need an explicit play(); the poster stays visible if playback is blocked. */
+  video.muted = true;
+  var p = video.play();
+  if (p && p.catch) p.catch(function () {});
+
+  function isOpen() { return modal.getAttribute('data-open') === 'true'; }
+
+  function openModal() {
+    lastFocus = document.activeElement;
+    modal.setAttribute('data-open', 'true');
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(function () { closeBtn.focus(); }, 60);
+  }
+  function closeModal() {
+    modal.setAttribute('data-open', 'false');
+    modal.setAttribute('aria-hidden', 'true');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (!isOpen()) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
+    else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); } /* the close button is the only control inside */
+  });
+
+  /* Get Started: fade out, then go to the separate dashboard page. */
+  start.addEventListener('click', function (e) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    var href = start.getAttribute('href');
+    body.classList.add('leaving');
+    setTimeout(function () { window.location.href = href; }, 480);
+  });
+  /* Returning with the browser's Back button must not leave the page faded out. */
+  window.addEventListener('pageshow', function () {
+    body.classList.remove('leaving');
+    var q = video.play(); if (q && q.catch) q.catch(function () {});
+  });
+})();
+</script>
+
+</body></html>
