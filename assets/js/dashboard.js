@@ -1,21 +1,37 @@
 /**
  * Mobile IP Virtual Lab - Dashboard Script
- * Handles Tab Navigation, Video Player, 10-Question Accordion, and 5 Case Workflows.
+ * Handles Tab Navigation with Dynamic Background Switching (Images 1-4),
+ * Video Player, 10-Question Accordion, and 5 Case Workflows.
  */
 
 (function () {
   'use strict';
 
-  // --- 1. GLOBAL TAB NAVIGATION ---
+  // --- 1. GLOBAL TAB NAVIGATION & DYNAMIC BACKGROUND SWITCHING ---
   const navTabs = document.querySelectorAll('.tab-btn');
   const tabViews = document.querySelectorAll('.tab-view');
   const casesListView = document.getElementById('casesListView');
   const caseWorkflowViews = document.querySelectorAll('.case-workflow-view');
 
+  const bgLayers = {
+    video: document.getElementById('bgLayerVideo'),
+    concepts: document.getElementById('bgLayerConcepts'),
+    simulation: document.getElementById('bgLayerSimulation'),
+    cases: document.getElementById('bgLayerCases')
+  };
+
+  function updateBackground(tabName) {
+    Object.keys(bgLayers).forEach(key => {
+      if (bgLayers[key]) {
+        bgLayers[key].classList.toggle('active', key === tabName);
+      }
+    });
+  }
+
   function switchTab(targetId, updateHash = true) {
     const cleanId = (targetId || 'simulation').replace('#', '');
 
-    // Reset case workflow views back to list when navigating tabs
+    // Reset case workflow view back to list when navigating tabs
     if (casesListView) casesListView.style.display = 'block';
     caseWorkflowViews.forEach(v => v.classList.remove('active'));
 
@@ -38,11 +54,14 @@
       }
     });
 
+    // Switch full-page background image
+    updateBackground(cleanId);
+
     if (updateHash) {
       history.replaceState(null, null, `#${cleanId}`);
     }
 
-    // Invalidate map for smooth rendering
+    // Leaflet map refresh when becoming visible
     if (cleanId === 'simulation' && window.MobileIPSimulation && window.MobileIPSimulation.invalidateMap) {
       setTimeout(() => {
         window.MobileIPSimulation.invalidateMap();
@@ -59,7 +78,6 @@
 
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash || '#simulation';
-    // If hash starts with case-, open that case
     if (hash.startsWith('#case-')) {
       const caseNum = hash.replace('#case-', '');
       openCaseWorkflow(caseNum, false);
@@ -78,7 +96,7 @@
   }
 
 
-  // --- 2. VIDEO LEARNING MODULE ---
+  // --- 2. VIDEO LEARNING MODULE (Image 1 Background) ---
   const video = document.getElementById('labVideo');
   const videoPlaceholder = document.getElementById('videoPlaceholder');
   const playPauseBtn = document.getElementById('playPauseBtn');
@@ -108,7 +126,7 @@
   function togglePlay() {
     if (!video) return;
     if (!video.src || video.src === window.location.href || video.src.endsWith('/')) {
-      alert('Your anime-style Shin-chan video placeholder is ready! Place your video at assets/explanation.mp4 or use the preview button below to test.');
+      alert('Video placeholder ready! Place your video at assets/explanation.mp4 or select a file using the preview button below.');
       return;
     }
 
@@ -145,7 +163,6 @@
       if (videoPlaceholder) videoPlaceholder.classList.remove('hidden');
     });
 
-    // Check if assets/explanation.mp4 exists
     fetch('assets/explanation.mp4', { method: 'HEAD' })
       .then(res => {
         if (res.ok) {
@@ -206,7 +223,7 @@
   }
 
 
-  // --- 3. PAGE TWO: 10 CONCEPTS ACCORDION ---
+  // --- 3. PAGE TWO: EXACTLY 10 CONCEPTS ACCORDION ---
   const qaCards = document.querySelectorAll('.qa-card');
 
   qaCards.forEach(card => {
@@ -216,7 +233,6 @@
     header.addEventListener('click', () => {
       const isOpen = card.classList.contains('open');
 
-      // Close all others for a neat, focused view
       qaCards.forEach(c => {
         if (c !== card) c.classList.remove('open');
       });
@@ -226,62 +242,62 @@
   });
 
 
-  // --- 4. PAGE FOUR & FIVE: CASE WORKFLOWS ---
+  // --- 4. PAGE FOUR & FIVE: EXACTLY 5 CASE WORKFLOWS (Image 4 Background) ---
   const caseData = {
     1: {
-      title: "Case 1: Home Agent Has No Mobile Node Location",
-      intro: "A Correspondent Node transmits packets to the Mobile Node's permanent Home Address, but the Home Agent has no valid registration binding in its cache.",
+      title: "Case 1: Home Agent Cannot Find the Mobile Node",
+      intro: "A Correspondent Node sends packets to the Mobile Node's permanent Home Address, but the Home Agent has no valid Care-of Address in its binding cache.",
       steps: [
         {
           name: "START",
           title: "Step 1: CN Transmits Datagram",
-          desc: "The Correspondent Node addresses an IP datagram to the Mobile Node's permanent Home Address. Standard IP routing forwards the datagram across the Internet to the Home Network."
+          desc: "The Correspondent Node addresses an IP datagram to the Mobile Node's permanent Home Address. Standard IP routing delivers it across the Internet to the Home Network."
         },
         {
-          name: "HA Check",
+          name: "Cache Check",
           title: "Step 2: Home Agent Cache Lookup",
-          desc: "The Home Agent intercepts the packet on the home link and searches its internal Binding Cache. The binding is missing or expired, meaning HA does not know any current Care-of Address (CoA)."
+          desc: "The Home Agent intercepts the packet on the home network and inspects its Binding Cache. The binding entry is missing or expired, meaning HA does not possess any valid Care-of Address (CoA)."
         },
         {
           name: "Local ARP",
           title: "Step 3: Home Link ARP Broadcast",
-          desc: "Because no Care-of Address exists, the HA assumes the MN might be at home. It broadcasts an ARP request on the local home subnet seeking the MN's MAC address."
+          desc: "Because no Care-of Address is registered, the HA queries the local home link by broadcasting an ARP request to resolve the MN's physical MAC address."
         },
         {
           name: "Timeout",
           title: "Step 4: ARP Request Times Out",
-          desc: "Since the Mobile Node is physically away in a distant location and not registered, no device replies to the ARP broadcast on the home link."
+          desc: "Because the Mobile Node is physically away in a foreign network and has not registered its location, no device replies to the ARP broadcast on the home link."
         },
         {
           name: "RESULT: Packet Loss",
           title: "Result: Packet Dropped & ICMP Error",
-          desc: "The Home Agent drops the datagram and transmits an ICMP Destination Host Unreachable message back to the Correspondent Node. The communication session fails."
+          desc: "The Home Agent discards the datagram and returns an ICMP Destination Host Unreachable error message to the Correspondent Node. The session fails."
         }
       ]
     },
     2: {
-      title: "Case 2: Foreign Agent Registration Relay Failure",
-      intro: "The Mobile Node enters a visited network and requests registration via the Foreign Agent, but the FA fails to forward the request to the Home Agent.",
+      title: "Case 2: Foreign Agent Registration Failure",
+      intro: "The Mobile Node enters a visited network and requests registration via the Foreign Agent, but the FA fails to relay the registration to the Home Agent.",
       steps: [
         {
           name: "START",
           title: "Step 1: MN Sends Registration Request",
-          desc: "The Mobile Node connects to a foreign network, obtains the Foreign Agent's Care-of Address from an Agent Advertisement, and delivers a Registration Request to the FA."
+          desc: "The Mobile Node connects to a foreign network, discovers the Foreign Agent via an Agent Advertisement, and delivers a Registration Request containing its Home Address."
         },
         {
-          name: "FA Relay",
+          name: "Relay Attempt",
           title: "Step 2: Foreign Agent Relay Attempt",
-          desc: "The Foreign Agent is expected to forward this request to the Home Agent over UDP port 434. However, network congestion or firewall filtering drops the registration packet."
+          desc: "The Foreign Agent attempts to forward the registration request to the Home Agent via UDP port 434. However, upstream network congestion or firewall filtering drops the packet."
         },
         {
-          name: "No Binding",
-          title: "Step 3: Home Agent Unaware of Move",
+          name: "Unaware HA",
+          title: "Step 3: Home Agent Unaware of Roaming",
           desc: "Because the Registration Request never reaches the Home Agent, the HA's binding table remains unchanged. It either holds an obsolete CoA or no location at all."
         },
         {
           name: "RESULT: Black Hole",
           title: "Result: Communication Black Hole",
-          desc: "Packets sent by the Correspondent Node continue to be tunneled to the old location or dropped at the Home Agent. The Mobile Node cannot receive incoming traffic."
+          desc: "Packets sent by the Correspondent Node continue to be tunneled to the obsolete location or dropped at the Home Agent. The Mobile Node cannot receive incoming traffic."
         }
       ]
     },
@@ -291,23 +307,23 @@
       steps: [
         {
           name: "START",
-          title: "Step 1: Inbound Packet Reaches HA",
-          desc: "A full-sized IP packet (e.g. 1500 bytes) arrives at the Home Agent with the Don't Fragment (DF) flag set in the IP header."
+          title: "Step 1: Full-Sized Inbound Packet",
+          desc: "A full-sized IP packet (1500 bytes) arrives at the Home Agent with the Don't Fragment (DF) flag set in its header."
         },
         {
-          name: "Encap Check",
+          name: "Add Outer Header",
           title: "Step 2: Adding 20-Byte Outer IP Header",
-          desc: "The Home Agent prepares to wrap the packet for forward tunneling by adding an outer IP header (20 bytes). The new total size becomes 1520 bytes."
+          desc: "The Home Agent encapsulates the packet for forward tunneling by adding an outer IP header (20 bytes). The resulting packet size increases to 1520 bytes."
         },
         {
           name: "MTU Exceeded",
           title: "Step 3: Tunnel Path MTU Exceeded",
-          desc: "The outgoing tunnel interface only supports standard 1500-byte MTU. Because the packet has the DF bit set, the router is forbidden from fragmenting it."
+          desc: "The outgoing tunnel route only supports a standard 1500-byte MTU. Because the DF bit is set, intermediate routers are forbidden from fragmenting the packet."
         },
         {
           name: "RESULT: Packet Dropped",
-          title: "Result: Datagram Discarded & PMTUD Triggered",
-          desc: "The Home Agent discards the packet and sends an ICMP 'Fragmentation Needed and DF Set' notification to the Correspondent Node to reduce its segment size."
+          title: "Result: Packet Discarded & PMTUD Triggered",
+          desc: "The Home Agent drops the datagram and returns an ICMP 'Fragmentation Needed and DF Set' message to the Correspondent Node to reduce its maximum segment size."
         }
       ]
     },
@@ -323,12 +339,12 @@
         {
           name: "Header Verify",
           title: "Step 2: Outer Header Protocol Verification",
-          desc: "The Foreign Agent inspects the IP Protocol field. A transit corruption or mismatched tunneling format (such as unsupported GRE or corrupted IP Protocol 4) is detected."
+          desc: "The Foreign Agent inspects the outer IP header. An in-flight transmission corruption or unsupported encapsulation protocol format is detected."
         },
         {
-          name: "Strip Failed",
-          title: "Step 3: Decapsulation Engine Rejects Packet",
-          desc: "Because the header cannot be safely parsed, the FA's decapsulation engine refuses to strip the outer header to prevent delivering corrupted payloads."
+          name: "Strip Rejection",
+          title: "Step 3: Decapsulation Engine Rejection",
+          desc: "Because the outer header cannot be safely parsed, the FA's decapsulation engine refuses to strip the header to prevent delivering corrupted payloads."
         },
         {
           name: "RESULT: Silently Dropped",
@@ -338,28 +354,28 @@
       ]
     },
     5: {
-      title: "Case 5: Mobile Node Moves Mid-Transmission",
-      intro: "While encapsulated packets are in flight through the tunnel towards Foreign Agent A, the Mobile Node abruptly dissociates and connects to Foreign Agent B.",
+      title: "Case 5: Mobile Node Changes Network During Transmission",
+      intro: "While encapsulated packets are in flight through the tunnel towards Foreign Agent A, the Mobile Node abruptly roams and attaches to Foreign Agent B.",
       steps: [
         {
           name: "START",
           title: "Step 1: HA Tunnels to Old Location (FA-A)",
-          desc: "The Home Agent forwards packets through the established tunnel towards Foreign Agent A based on the active binding cache."
+          desc: "The Home Agent forwards packets through the forward tunnel towards Foreign Agent A based on its current active binding cache."
         },
         {
-          name: "In-Flight Move",
+          name: "Mid-Flight Roam",
           title: "Step 2: MN Roams to Foreign Agent B",
-          desc: "Before the tunneled packets arrive at FA-A, the Mobile Node physically roams out of range and attaches to a new foreign network managed by FA-B."
+          desc: "Before the tunneled packets arrive at FA-A, the Mobile Node physically moves out of range and attaches to a new foreign network managed by FA-B."
         },
         {
           name: "Arrival at FA-A",
           title: "Step 3: FA-A Decapsulates Packet",
-          desc: "FA-A successfully removes the outer IP header and looks for the Mobile Node on its local wireless link to deliver the packet."
+          desc: "FA-A successfully removes the outer IP header and searches its local wireless link to deliver the packet to the Mobile Node."
         },
         {
           name: "RESULT: In-Flight Loss",
           title: "Result: Local Delivery Times Out",
-          desc: "Because the Mobile Node is no longer on FA-A's subnet, local Layer-2 delivery fails and in-flight packets are dropped until HA receives the updated registration for FA-B."
+          desc: "Because the Mobile Node is no longer on FA-A's subnet, local Layer-2 delivery times out and in-flight packets are dropped until the HA receives updated registration for FA-B."
         }
       ]
     }
@@ -367,7 +383,7 @@
 
   const caseState = {
     currentCase: 1,
-    currentStep: 0 // index in steps
+    currentStep: 0
   };
 
   function openCaseWorkflow(caseNum, updateHash = true) {
@@ -377,10 +393,8 @@
     caseState.currentCase = caseNum;
     caseState.currentStep = 0;
 
-    // Switch tab view to Cases
     switchTab('cases', false);
 
-    // Hide list, show workflow
     if (casesListView) casesListView.style.display = 'none';
     caseWorkflowViews.forEach(v => v.classList.remove('active'));
 
@@ -404,13 +418,11 @@
     if (stepIndex >= steps.length) stepIndex = steps.length - 1;
     caseState.currentStep = stepIndex;
 
-    // Title & Intro
     const titleEl = document.getElementById('wfCaseTitle');
     const introEl = document.getElementById('wfCaseIntro');
     if (titleEl) titleEl.textContent = data.title;
     if (introEl) introEl.textContent = data.intro;
 
-    // Render flowchart blocks
     const flowContainer = document.getElementById('wfFlowchartBlocks');
     if (flowContainer) {
       flowContainer.innerHTML = '';
@@ -420,14 +432,12 @@
         block.className = `flow-block ${isTerminal ? 'terminal-block' : ''} ${idx === stepIndex ? 'active' : ''}`;
         block.textContent = step.name;
 
-        // Clicking a block jumps directly to it
         block.addEventListener('click', () => {
           renderWorkflow(caseNum, idx);
         });
 
         flowContainer.appendChild(block);
 
-        // Arrow between blocks
         if (idx < steps.length - 1) {
           const arrow = document.createElement('div');
           arrow.className = 'flow-arrow';
@@ -437,7 +447,6 @@
       });
     }
 
-    // Explanation panel
     const currentStepData = steps[stepIndex];
     const stepTagEl = document.getElementById('wfStepTag');
     const stepTitleEl = document.getElementById('wfStepTitle');
@@ -447,7 +456,6 @@
     if (stepTitleEl) stepTitleEl.textContent = currentStepData.title;
     if (stepDescEl) stepDescEl.textContent = currentStepData.desc;
 
-    // Nav buttons state
     const prevBtn = document.getElementById('wfPrevBtn');
     const nextBtn = document.getElementById('wfNextBtn');
 
@@ -463,7 +471,6 @@
     }
   }
 
-  // Bind View Case buttons in Page 4
   document.querySelectorAll('.btn-view-case').forEach(btn => {
     btn.addEventListener('click', () => {
       const caseNum = btn.getAttribute('data-case');
@@ -471,7 +478,6 @@
     });
   });
 
-  // Workflow navigation controls
   const backToCasesBtn = document.getElementById('wfBackToCasesBtn');
   if (backToCasesBtn) {
     backToCasesBtn.addEventListener('click', () => {

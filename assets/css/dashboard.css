@@ -1,49 +1,38 @@
 /* ==========================================================================
-   MOBILE IP VIRTUAL LAB - DREAMCORE ANIME GLASSMORPHISM DASHBOARD
-   Visual Identity: Matches index.html with transparent green and blue glass
-   panels, soft pink accents, frosted borders, and anime dreamcore aesthetic.
-   Prepared for 4 background images to be assigned seamlessly.
+   MOBILE IP VIRTUAL LAB - CINEMATIC ANIME GLASSMORPHISM DESIGN SYSTEM
+   Featuring 4 custom Shin-chan anime backgrounds, transparent green/blue
+   glass panels, soft pink accents, and live signal visualisation.
    ========================================================================== */
 
 :root {
-  /* Landing page core colors */
-  --sky-deep: #0d3b66;
-  --sky-veil: #cfe9ff;
-  --white: #ffffff;
-  --glass-white: rgba(255, 255, 255, 0.80);
-  --glass-teal: rgba(44, 150, 176, 0.32);
-  --panel-blue: rgba(14, 76, 104, 0.68);
-  --panel-green: rgba(24, 92, 76, 0.65);
-  --panel-glass: rgba(16, 68, 92, 0.58);
+  /* Core anime dreamcore palette */
+  --sky-deep: #071e33;
+  --panel-blue: rgba(10, 48, 76, 0.62);
+  --panel-green: rgba(16, 68, 62, 0.62);
+  --panel-glass: rgba(8, 36, 58, 0.58);
   
-  /* Anime accents */
-  --mint: #c4f6e6;
+  --mint: #bbf7d0;
   --mint-glow: #10b981;
   --pink-accent: #f472b6;
   --pink-soft: #fce7f3;
   --pink-glow: rgba(244, 114, 182, 0.45);
   --blue-accent: #38bdf8;
-  --purple-accent: #a855f7;
+  --purple-accent: #c084fc;
+  --white: #ffffff;
 
-  /* Fonts matching index.html */
+  /* Typography */
   --font-display: 'Fredoka', 'Baloo 2', 'Nunito', ui-rounded, system-ui, sans-serif;
   --font-body: 'Nunito', ui-rounded, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Glass borders & shadows */
-  --glass-border: rgba(255, 255, 255, 0.42);
+  /* Glass borders & atmospheric shadows */
+  --glass-border: rgba(255, 255, 255, 0.38);
   --glass-border-subtle: rgba(255, 255, 255, 0.22);
-  --glass-glow: 0 0 35px rgba(164, 244, 230, 0.22);
-  --glass-shadow: 0 20px 50px rgba(6, 32, 54, 0.45);
-  --radius-lg: 26px;
-  --radius-md: 18px;
-  --radius-sm: 12px;
+  --glass-glow: 0 0 35px rgba(187, 247, 208, 0.2);
+  --glass-shadow: 0 20px 50px rgba(4, 18, 32, 0.45);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
   --radius-pill: 9999px;
-
-  /* Section background slots - Ready for future custom images */
-  --bg-video: none;
-  --bg-concepts: none;
-  --bg-simulation: none;
-  --bg-cases: none;
 }
 
 * {
@@ -61,30 +50,65 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Dreamcore Atmosphere Canvas */
-.dashboard-bg {
+/* ==========================================================================
+   FULL-PAGE RESPONSIVE BACKGROUND IMAGE LAYERS
+   Assigns Image 1, 2, 3, 4 with natural proportions and smooth crossfades.
+   ========================================================================== */
+.bg-viewport-container {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 60% at 15% 15%, rgba(44, 150, 176, 0.45), transparent 60%),
-    radial-gradient(ellipse 65% 55% at 85% 20%, rgba(244, 114, 182, 0.22), transparent 55%),
-    radial-gradient(ellipse 75% 65% at 50% 85%, rgba(24, 92, 76, 0.55), transparent 65%),
-    linear-gradient(145deg, #071f36 0%, #0d3b66 45%, #104253 100%);
   overflow: hidden;
+  background-color: var(--sky-deep);
 }
 
-.dashboard-bg::after {
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Image 1 -> Video Learning */
+.bg-layer-video {
+  background-image: url('../images/bg-video.jpg');
+}
+
+/* Image 2 -> Concepts & Q&A */
+.bg-layer-concepts {
+  background-image: url('../images/bg-concepts.jpg');
+}
+
+/* Image 3 -> Interactive Simulation */
+.bg-layer-simulation {
+  background-image: url('../images/bg-simulation.jpg');
+}
+
+/* Image 4 -> Cases */
+.bg-layer-cases {
+  background-image: url('../images/bg-cases.jpg');
+}
+
+.bg-layer.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Delicate readability veil over images so characters shine through naturally */
+.bg-viewport-container::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(rgba(255, 255, 255, 0.12) 1.2px, transparent 1.2px),
-    radial-gradient(rgba(196, 246, 230, 0.08) 1.5px, transparent 1.5px);
-  background-size: 32px 32px, 64px 64px;
-  background-position: 0 0, 16px 16px;
-  opacity: 0.6;
+  background: 
+    radial-gradient(ellipse 90% 80% at 50% 50%, rgba(7, 30, 51, 0.28), rgba(7, 30, 51, 0.62)),
+    linear-gradient(180deg, rgba(7, 30, 51, 0.35) 0%, rgba(7, 30, 51, 0.15) 50%, rgba(7, 30, 51, 0.5) 100%);
+  pointer-events: none;
 }
 
 /* Top Navigation Bar */
@@ -92,16 +116,16 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(10, 42, 68, 0.65);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  background: rgba(8, 28, 46, 0.68);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
   border-bottom: 1px solid var(--glass-border-subtle);
-  box-shadow: 0 8px 32px rgba(6, 28, 48, 0.35);
+  box-shadow: 0 8px 32px rgba(4, 16, 28, 0.4);
   padding: 0.75rem 1.75rem;
 }
 
 .nav-container {
-  max-width: 1400px;
+  max-width: 1420px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -121,18 +145,13 @@ html, body {
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(44, 150, 176, 0.6), rgba(244, 114, 182, 0.4));
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.5), rgba(244, 114, 182, 0.45));
   border: 1px solid rgba(255, 255, 255, 0.6);
   display: grid;
   place-items: center;
   color: var(--white);
-  box-shadow: 0 4px 16px rgba(44, 150, 176, 0.35);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
   flex-shrink: 0;
-}
-
-.lab-logo-icon svg {
-  width: 22px;
-  height: 22px;
 }
 
 .lab-brand-text h1 {
@@ -143,7 +162,7 @@ html, body {
   letter-spacing: 0.04em;
   color: var(--white);
   line-height: 1.1;
-  text-shadow: 0 2px 10px rgba(13, 59, 102, 0.5);
+  text-shadow: 0 2px 10px rgba(4, 20, 34, 0.6);
 }
 
 .lab-badge {
@@ -160,7 +179,7 @@ html, body {
 .nav-tabs {
   display: flex;
   align-items: center;
-  background: rgba(8, 32, 54, 0.55);
+  background: rgba(6, 24, 40, 0.58);
   padding: 0.35rem;
   border-radius: var(--radius-pill);
   border: 1px solid var(--glass-border-subtle);
@@ -176,30 +195,30 @@ html, body {
   font-family: var(--font-display);
   font-size: 0.92rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.25s ease;
   white-space: nowrap;
   text-decoration: none;
 }
 
 .tab-btn:hover {
   color: var(--white);
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .tab-btn.active {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(207, 233, 255, 0.9));
-  color: var(--sky-deep);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(187, 247, 208, 0.88));
+  color: #06283d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.45);
   font-weight: 700;
 }
 
 .tab-btn.active svg {
-  color: var(--sky-deep);
+  color: #06283d;
 }
 
 .btn-home {
@@ -207,7 +226,7 @@ html, body {
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--white);
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 0.5rem 1.15rem;
   border-radius: var(--radius-pill);
@@ -220,25 +239,24 @@ html, body {
 }
 
 .btn-home:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.28);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Main Dashboard Container */
 .dashboard-main {
   position: relative;
   z-index: 1;
-  max-width: 1400px;
+  max-width: 1420px;
   margin: 0 auto;
   padding: 1.8rem 1.5rem 3.5rem;
   min-height: calc(100vh - 75px);
 }
 
-/* View Sections */
 .tab-view {
   display: none;
-  animation: dreamFade 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: dreamFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .tab-view.active {
@@ -246,7 +264,7 @@ html, body {
 }
 
 @keyframes dreamFade {
-  from { opacity: 0; transform: translateY(14px) scale(0.99); }
+  from { opacity: 0; transform: translateY(12px) scale(0.99); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -262,17 +280,17 @@ html, body {
     0 0 0 4px rgba(255, 255, 255, 0.05),
     var(--glass-shadow),
     var(--glass-glow);
-  padding: clamp(1.4rem, 3.2vw, 2.4rem);
+  padding: clamp(1.4rem, 3vw, 2.4rem);
 }
 
 .glass-panel-title {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.35rem;
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 2.6vw, 1.85rem);
   font-weight: 700;
   letter-spacing: 0.03em;
   color: var(--white);
-  text-shadow: 0 2px 10px rgba(6, 32, 54, 0.5);
+  text-shadow: 0 2px 10px rgba(4, 20, 34, 0.6);
 }
 
 .glass-panel-subtitle {
@@ -280,11 +298,11 @@ html, body {
   font-size: 0.98rem;
   color: var(--mint);
   font-weight: 600;
-  text-shadow: 0 1px 6px rgba(6, 32, 54, 0.4);
+  text-shadow: 0 1px 6px rgba(4, 20, 34, 0.5);
 }
 
 /* ==========================================================================
-   PAGE 1: VIDEO LEARNING (CLEAN 16:9 SLOT)
+   PAGE 1: VIDEO LEARNING (Image 1 Background)
    ========================================================================== */
 .video-learning-layout {
   max-width: 1050px;
@@ -292,19 +310,20 @@ html, body {
 }
 
 .video-player-card {
-  background: #061524;
+  background: rgba(6, 22, 36, 0.75);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(4, 18, 30, 0.6), 0 0 35px rgba(44, 150, 176, 0.25);
+  box-shadow: 0 25px 60px rgba(4, 16, 28, 0.6), 0 0 35px rgba(56, 189, 248, 0.25);
   border: 1px solid var(--glass-border);
   position: relative;
+  backdrop-filter: blur(20px);
 }
 
 .video-wrapper-16-9 {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 */
-  background: #040d16;
+  padding-top: 56.25%;
+  background: #040c16;
   overflow: hidden;
 }
 
@@ -327,8 +346,8 @@ html, body {
   padding: 2.5rem;
   color: var(--white);
   background: 
-    radial-gradient(ellipse at 50% 45%, rgba(44, 150, 176, 0.35), transparent 70%),
-    linear-gradient(180deg, rgba(14, 76, 104, 0.85) 0%, rgba(5, 18, 30, 0.96) 100%);
+    radial-gradient(ellipse at 50% 45%, rgba(56, 189, 248, 0.35), transparent 70%),
+    linear-gradient(180deg, rgba(10, 48, 76, 0.8) 0%, rgba(4, 16, 28, 0.94) 100%);
   z-index: 10;
   transition: opacity 0.3s ease;
 }
@@ -342,8 +361,8 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(8px);
   padding: 0.35rem 0.95rem;
   border-radius: var(--radius-pill);
@@ -366,7 +385,7 @@ html, body {
 
 .video-placeholder-desc {
   max-width: 580px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 1rem;
   line-height: 1.6;
   margin: 0 0 1.8rem;
@@ -376,13 +395,13 @@ html, body {
   width: 74px;
   height: 74px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(196, 246, 230, 0.9));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(187, 247, 208, 0.9));
   border: 3px solid rgba(255, 255, 255, 0.95);
-  color: var(--sky-deep);
+  color: #06283d;
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(196, 246, 230, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(187, 247, 208, 0.6);
   transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 
@@ -394,7 +413,7 @@ html, body {
 .video-controls-bar {
   display: flex;
   flex-direction: column;
-  background: rgba(8, 24, 40, 0.92);
+  background: rgba(6, 20, 32, 0.92);
   padding: 0.85rem 1.4rem;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -447,12 +466,10 @@ html, body {
   transform: scale(1.1);
 }
 
-.ctrl-btn svg { width: 22px; height: 22px; }
-
 .time-display {
   font-size: 0.85rem;
   font-family: monospace;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .volume-slider-group input[type="range"] {
@@ -461,7 +478,6 @@ html, body {
   cursor: pointer;
 }
 
-/* Local Video Preview Helper */
 .video-preview-trigger {
   margin-top: 1.25rem;
   text-align: center;
@@ -471,7 +487,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.18);
   color: var(--mint);
   border: 1px solid var(--glass-border-subtle);
   padding: 0.45rem 1.1rem;
@@ -480,18 +496,18 @@ html, body {
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
 }
 
 .btn-file-preview:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.28);
   color: var(--white);
 }
 
 #customVideoInput { display: none; }
 
 /* ==========================================================================
-   PAGE 2: CONCEPTS & Q&A (EXACTLY 10 CLEAN ACCORDION CARDS)
-   Transparent green glass panel with soft borders & pink accents.
+   PAGE 2: CONCEPTS & Q&A (Image 2 Background, Exactly 10 Questions)
    ========================================================================== */
 .concepts-layout {
   max-width: 980px;
@@ -505,26 +521,26 @@ html, body {
 }
 
 .qa-card {
-  background: rgba(14, 55, 78, 0.52);
-  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(8, 38, 56, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: var(--radius-md);
   overflow: hidden;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 24px rgba(4, 20, 34, 0.25);
+  box-shadow: 0 8px 24px rgba(4, 18, 30, 0.3);
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .qa-card:hover {
-  border-color: rgba(196, 246, 230, 0.7);
-  box-shadow: 0 10px 30px rgba(4, 20, 34, 0.35), 0 0 20px rgba(196, 246, 230, 0.15);
+  border-color: rgba(187, 247, 208, 0.7);
+  box-shadow: 0 10px 30px rgba(4, 18, 30, 0.4), 0 0 20px rgba(187, 247, 208, 0.2);
   transform: translateY(-2px);
 }
 
 .qa-card.open {
-  border-color: rgba(244, 114, 182, 0.65);
-  background: rgba(16, 68, 92, 0.68);
-  box-shadow: 0 12px 36px rgba(4, 20, 34, 0.45), 0 0 25px rgba(244, 114, 182, 0.2);
+  border-color: rgba(244, 114, 182, 0.7);
+  background: rgba(12, 54, 76, 0.72);
+  box-shadow: 0 12px 36px rgba(4, 18, 30, 0.5), 0 0 25px rgba(244, 114, 182, 0.25);
 }
 
 .qa-header {
@@ -547,7 +563,7 @@ html, body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.4);
   color: var(--mint);
   font-family: var(--font-display);
@@ -579,7 +595,7 @@ html, body {
 .qa-toggle-icon {
   width: 22px;
   height: 22px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.25s ease;
   flex-shrink: 0;
 }
@@ -594,8 +610,8 @@ html, body {
   padding: 0 1.5rem 1.4rem 3.6rem;
   font-size: 1rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.92);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 1.1rem;
 }
 
@@ -609,28 +625,26 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Technical terms highlight */
 .term-hl {
   color: var(--mint);
   font-weight: 700;
-  background: rgba(16, 185, 129, 0.16);
+  background: rgba(16, 185, 129, 0.22);
   padding: 0.1rem 0.35rem;
   border-radius: 4px;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.35);
 }
 
 .term-hl-pink {
   color: #fbcfe8;
   font-weight: 700;
-  background: rgba(244, 114, 182, 0.18);
+  background: rgba(244, 114, 182, 0.22);
   padding: 0.1rem 0.35rem;
   border-radius: 4px;
-  border: 1px solid rgba(244, 114, 182, 0.35);
+  border: 1px solid rgba(244, 114, 182, 0.4);
 }
 
 /* ==========================================================================
-   PAGE 3: INTERACTIVE MOBILE IP SIMULATION
-   The MAP is the visual centerpiece. Clean location pickers, essential controls.
+   PAGE 3: INTERACTIVE MOBILE IP SIMULATION (Image 3 Background)
    ========================================================================== */
 .sim-page-layout {
   display: flex;
@@ -638,7 +652,7 @@ html, body {
   gap: 1.25rem;
 }
 
-/* Compact Location Selector Glass Bar */
+/* Location Selection Bar */
 .location-picker-bar {
   display: flex;
   align-items: center;
@@ -646,12 +660,12 @@ html, body {
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1.1rem 1.5rem;
-  background: rgba(14, 60, 84, 0.65);
+  background: rgba(10, 44, 70, 0.65);
   border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 10px 30px rgba(4, 20, 34, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(4, 18, 30, 0.35);
 }
 
 .location-selectors-group {
@@ -692,8 +706,8 @@ html, body {
 .dot-fa { background-color: var(--mint-glow); color: var(--mint-glow); }
 
 .loc-select-input {
-  background: rgba(6, 26, 44, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(4, 20, 34, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   color: var(--white);
   padding: 0.55rem 0.85rem;
   border-radius: var(--radius-sm);
@@ -707,11 +721,11 @@ html, body {
 
 .loc-select-input:focus {
   border-color: var(--mint);
-  box-shadow: 0 0 12px rgba(196, 246, 230, 0.4);
+  box-shadow: 0 0 12px rgba(187, 247, 208, 0.4);
 }
 
 .loc-select-input option {
-  background: #082035;
+  background: #061c2d;
   color: var(--white);
 }
 
@@ -719,7 +733,7 @@ html, body {
   appearance: none;
   background: linear-gradient(135deg, #10b981, #059669);
   color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   padding: 0.7rem 1.6rem;
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
@@ -728,17 +742,17 @@ html, body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), 0 0 15px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45), 0 0 15px rgba(16, 185, 129, 0.35);
   transition: all 0.25s ease;
   white-space: nowrap;
 }
 
 .btn-confirm-nodes:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5), 0 0 25px rgba(196, 246, 230, 0.6);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.55), 0 0 25px rgba(187, 247, 208, 0.7);
 }
 
-/* Simulation Controls Glass Bar */
+/* 3 Main Controls Bar */
 .sim-controls-bar {
   display: flex;
   align-items: center;
@@ -746,10 +760,10 @@ html, body {
   flex-wrap: wrap;
   gap: 1rem;
   padding: 0.85rem 1.4rem;
-  background: rgba(14, 60, 84, 0.5);
+  background: rgba(8, 36, 58, 0.55);
   border-radius: var(--radius-pill);
   border: 1px solid var(--glass-border-subtle);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
 }
 
 .sim-buttons-group {
@@ -759,10 +773,10 @@ html, body {
 }
 
 .btn-sim-action {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   color: var(--white);
-  padding: 0.55rem 1.25rem;
+  padding: 0.55rem 1.35rem;
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
   font-size: 0.92rem;
@@ -775,20 +789,20 @@ html, body {
 }
 
 .btn-sim-action:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
 }
 
 .btn-sim-action.primary-start {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(207, 233, 255, 0.92));
-  color: var(--sky-deep);
-  border-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), 0 0 15px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(187, 247, 208, 0.9));
+  color: #06283d;
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), 0 0 15px rgba(255, 255, 255, 0.55);
 }
 
 .btn-sim-action.primary-start:hover {
   background: var(--white);
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.85);
 }
 
 .btn-sim-action:disabled {
@@ -810,19 +824,19 @@ html, body {
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 20px 50px rgba(4, 20, 34, 0.5), 0 0 35px rgba(44, 150, 176, 0.25);
+  box-shadow: 0 20px 50px rgba(4, 18, 30, 0.55), 0 0 35px rgba(56, 189, 248, 0.25);
   background: #081a2c;
-  min-height: 580px;
+  min-height: 560px;
 }
 
 #map {
   width: 100%;
   height: 100%;
-  min-height: 580px;
+  min-height: 560px;
   background: #092033;
 }
 
-/* Map Overlay Over the Canvas: Encapsulation & Delivery Popups */
+/* Map Popups */
 .map-visual-overlay {
   position: absolute;
   top: 1rem;
@@ -832,12 +846,12 @@ html, body {
 }
 
 .encap-visual-badge {
-  background: rgba(10, 34, 54, 0.9);
+  background: rgba(6, 26, 42, 0.92);
   backdrop-filter: blur(16px);
   border: 1.5px solid var(--purple-accent);
   padding: 0.75rem 1.1rem;
   border-radius: var(--radius-md);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(192, 132, 252, 0.4);
   color: var(--white);
   display: flex;
   flex-direction: column;
@@ -861,11 +875,11 @@ html, body {
 .encap-diagram {
   font-size: 0.8rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .outer-header-line {
-  background: rgba(168, 85, 247, 0.25);
+  background: rgba(192, 132, 252, 0.25);
   border: 1px dashed var(--purple-accent);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -879,14 +893,13 @@ html, body {
   border-radius: 4px;
 }
 
-/* Delivery Success Banner over Map */
 .delivery-notice-badge {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
   backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
   padding: 0.85rem 1.3rem;
   border-radius: var(--radius-md);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(16, 185, 129, 0.6);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45), 0 0 25px rgba(16, 185, 129, 0.65);
   color: var(--white);
   display: flex;
   flex-direction: column;
@@ -909,12 +922,12 @@ html, body {
 
 /* Right-Side Step Panel */
 .sim-step-panel {
-  background: linear-gradient(160deg, rgba(14, 60, 84, 0.72), rgba(20, 80, 70, 0.68));
+  background: linear-gradient(160deg, rgba(10, 48, 76, 0.72), rgba(16, 68, 62, 0.68));
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(24px) saturate(1.35);
   -webkit-backdrop-filter: blur(24px) saturate(1.35);
-  box-shadow: 0 15px 45px rgba(4, 20, 34, 0.4), var(--glass-glow);
+  box-shadow: 0 15px 45px rgba(4, 18, 30, 0.45), var(--glass-glow);
   padding: 1.4rem;
   display: flex;
   flex-direction: column;
@@ -943,7 +956,7 @@ html, body {
 }
 
 .step-item-card {
-  background: rgba(8, 30, 48, 0.45);
+  background: rgba(6, 24, 40, 0.48);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-md);
   padding: 0.9rem 1.1rem;
@@ -953,9 +966,9 @@ html, body {
 }
 
 .step-item-card.active {
-  background: rgba(16, 68, 92, 0.75);
+  background: rgba(14, 58, 84, 0.8);
   border-color: var(--mint);
-  box-shadow: 0 0 20px rgba(196, 246, 230, 0.3), inset 0 0 15px rgba(196, 246, 230, 0.15);
+  box-shadow: 0 0 20px rgba(187, 247, 208, 0.35), inset 0 0 15px rgba(187, 247, 208, 0.15);
   transform: translateX(4px);
 }
 
@@ -965,7 +978,7 @@ html, body {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.6);
   margin-bottom: 0.2rem;
 }
 
@@ -985,7 +998,7 @@ html, body {
   margin: 0;
   font-size: 0.84rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.88);
   display: none;
 }
 
@@ -1010,7 +1023,7 @@ html, body {
   place-items: center;
   color: var(--white);
   border: 2.5px solid var(--white);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 0.82rem;
@@ -1023,7 +1036,7 @@ html, body {
 }
 .node-pin-bubble.ha-bubble {
   background: linear-gradient(135deg, #9333ea, #7e22ce);
-  box-shadow: 0 0 18px rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 18px rgba(192, 132, 252, 0.6);
 }
 .node-pin-bubble.fa-bubble {
   background: linear-gradient(135deg, #10b981, #047857);
@@ -1032,19 +1045,18 @@ html, body {
 
 .node-pin-label {
   margin-top: 4px;
-  background: rgba(6, 24, 40, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(4, 20, 34, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   color: var(--white);
   font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 700;
   padding: 0.15rem 0.55rem;
   border-radius: var(--radius-pill);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   white-space: nowrap;
 }
 
-/* Animated Travelling Packet Marker */
 .sim-packet-dot {
   width: 24px;
   height: 24px;
@@ -1069,8 +1081,152 @@ html, body {
 }
 
 /* ==========================================================================
-   PAGE 4: CASE STUDIES (EXACTLY 5 VERTICAL CARDS)
-   Vertical arrangement, compact glassmorphism, VIEW button opens workflow.
+   SECTION 5: LIVE SIGNAL & PACKET VISUALISATION BOX (BELOW MAP)
+   Dedicated, separate glass panel demonstrating Physical-Layer Waveforms,
+   Binary sequence, Noise distortion, and Packet decoding.
+   ========================================================================== */
+.signal-visualisation-box {
+  background: linear-gradient(155deg, rgba(8, 36, 58, 0.75), rgba(14, 55, 52, 0.75));
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px) saturate(1.35);
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+  box-shadow: 0 15px 45px rgba(4, 18, 30, 0.45), var(--glass-glow);
+  padding: 1.4rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signal-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 0.75rem;
+}
+
+.signal-box-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.signal-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mint-glow);
+  box-shadow: 0 0 12px var(--mint-glow);
+  animation: pulseSignal 1.5s infinite;
+}
+
+@keyframes pulseSignal {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+.signal-box-header h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: var(--white);
+}
+
+.signal-stage-badge {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--blue-accent);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+/* Signal Box Grid: Data/Binary Display + Waveform Canvas */
+.signal-box-content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.signal-data-repr {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(4, 18, 30, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.2rem;
+}
+
+.repr-label {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.repr-payload-box {
+  background: rgba(14, 52, 78, 0.65);
+  border: 1px solid var(--glass-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.85rem;
+  font-family: monospace;
+  font-size: 0.82rem;
+  color: var(--mint);
+  word-break: break-all;
+}
+
+.repr-binary-box {
+  background: rgba(4, 14, 24, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.85rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: #7dd3fc;
+  letter-spacing: 0.08em;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+.signal-canvas-wrapper {
+  position: relative;
+  background: rgba(4, 14, 24, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#signalCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.signal-desc-banner {
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--pink-accent);
+}
+
+/* ==========================================================================
+   PAGE 4: CASE STUDIES (Image 4 Background, Exactly 5 Vertical Cards)
    ========================================================================== */
 .cases-layout {
   max-width: 980px;
@@ -1084,13 +1240,13 @@ html, body {
 }
 
 .case-card-vertical {
-  background: rgba(14, 55, 78, 0.58);
+  background: rgba(10, 44, 70, 0.62);
   border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: var(--radius-md);
   padding: 1.35rem 1.75rem;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 10px 30px rgba(4, 20, 34, 0.3);
+  box-shadow: 0 10px 30px rgba(4, 18, 30, 0.35);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1100,8 +1256,8 @@ html, body {
 
 .case-card-vertical:hover {
   transform: translateY(-3px);
-  border-color: rgba(196, 246, 230, 0.65);
-  box-shadow: 0 15px 40px rgba(4, 20, 34, 0.4), 0 0 25px rgba(196, 246, 230, 0.2);
+  border-color: rgba(187, 247, 208, 0.65);
+  box-shadow: 0 15px 40px rgba(4, 18, 30, 0.45), 0 0 25px rgba(187, 247, 208, 0.2);
 }
 
 .case-card-left {
@@ -1138,13 +1294,13 @@ html, body {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .btn-view-case {
   appearance: none;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(207, 233, 255, 0.88));
-  color: var(--sky-deep);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(187, 247, 208, 0.88));
+  color: #06283d;
   border: 1px solid rgba(255, 255, 255, 0.9);
   padding: 0.65rem 1.6rem;
   border-radius: var(--radius-pill);
@@ -1154,7 +1310,7 @@ html, body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   transition: all 0.25s ease;
   white-space: nowrap;
 }
@@ -1162,13 +1318,10 @@ html, body {
 .btn-view-case:hover {
   background: var(--white);
   transform: scale(1.05);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35), 0 0 20px rgba(255, 255, 255, 0.65);
 }
 
-/* ==========================================================================
-   PAGE 5: FIVE DEDICATED CASE WORKFLOW VIEWS
-   Vertical portrait flowcharts with animated glowing active step blocks.
-   ========================================================================== */
+/* Individual Case Detailed Workflows */
 .case-workflow-view {
   display: none;
   max-width: 980px;
@@ -1188,8 +1341,8 @@ html, body {
 }
 
 .btn-back-cases {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   color: var(--white);
   padding: 0.5rem 1.2rem;
   border-radius: var(--radius-pill);
@@ -1204,7 +1357,7 @@ html, body {
 }
 
 .btn-back-cases:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.3);
   transform: translateX(-3px);
 }
 
@@ -1215,14 +1368,13 @@ html, body {
   align-items: start;
 }
 
-/* Vertical Flowchart Container */
 .flowchart-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
   padding: 1.5rem 1rem;
-  background: rgba(6, 28, 46, 0.5);
+  background: rgba(4, 20, 34, 0.55);
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border-subtle);
 }
@@ -1232,22 +1384,23 @@ html, body {
   max-width: 310px;
   padding: 0.95rem 1.15rem;
   border-radius: var(--radius-md);
-  background: rgba(14, 55, 78, 0.6);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: rgba(10, 44, 70, 0.65);
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
   text-align: center;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
   transition: all 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .flow-block.active {
-  background: linear-gradient(135deg, rgba(20, 80, 105, 0.9), rgba(30, 110, 95, 0.9));
+  background: linear-gradient(135deg, rgba(16, 68, 62, 0.95), rgba(24, 92, 76, 0.95));
   border-color: var(--mint);
   color: var(--white);
-  box-shadow: 0 0 25px rgba(196, 246, 230, 0.6), inset 0 0 15px rgba(196, 246, 230, 0.2);
+  box-shadow: 0 0 25px rgba(187, 247, 208, 0.65), inset 0 0 15px rgba(187, 247, 208, 0.25);
   transform: scale(1.04);
 }
 
@@ -1262,15 +1415,13 @@ html, body {
 }
 
 .flow-arrow {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.5);
   display: grid;
   place-items: center;
-  transition: color 0.25s ease;
 }
 
 .flow-arrow svg { width: 22px; height: 22px; }
 
-/* Flowchart Step Explanation Side Card */
 .workflow-explanation-card {
   display: flex;
   flex-direction: column;
@@ -1305,7 +1456,7 @@ html, body {
   margin: 0;
   font-size: 1.02rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .workflow-nav-controls {
@@ -1317,8 +1468,8 @@ html, body {
 }
 
 .btn-flow-nav {
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   color: var(--white);
   padding: 0.55rem 1.35rem;
   border-radius: var(--radius-pill);
@@ -1330,7 +1481,7 @@ html, body {
 }
 
 .btn-flow-nav:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.32);
   transform: translateY(-1px);
 }
 
@@ -1345,6 +1496,9 @@ html, body {
    ========================================================================== */
 @media (max-width: 1024px) {
   .sim-grid-layout {
+    grid-template-columns: 1fr;
+  }
+  .signal-box-content {
     grid-template-columns: 1fr;
   }
   .workflow-content-grid {

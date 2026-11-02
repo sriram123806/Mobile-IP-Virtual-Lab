@@ -3,6 +3,9 @@
 *.tar.gz
 *.rar
 
+# Temporary system / browser captures in root
+/*.png
+
 # OS & Editor files
 .DS_Store
 Thumbs.db

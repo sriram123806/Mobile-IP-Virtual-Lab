@@ -1,12 +1,12 @@
 /**
- * Mobile IP Virtual Lab - Simulation Engine
- * Clean, map-focused Mobile IPv4 Simulation across South India (Tamil Nadu).
+ * Mobile IP Virtual Lab - Simulation & Live Signal Engine
+ * Interactive Tamil Nadu Map + Synchronized Physical-Layer Signal Waveform.
  */
 
 (function () {
   'use strict';
 
-  // --- 1. CITY DATABASE ---
+  // --- 1. CITY DATABASE (ACCURATE TAMIL NADU COORDINATES) ---
   const CITIES = {
     chennai: { name: 'Chennai', lat: 13.0827, lng: 80.2707, hoa: '10.0.1.50', coa: '10.0.1.254' },
     madurai: { name: 'Madurai', lat: 9.9252, lng: 78.1198, hoa: '172.16.20.50', coa: '172.16.20.254' },
@@ -20,7 +20,7 @@
     thanjavur: { name: 'Thanjavur', lat: 10.7870, lng: 79.1378, hoa: '192.168.90.50', coa: '192.168.90.254' }
   };
 
-  // --- 2. STATE ---
+  // --- 2. SIMULATION STATE ---
   let state = {
     cnKey: 'chennai',
     haKey: 'kanyakumari',
@@ -28,13 +28,14 @@
     isConfirmed: false,
     currentStep: 0, // 1 to 6
     isPlaying: false,
+    isPaused: false,
     animId: null,
     timerId: null
   };
 
-  // --- 3. LEAFLET MAP SETUP ---
-  const mapContainer = document.getElementById('map');
-  if (!mapContainer) return;
+  // --- 3. LEAFLET MAP INITIALIZATION ---
+  const mapElement = document.getElementById('map');
+  if (!mapElement) return;
 
   const map = L.map('map', {
     center: [10.8505, 78.7047],
@@ -44,7 +45,6 @@
     zoomControl: true
   });
 
-  // OpenStreetMap Tile Layer
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
@@ -63,7 +63,6 @@
   const pathsLayer = L.layerGroup().addTo(map);
   const packetLayer = L.layerGroup().addTo(map);
 
-  // Custom Markers
   function createPinIcon(role, cityName) {
     let bubbleClass = 'cn-bubble';
     if (role === 'HA') bubbleClass = 'ha-bubble';
@@ -80,7 +79,6 @@
     });
   }
 
-  // Moving Packet Marker
   let packetMarker = null;
 
   function updatePacketMarker(latlng, isEncapsulated) {
@@ -111,12 +109,12 @@
     }
   }
 
-  // --- 4. RENDER ONLY THE 3 SELECTED LOCATIONS AFTER CONFIRM ---
+  // Render ONLY the 3 selected markers after Confirm
   function renderConfirmedNodes() {
     markersLayer.clearLayers();
     pathsLayer.clearLayers();
 
-    if (!state.isConfirmed) return; // Initially clean map!
+    if (!state.isConfirmed) return;
 
     const cn = CITIES[state.cnKey];
     const ha = CITIES[state.haKey];
@@ -137,8 +135,7 @@
     faMarker.bindPopup(`<strong>Foreign Agent (FA)</strong><br>Location: ${fa.name}<br>Care-of Address: <code>${fa.coa}</code>`);
     markersLayer.addLayer(faMarker);
 
-    // Draw static route lines
-    // Normal Route: CN -> HA
+    // Static Routes
     L.polyline([[cn.lat, cn.lng], [ha.lat, ha.lng]], {
       color: '#38bdf8',
       weight: 3,
@@ -146,15 +143,13 @@
       dashArray: '5, 8'
     }).addTo(pathsLayer);
 
-    // Forward Tunnel: HA -> FA (Glowing purple path)
     L.polyline([[ha.lat, ha.lng], [fa.lat, fa.lng]], {
-      color: '#a855f7',
+      color: '#c084fc',
       weight: 4.5,
       opacity: 0.75,
       dashArray: '8, 8'
     }).addTo(pathsLayer);
 
-    // Local delivery line: FA -> MN (offset)
     L.polyline([[fa.lat, fa.lng], [fa.lat - 0.08, fa.lng + 0.12]], {
       color: '#10b981',
       weight: 3,
@@ -179,21 +174,19 @@
     map.fitBounds(bounds.pad(0.35), { maxZoom: 8, animate: true, duration: 0.6 });
   }
 
-  // --- 5. SMOOTH ANIMATION INTERPOLATION ---
+  // Smooth route interpolation
   function interpolateRoute(fromLatLng, toLatLng, durationMs, isEncapsulated, onComplete) {
     if (state.animId) cancelAnimationFrame(state.animId);
 
     const startTime = performance.now();
 
     function frame(now) {
-      if (!state.isPlaying) return;
+      if (!state.isPlaying || state.isPaused) return;
 
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / durationMs, 1);
 
-      // Smooth ease
       const ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
-
       const lat = fromLatLng[0] + (toLatLng[0] - fromLatLng[0]) * ease;
       const lng = fromLatLng[1] + (toLatLng[1] - fromLatLng[1]) * ease;
 
@@ -209,16 +202,155 @@
     state.animId = requestAnimationFrame(frame);
   }
 
-  // --- 6. THE 6 SIMULATION STEPS ---
-  /*
-    STEP 1: CN generates packet -> Travels towards MN Home Address at HA.
-    STEP 2: HA intercepts packet -> Notice MN is not present in home network.
-    STEP 3: Encapsulation -> Outer IP Header added (Src: HA, Dst: CoA).
-    STEP 4: Forward Tunnel -> Encapsulated packet travels HA to FA.
-    STEP 5: Decapsulation -> FA removes outer IP header, recovers original packet.
-    STEP 6: Final Delivery -> Packet delivered to MN + Notification to HA!
-  */
+  // --- 4. SIGNAL & PACKET VISUALISATION (CANVAS & DATA REPR) ---
+  const canvas = document.getElementById('signalCanvas');
+  const ctx = canvas ? canvas.getContext('2d') : null;
+  const reprPayload = document.getElementById('reprPayload');
+  const reprBinary = document.getElementById('reprBinary');
+  const signalStageBadge = document.getElementById('signalStageBadge');
+  const signalDescBanner = document.getElementById('signalDescBanner');
 
+  let waveOffset = 0;
+  let waveAnimId = null;
+
+  function drawWaveform(stage) {
+    if (!ctx || !canvas) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw baseline
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.stroke();
+
+    const midY = canvas.height / 2;
+    ctx.beginPath();
+
+    if (stage === 1 || stage === 0) {
+      // Discrete pulse blocks (digital baseband)
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2.5;
+      for (let x = 0; x < canvas.width; x += 40) {
+        const bit = Math.sin((x + waveOffset * 2) * 0.05) > 0 ? 1 : 0;
+        const y = bit ? midY - 25 : midY + 25;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    } else if (stage === 2 || stage === 3) {
+      // Encapsulated Manchester / FSK encoding
+      ctx.strokeStyle = '#c084fc';
+      ctx.lineWidth = 2.5;
+      for (let x = 0; x < canvas.width; x++) {
+        const freq = (x % 80 < 40) ? 0.08 : 0.04;
+        const y = midY + Math.sin(x * freq + waveOffset * 0.15) * 32;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    } else if (stage === 4) {
+      // Stage 4: Physical transmission waveform (smooth sinusoidal carrier)
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      for (let x = 0; x < canvas.width; x++) {
+        const y = midY + Math.sin(x * 0.06 - waveOffset * 0.2) * 35;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    } else if (stage === 5) {
+      // Stage 5: Channel Noise / Distortion (Waveform with visible jitter & noise)
+      ctx.strokeStyle = '#f472b6';
+      ctx.lineWidth = 2.5;
+      for (let x = 0; x < canvas.width; x++) {
+        const noise = (Math.random() - 0.5) * 16;
+        const y = midY + Math.sin(x * 0.06 - waveOffset * 0.2) * 30 + noise;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    } else if (stage === 6) {
+      // Stage 6: Decoded clean recovered signal
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 3;
+      for (let x = 0; x < canvas.width; x++) {
+        const y = midY + Math.sin(x * 0.06 - waveOffset * 0.15) * 35;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    if (state.isPlaying && !state.isPaused) {
+      waveOffset += 2;
+    }
+  }
+
+  function startWaveAnimation() {
+    if (waveAnimId) cancelAnimationFrame(waveAnimId);
+    function loop() {
+      drawWaveform(state.currentStep);
+      waveAnimId = requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  startWaveAnimation();
+
+  function updateSignalBox(step) {
+    const cn = CITIES[state.cnKey];
+    const ha = CITIES[state.haKey];
+    const fa = CITIES[state.faKey];
+
+    switch (step) {
+      case 1:
+        if (signalStageBadge) signalStageBadge.textContent = 'Stage 1: Application Data';
+        if (reprPayload) reprPayload.textContent = `GENERIC PAYLOAD: [DCN Virtual Lab Message (0x54 0x4E 0x5F 0x4D 0x4E)]`;
+        if (reprBinary) reprBinary.textContent = `01001000 01100101 01101100 01101100 01101111`;
+        if (signalDescBanner) signalDescBanner.textContent = `Application layer prepares the message payload at Correspondent Node (${cn.name}).`;
+        break;
+      case 2:
+        if (signalStageBadge) signalStageBadge.textContent = 'Stage 2: Original IP Packet';
+        if (reprPayload) reprPayload.textContent = `IP HEADER [Src: ${cn.name} (CN) | Dst: ${ha.name} (HoA: ${ha.hoa})] + PAYLOAD`;
+        if (reprBinary) reprBinary.textContent = `01000101 00000000 00111100 10101011 00010000`;
+        if (signalDescBanner) signalDescBanner.textContent = `Original IP datagram is constructed and intercepted at Home Agent (${ha.name}).`;
+        break;
+      case 3:
+        if (signalStageBadge) signalStageBadge.textContent = 'Stage 3: Binary Encapsulation';
+        if (reprPayload) reprPayload.textContent = `[OUTER IP: ${ha.name} → ${fa.name} (CoA: ${fa.coa})] ↳ [ORIGINAL IP: CN → HoA]`;
+        if (reprBinary) reprBinary.textContent = `11001010 00110101 11100010 01011011 11010010`;
+        if (signalDescBanner) signalDescBanner.textContent = `Outer IP header is added. The bitstream prepares for forward tunneling.`;
+        break;
+      case 4:
+        if (signalStageBadge) signalStageBadge.textContent = 'Stage 4: Physical Signal Transmission';
+        if (reprPayload) reprPayload.textContent = `FORWARD TUNNEL [IP Protocol 4 / Physical Carrier Waveform Active]`;
+        if (reprBinary) reprBinary.textContent = `TRANSMITTING CARRIER: 2.4 GHz QPSK Modulation [HA → FA]`;
+        if (signalDescBanner) signalDescBanner.textContent = `Modulated physical waveform propagates across forward tunnel link.`;
+        break;
+      case 5:
+        if (signalStageBadge) signalStageBadge.textContent = 'Stage 5: Channel Noise & Decapsulation';
+        if (reprPayload) reprPayload.textContent = `RECEIVED AT FA [Outer Header Stripped ➔ Original IP Packet Preserved]`;
+        if (reprBinary) reprBinary.textContent = `CHANNEL NOISE FILTERED: BER < 10⁻⁶ | Decapsulating Payload`;
+        if (signalDescBanner) signalDescBanner.textContent = `Channel noise is filtered by the Foreign Agent, and outer IP header is stripped.`;
+        break;
+      case 6:
+        if (signalStageBadge) signalStageBadge.textContent = 'Stage 6: Packet Recovery & Final Delivery';
+        if (reprPayload) reprPayload.textContent = `DELIVERED TO MN: [Original IP Header & Data Intact at ${fa.name}]`;
+        if (reprBinary) reprBinary.textContent = `01001000 01100101 01101100 01101100 01101111 (VERIFIED ✓)`;
+        if (signalDescBanner) signalDescBanner.textContent = `Original packet is recovered and delivered to Mobile Node with confirmation sent to HA.`;
+        break;
+      default:
+        if (signalStageBadge) signalStageBadge.textContent = 'Ready: Waiting for Simulation';
+        if (reprPayload) reprPayload.textContent = `0x45 0x00 0x00 0x3C [PAYLOAD: Mobile IPv4 Telemetry Datagram]`;
+        if (reprBinary) reprBinary.textContent = `10110100 11001010 00110101 11100010`;
+        if (signalDescBanner) signalDescBanner.textContent = `Application data will be generated when simulation begins.`;
+    }
+  }
+
+  // --- 5. THE 6 MAP SIMULATION STEPS ---
   function updateStepPanel(step) {
     document.querySelectorAll('.step-item-card').forEach((card, idx) => {
       card.classList.toggle('active', (idx + 1) === step);
@@ -226,6 +358,8 @@
 
     const overlay = document.getElementById('mapVisualOverlay');
     if (overlay) overlay.innerHTML = '';
+
+    updateSignalBox(step);
   }
 
   function executeStep(step) {
@@ -263,9 +397,9 @@
         `;
       }
 
-      if (state.isPlaying) {
-        interpolateRoute([cn.lat, cn.lng], [ha.lat, ha.lng], 3000, false, () => {
-          if (state.isPlaying) {
+      if (state.isPlaying && !state.isPaused) {
+        interpolateRoute([cn.lat, cn.lng], [ha.lat, ha.lng], 3200, false, () => {
+          if (state.isPlaying && !state.isPaused) {
             state.timerId = setTimeout(() => executeStep(2), 1200);
           }
         });
@@ -285,7 +419,7 @@
         `;
       }
 
-      if (state.isPlaying) {
+      if (state.isPlaying && !state.isPaused) {
         state.timerId = setTimeout(() => executeStep(3), 2200);
       }
     } else if (step === 3) {
@@ -307,7 +441,7 @@
         `;
       }
 
-      if (state.isPlaying) {
+      if (state.isPlaying && !state.isPaused) {
         state.timerId = setTimeout(() => executeStep(4), 2400);
       }
     } else if (step === 4) {
@@ -324,9 +458,9 @@
         `;
       }
 
-      if (state.isPlaying) {
+      if (state.isPlaying && !state.isPaused) {
         interpolateRoute([ha.lat, ha.lng], [fa.lat, fa.lng], 3800, true, () => {
-          if (state.isPlaying) {
+          if (state.isPlaying && !state.isPaused) {
             state.timerId = setTimeout(() => executeStep(5), 1200);
           }
         });
@@ -346,16 +480,16 @@
         `;
       }
 
-      if (state.isPlaying) {
+      if (state.isPlaying && !state.isPaused) {
         state.timerId = setTimeout(() => executeStep(6), 2200);
       }
     } else if (step === 6) {
-      // Step 6: Final Delivery & Notification to HA
+      // Step 6: Final Delivery
       const mnLat = fa.lat - 0.08;
       const mnLng = fa.lng + 0.12;
       updatePacketMarker([fa.lat, fa.lng], false);
 
-      if (state.isPlaying) {
+      if (state.isPlaying && !state.isPaused) {
         interpolateRoute([fa.lat, fa.lng], [mnLat, mnLng], 1600, false, () => {
           state.isPlaying = false;
           updateControlButtons();
@@ -363,10 +497,10 @@
           if (overlay) {
             overlay.innerHTML = `
               <div class="delivery-notice-badge">
-                <h4>✓ SUCCESS: PACKET DELIVERED!</h4>
+                <h4>✓ PACKET DELIVERED SUCCESSFULLY</h4>
                 <p>Delivered to Mobile Node at ${fa.name}.</p>
                 <p style="font-size:0.78rem; opacity:0.9; margin-top:2px;">
-                  🔔 <strong>Notification sent to Home Agent (${ha.name}):</strong> Session confirmed active.
+                  🔔 <strong>Notification sent to Home Agent (${ha.name}):</strong> Delivery confirmed.
                 </p>
               </div>
             `;
@@ -376,29 +510,34 @@
     }
   }
 
-  // --- 7. CONTROLS ---
+  // --- 6. THREE MAIN CONTROLS: START, PAUSE / RESUME, RESET ---
   const startBtn = document.getElementById('simStartBtn');
   const pauseBtn = document.getElementById('simPauseBtn');
-  const resumeBtn = document.getElementById('simResumeBtn');
   const resetBtn = document.getElementById('simResetBtn');
+  const pauseResumeLabel = document.getElementById('pauseResumeLabel');
 
   function updateControlButtons() {
     if (!startBtn) return;
 
     if (state.isPlaying) {
       startBtn.disabled = true;
-      if (pauseBtn) pauseBtn.disabled = false;
-      if (resumeBtn) resumeBtn.disabled = true;
+      if (pauseBtn) {
+        pauseBtn.disabled = false;
+        if (pauseResumeLabel) pauseResumeLabel.textContent = state.isPaused ? 'Resume' : 'Pause';
+      }
     } else {
       startBtn.disabled = false;
-      if (pauseBtn) pauseBtn.disabled = true;
-      if (resumeBtn) resumeBtn.disabled = (state.currentStep === 0 || state.currentStep === 6);
+      if (pauseBtn) {
+        pauseBtn.disabled = (state.currentStep === 0 || state.currentStep === 6);
+        if (pauseResumeLabel) pauseResumeLabel.textContent = 'Pause / Resume';
+      }
     }
   }
 
   if (startBtn) {
     startBtn.addEventListener('click', () => {
       state.isPlaying = true;
+      state.isPaused = false;
       updateControlButtons();
       executeStep(1);
     });
@@ -406,26 +545,28 @@
 
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
-      state.isPlaying = false;
-      clearTimeout(state.timerId);
-      if (state.animId) cancelAnimationFrame(state.animId);
-      updateControlButtons();
-    });
-  }
+      if (!state.isPlaying) return;
 
-  if (resumeBtn) {
-    resumeBtn.addEventListener('click', () => {
-      if (state.currentStep > 0 && state.currentStep < 6) {
-        state.isPlaying = true;
-        updateControlButtons();
-        executeStep(state.currentStep + 1);
+      if (!state.isPaused) {
+        // Pause
+        state.isPaused = true;
+        clearTimeout(state.timerId);
+        if (state.animId) cancelAnimationFrame(state.animId);
+      } else {
+        // Resume
+        state.isPaused = false;
+        if (state.currentStep >= 1 && state.currentStep < 6) {
+          executeStep(state.currentStep + 1);
+        }
       }
+      updateControlButtons();
     });
   }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       state.isPlaying = false;
+      state.isPaused = false;
       clearTimeout(state.timerId);
       if (state.animId) cancelAnimationFrame(state.animId);
       removePacketMarker();
@@ -438,7 +579,7 @@
     });
   }
 
-  // --- 8. DROPDOWNS & CONFIRM BUTTON ---
+  // --- 7. LOCATION DROPDOWNS & CONFIRM BUTTON ---
   const cnSelect = document.getElementById('cnLocationSelect');
   const haSelect = document.getElementById('haLocationSelect');
   const faSelect = document.getElementById('faLocationSelect');
@@ -469,8 +610,8 @@
       state.faKey = faSelect.value;
       state.isConfirmed = true;
 
-      // Reset any active simulation
       state.isPlaying = false;
+      state.isPaused = false;
       clearTimeout(state.timerId);
       if (state.animId) cancelAnimationFrame(state.animId);
       removePacketMarker();
@@ -482,12 +623,13 @@
 
       confirmBtn.innerHTML = `<span>✓ LOCATIONS SET</span>`;
       setTimeout(() => {
-        confirmBtn.innerHTML = `<span>CONFIRM LOCATIONS</span>`;
+        confirmBtn.innerHTML = `<span>Confirm Locations</span>`;
       }, 1500);
     });
   }
 
   populateDropdowns();
   updateControlButtons();
+  updateSignalBox(0);
 
 })();
