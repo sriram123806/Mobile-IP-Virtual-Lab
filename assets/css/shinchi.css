@@ -1,8 +1,31 @@
 /* ==========================================================================
    SHINCHI AI CHATBOT - NATIVE GLASSMORPHISM STYLING
-   Seamlessly integrates with the Mobile IP Virtual Lab design system:
+   Clean, modern, anime-inspired educational assistant UI.
    Dark navy / teal glass panels, mint & sky blue highlights, Fredoka / Nunito.
+   Zero decorative clutter, zero visible scrollbars, full-screen capable.
    ========================================================================== */
+
+/* ---------- Global Scrollbar Suppression for Shinchi Widgets ---------- */
+.shinchi-widget *,
+.shinchi-window,
+.shinchi-panel,
+.shinchi-log,
+.shinchi-dock,
+.shinchi-lightbox-img-wrap {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE/Edge */
+}
+
+.shinchi-widget *::-webkit-scrollbar,
+.shinchi-window::-webkit-scrollbar,
+.shinchi-panel::-webkit-scrollbar,
+.shinchi-log::-webkit-scrollbar,
+.shinchi-dock::-webkit-scrollbar,
+.shinchi-lightbox-img-wrap::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
 
 /* ---------- Floating Launcher Button ---------- */
 .shinchi-widget {
@@ -20,7 +43,7 @@
   gap: 0.65rem;
   padding: 0.55rem 1.15rem 0.55rem 0.6rem;
   border-radius: var(--radius-pill);
-  background: linear-gradient(135deg, rgba(8, 38, 64, 0.88), rgba(16, 68, 62, 0.88));
+  background: linear-gradient(135deg, rgba(8, 38, 64, 0.90), rgba(16, 68, 62, 0.90));
   border: 1.5px solid rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(20px) saturate(1.35);
   -webkit-backdrop-filter: blur(20px) saturate(1.35);
@@ -35,7 +58,7 @@
 
 .shinchi-launcher-btn:hover {
   transform: translateY(-3px) scale(1.03);
-  border-color: rgba(187, 247, 208, 0.8);
+  border-color: rgba(187, 247, 208, 0.85);
   box-shadow: 
     0 14px 35px rgba(4, 18, 32, 0.6),
     0 0 32px rgba(187, 247, 208, 0.55);
@@ -112,14 +135,15 @@
   bottom: 84px;
   right: 24px;
   z-index: 1600;
-  width: min(425px, calc(100vw - 32px));
-  height: min(600px, calc(100vh - 110px));
+  width: min(440px, calc(100vw - 32px));
+  height: min(620px, calc(100vh - 110px));
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px) scale(0.94);
+  transform: translateY(20px) scale(0.95);
   transform-origin: bottom right;
   transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
+  overflow: hidden;
 }
 
 .shinchi-window.open {
@@ -129,6 +153,22 @@
   pointer-events: auto;
 }
 
+/* Fullscreen Mode */
+.shinchi-window.fullscreen {
+  top: 16px !important;
+  bottom: 16px !important;
+  left: 16px !important;
+  right: 16px !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  transform: none !important;
+  z-index: 2200;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 45px rgba(56, 189, 248, 0.35);
+}
+
 .shinchi-panel {
   position: relative;
   display: flex;
@@ -136,7 +176,7 @@
   width: 100%;
   height: 100%;
   border-radius: var(--radius-lg);
-  background: linear-gradient(155deg, rgba(8, 30, 52, 0.95), rgba(12, 46, 54, 0.95));
+  background: linear-gradient(155deg, rgba(8, 28, 48, 0.96), rgba(12, 42, 50, 0.96));
   border: 1.5px solid var(--glass-border);
   backdrop-filter: blur(28px) saturate(1.4);
   -webkit-backdrop-filter: blur(28px) saturate(1.4);
@@ -147,41 +187,34 @@
   overflow: hidden;
 }
 
-.shinchi-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: 
-    linear-gradient(155deg, rgba(8, 30, 52, 0.90), rgba(12, 46, 54, 0.92)),
-    url("../poster.jpg") center bottom / cover no-repeat;
-  opacity: 0.25;
-  filter: blur(4px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.shinchi-head,
-.shinchi-log,
-.shinchi-suggestions,
-.shinchi-form {
-  position: relative;
-  z-index: 1;
+/* Fullscreen inner alignment for optimal reading */
+.shinchi-window.fullscreen .shinchi-head-inner,
+.shinchi-window.fullscreen .shinchi-log,
+.shinchi-window.fullscreen .shinchi-dock {
+  max-width: 940px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ---------- Header ---------- */
 .shinchi-head {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.9rem 1.15rem;
+  padding: 0.85rem 1.15rem;
   background: linear-gradient(120deg, rgba(56, 189, 248, 0.18), rgba(16, 185, 129, 0.18));
   border-bottom: 1px solid var(--glass-border-subtle);
   flex-shrink: 0;
 }
 
+.shinchi-head-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+}
+
 .shinchi-avatar-badge {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: linear-gradient(135deg, #0284c7, #10b981);
   border: 2px solid rgba(255, 255, 255, 0.95);
@@ -203,7 +236,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.18rem;
+  font-size: 1.15rem;
   color: var(--white);
   line-height: 1.15;
   letter-spacing: 0.03em;
@@ -214,7 +247,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--mint);
   letter-spacing: 0.04em;
@@ -232,13 +265,13 @@
 .shinchi-actions {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
 }
 
 .shinchi-head-btn {
   appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
   color: var(--white);
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
@@ -247,12 +280,39 @@
   cursor: pointer;
   transition: all 0.22s ease;
   backdrop-filter: blur(8px);
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shinchi-head-btn:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.25);
   border-color: var(--mint);
   transform: translateY(-1px);
+}
+
+.shinchi-head-btn:active {
+  transform: translateY(0);
+}
+
+.btn-fullscreen {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.btn-fullscreen svg {
+  display: block;
+}
+
+.shinchi-window.fullscreen .btn-fullscreen .icon-expand {
+  display: none !important;
+}
+
+.shinchi-window.fullscreen .btn-fullscreen .icon-compress {
+  display: block !important;
 }
 
 .btn-new-chat {
@@ -261,11 +321,9 @@
 }
 
 .btn-close-chat {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
   padding: 0;
 }
 
@@ -280,10 +338,11 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden !important;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  padding: 1.1rem;
+  gap: 1.15rem;
+  padding: 1.25rem 1.15rem 0.75rem;
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
@@ -291,8 +350,9 @@
 .shinchi-row {
   display: flex;
   align-items: flex-end;
-  gap: 0.55rem;
-  animation: dreamFade 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+  gap: 0.65rem;
+  animation: dreamFade 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+  width: 100%;
 }
 
 .shinchi-row.user {
@@ -314,28 +374,23 @@
   position: relative;
 }
 
-.shinchi-row .shinchi-mini-avatar svg {
-  width: 58%;
-  height: 58%;
-}
-
 .shinchi-bubble {
-  max-width: 86%;
-  padding: 0.75rem 1rem;
+  max-width: 88%;
+  padding: 0.85rem 1.1rem;
   border-radius: 18px;
-  font-size: 0.92rem;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
+  font-size: 0.93rem;
+  line-height: 1.58;
+  overflow-wrap: break-word;
   word-break: break-word;
   box-sizing: border-box;
 }
 
 .shinchi-row.bot .shinchi-bubble {
-  background: rgba(6, 26, 44, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(6, 26, 44, 0.88);
+  border: 1px solid rgba(56, 189, 248, 0.28);
   border-bottom-left-radius: 4px;
-  color: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .shinchi-row.user .shinchi-bubble {
@@ -360,90 +415,58 @@
 
 .shinchi-bubble ul,
 .shinchi-bubble ol {
-  margin: 0 0 0.55rem;
-  padding-left: 1.25rem;
+  margin: 0.35rem 0 0.55rem;
+  padding-left: 1.3rem;
 }
 
 .shinchi-bubble li {
   margin-bottom: 0.3rem;
 }
 
-.shinchi-bubble a {
+.shinchi-bubble b,
+.shinchi-bubble strong {
   color: var(--mint);
   font-weight: 700;
+}
+
+.shinchi-row.user .shinchi-bubble b,
+.shinchi-row.user .shinchi-bubble strong {
+  color: #ffffff;
+}
+
+.shinchi-bubble a {
+  color: var(--blue-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: color 0.2s ease;
+  font-weight: 700;
+  transition: color 0.2s;
 }
 
 .shinchi-bubble a:hover {
-  color: var(--blue-accent);
+  color: var(--mint);
 }
 
 .shinchi-bubble code {
-  padding: 0.08rem 0.4rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.84em;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.15rem 0.35rem;
   border-radius: 4px;
-  background: rgba(56, 189, 248, 0.18);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  color: var(--mint);
-  font-family: monospace;
-  font-size: 0.88em;
+  color: #fbcfe8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.shinchi-bubble .mini {
-  margin: 0.35rem 0 0.6rem;
-  padding: 0.55rem 0.75rem;
-  overflow-x: auto;
-  border-radius: 10px;
-  background: rgba(2, 12, 22, 0.75);
+.shinchi-bubble pre {
+  margin: 0.55rem 0;
+  padding: 0.75rem;
+  background: rgba(2, 12, 22, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  font: 600 0.8rem/1.5 ui-monospace, 'Courier New', monospace;
-  color: #7dd3fc;
-  white-space: pre;
-}
-
-.shinchi-bubble .res {
-  list-style: none;
-  padding-left: 0 !important;
-  margin: 0.4rem 0;
-}
-
-.shinchi-bubble .res li {
-  padding: 0.55rem 0.75rem;
-  margin-bottom: 0.5rem;
-  border-radius: 10px;
-  background: rgba(14, 48, 72, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.shinchi-bubble .res li a {
-  display: inline-block;
-  font-size: 0.95rem;
-}
-
-.shinchi-bubble .res small {
-  display: block;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.82rem;
-  line-height: 1.4;
-  margin-top: 0.2rem;
-}
-
-.shinchi-bubble .res .also {
-  margin-top: 0.25rem;
-}
-
-.shinchi-bubble .res .also a {
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: var(--pink-accent);
-}
-
-.shinchi-bubble .lead {
-  color: var(--mint);
-  font-weight: 800;
-  display: inline-block;
-  margin-bottom: 0.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82em;
+  color: #bae6fd;
 }
 
 /* Typing Indicator */
@@ -451,7 +474,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.85rem 1rem !important;
+  padding: 0.85rem 1.1rem !important;
 }
 
 .shinchi-typing i {
@@ -478,108 +501,69 @@
   40% { transform: translateY(-6px); opacity: 1; }
 }
 
-/* ---------- Dock: Chips + Input Bar ---------- */
+/* ---------- Dock: Input Bar ---------- */
 .shinchi-dock {
-  padding: 0.75rem 1.1rem 0.95rem;
+  padding: 0.85rem 1.15rem 0.95rem;
   border-top: 1px solid var(--glass-border-subtle);
-  background: rgba(6, 24, 42, 0.75);
+  background: rgba(6, 24, 42, 0.85);
   flex-shrink: 0;
-}
-
-.shinchi-chips {
-  display: flex;
-  gap: 0.45rem;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.2rem;
-  overflow-x: auto;
-  scrollbar-width: thin;
-}
-
-.shinchi-chips::-webkit-scrollbar {
-  height: 4px;
-}
-.shinchi-chips::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.shinchi-chip {
-  flex: none;
-  appearance: none;
-  padding: 0.38rem 0.85rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  background: rgba(10, 44, 70, 0.7);
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.22s ease;
-}
-
-.shinchi-chip:hover {
-  background: rgba(16, 185, 129, 0.3);
-  border-color: var(--mint);
-  color: var(--mint);
-  transform: translateY(-1px);
 }
 
 .shinchi-form {
   display: flex;
+  gap: 0.5rem;
   align-items: center;
-  gap: 0.6rem;
 }
 
-#shinchiInput {
+.shinchi-form input {
   flex: 1;
   min-width: 0;
   padding: 0.7rem 1.05rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(4, 18, 30, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: rgba(2, 14, 26, 0.65);
   color: var(--white);
   font-family: var(--font-body);
   font-size: 0.92rem;
-  font-weight: 600;
   outline: none;
   transition: all 0.22s ease;
+  box-sizing: border-box;
 }
 
-#shinchiInput:focus {
-  border-color: var(--mint);
-  box-shadow: 0 0 14px rgba(187, 247, 208, 0.35);
+.shinchi-form input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
 }
 
-#shinchiInput::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
+.shinchi-form input:focus {
+  border-color: var(--blue-accent);
+  background: rgba(2, 14, 26, 0.85);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
 }
 
 .shinchi-send {
-  flex: none;
   appearance: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.68rem 1.25rem;
-  border: none;
+  gap: 0.35rem;
+  padding: 0.7rem 1.1rem;
   border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   background: linear-gradient(135deg, #0284c7, #10b981);
-  color: #ffffff;
+  color: var(--white);
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
   transition: all 0.22s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+  outline: none;
 }
 
 .shinchi-send:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.55), 0 0 18px rgba(187, 247, 208, 0.6);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+  border-color: rgba(255, 255, 255, 0.85);
 }
 
 .shinchi-send:active {
@@ -587,48 +571,16 @@
 }
 
 .shinchi-footer-note {
-  margin: 0.55rem 0 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.55);
+  margin: 0.45rem 0 0;
   text-align: center;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.42);
+  font-weight: 600;
   letter-spacing: 0.02em;
-}
-
-/* ---------- Responsive Small Screens ---------- */
-@media (max-width: 640px) {
-  .shinchi-launcher-btn {
-    bottom: 18px;
-    right: 18px;
-    padding: 0.45rem;
-  }
-  .launcher-label {
-    display: none;
-  }
-  .launcher-ping {
-    left: 28px;
-  }
-  .shinchi-window {
-    bottom: 74px;
-    right: 12px;
-    left: 12px;
-    width: auto;
-    height: min(540px, calc(100vh - 90px));
-  }
-  .shinchi-bubble {
-    max-width: 92%;
-  }
-  .shinchi-send span {
-    display: none;
-  }
-  .shinchi-send {
-    padding: 0.68rem 0.95rem;
-  }
 }
 
 /* ==========================================================================
    DCN PEDAGOGICAL & DIAGRAM SYSTEM
-   Simple explanations, practical real-world analogies, and DOCX diagrams
    ========================================================================== */
 
 .dcn-points {
@@ -639,12 +591,12 @@
 
 .dcn-points li {
   margin-bottom: 0.4rem;
-  line-height: 1.48;
+  line-height: 1.5;
 }
 
 .dcn-example-box {
   margin: 0.75rem 0;
-  padding: 0.75rem 0.9rem;
+  padding: 0.75rem 0.95rem;
   border-radius: 12px;
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(56, 189, 248, 0.16));
   border: 1px solid rgba(56, 189, 248, 0.45);
@@ -674,35 +626,42 @@
   margin-top: 0.85rem;
   border-radius: 14px;
   overflow: hidden;
-  background: rgba(4, 20, 34, 0.85);
-  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  background: #ffffff;
+  border: 1.5px solid rgba(56, 189, 248, 0.5);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .shinchi-diagram-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(187, 247, 208, 0.8);
+  border-color: rgba(187, 247, 208, 0.85);
   box-shadow: 0 8px 26px rgba(56, 189, 248, 0.35);
 }
 
 .shinchi-diagram-wrapper {
   position: relative;
   background: #ffffff;
-  padding: 8px 12px;
+  padding: 10px 14px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: zoom-in;
+  overflow: hidden;
 }
 
 .shinchi-diagram-img {
   width: 100%;
-  max-height: 220px;
+  max-height: 240px;
   object-fit: contain;
   display: block;
   transition: transform 0.2s ease;
   border-radius: 4px;
+}
+
+.shinchi-window.fullscreen .shinchi-diagram-img {
+  max-height: 380px;
 }
 
 .shinchi-diagram-wrapper:hover .shinchi-diagram-img {
@@ -713,9 +672,9 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(8, 30, 52, 0.9);
+  background: rgba(8, 30, 52, 0.92);
   color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.55);
+  border: 1px solid rgba(56, 189, 248, 0.6);
   padding: 3px 8px;
   border-radius: 20px;
   font-size: 0.68rem;
@@ -729,9 +688,9 @@
 }
 
 .shinchi-diagram-caption {
-  padding: 0.5rem 0.8rem;
-  background: linear-gradient(135deg, rgba(8, 30, 52, 0.95), rgba(16, 68, 62, 0.95));
-  font-size: 0.76rem;
+  padding: 0.55rem 0.85rem;
+  background: linear-gradient(135deg, rgba(8, 30, 52, 0.96), rgba(16, 68, 62, 0.96));
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--mint);
   line-height: 1.4;
@@ -836,4 +795,30 @@
   font-weight: 700;
   color: #0f172a;
   text-align: center;
+}
+
+/* ---------- Responsive Breakpoints ---------- */
+@media (max-width: 640px) {
+  .shinchi-window {
+    right: 12px;
+    left: 12px;
+    bottom: 80px;
+    width: auto;
+    height: min(560px, calc(100vh - 96px));
+  }
+  .shinchi-window.fullscreen {
+    top: 8px !important;
+    bottom: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+  }
+  .shinchi-bubble {
+    max-width: 90%;
+  }
+  .shinchi-send span {
+    display: none;
+  }
+  .shinchi-send {
+    padding: 0.68rem 0.95rem;
+  }
 }

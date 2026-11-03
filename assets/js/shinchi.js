@@ -627,19 +627,7 @@
   ------------------------------------------------------------------ */
   var INTRO = '<p>Hi! I am <b>Shinchi</b>, your Mobile IP &amp; Computer Networking tutor! 👋</p>' +
     '<p>I have mastered your <b>Mobile IPv4 (DCN) syllabus</b>, complete with simple explanations, real-world analogies, and original architectural diagrams.</p>' +
-    '<p>Ask me about <b>encapsulation</b>, <b>tunneling</b>, <b>Care-of Address</b>, <b>registration</b>, or pick a question below!</p>';
-
-  var START_CHIPS = [
-    'What is encapsulation?',
-    'What is Mobile IPv4?',
-    'Explain tunneling',
-    'Home Address vs CoA',
-    'Registration process',
-    'Triangle routing',
-    'Recommend books'
-  ];
-
-  var FOLLOW_CHIPS = ['Show an example', 'Explain simply', 'Tell me more', 'Recommend books'];
+    '<p>Type any question below &mdash; such as <i>"What is encapsulation?"</i>, <i>"Explain tunneling"</i>, or <i>"Why is Mobile IP required?"</i> to begin!</p>';
 
   var chatState = {
     last: null,
@@ -671,22 +659,6 @@
     return /\b(yes|yeah|sure|ok|okay|continue|go on|next|proceed|tell me)\b/.test(n);
   }
 
-  function chipsFor(e, currentVariant) {
-    var c = [];
-    if (e.ex && currentVariant !== 'ex' && !hasSeen(e.id, 'ex')) c.push('Show an example');
-    if (e.simple && currentVariant !== 'simple' && !hasSeen(e.id, 'simple')) c.push('Explain simply');
-    if (e.more && currentVariant !== 'more' && !hasSeen(e.id, 'more')) c.push('Tell me more');
-    if (e.chips && e.chips.length) {
-      e.chips.forEach(function (ch) { if (c.indexOf(ch) === -1) c.push(ch); });
-    }
-    if (c.length < 4) {
-      START_CHIPS.forEach(function (sc) {
-        if (c.indexOf(sc) === -1 && sc !== e.q) c.push(sc);
-      });
-    }
-    return c.slice(0, 5);
-  }
-
   function variant(e, v) {
     seen(e.id, v);
     var lead = { ex: 'Here is a practical real-world analogy: ', simple: 'Let me explain it in simple terms: ', more: 'Here is the detailed breakdown: ' }[v];
@@ -702,26 +674,25 @@
     else if (isSimple(n)) v = e.simple ? 'simple' : (e.ex ? 'ex' : 'a');
     else if (isMore(n) && e.more) v = 'more';
     if (v === 'a') chatState.shown[e.id] = {};
-    return { html: variant(e, v), chips: chipsFor(e, v) };
+    return { html: variant(e, v) };
   }
 
   function followUp(n) {
     var e = chatState.last;
     if (!e) return null;
-    if (isExample(n) && e.ex) return { html: variant(e, 'ex'), chips: chipsFor(e, 'ex') };
+    if (isExample(n) && e.ex) return { html: variant(e, 'ex') };
     if (isSimple(n)) {
       var sv = e.simple ? 'simple' : (e.ex ? 'ex' : 'a');
-      return { html: variant(e, sv), chips: chipsFor(e, sv) };
+      return { html: variant(e, sv) };
     }
     if (isMore(n) || isFollowWord(n)) {
       var order = ['more', 'ex', 'simple'];
       for (var i = 0; i < order.length; i++) {
         var v = order[i];
-        if (e[v] && !hasSeen(e.id, v)) return { html: variant(e, v), chips: chipsFor(e, v) };
+        if (e[v] && !hasSeen(e.id, v)) return { html: variant(e, v) };
       }
       return {
-        html: '<p>That covers the core essentials of <b>' + e.q.replace(/^What is (a |an )?|\?$/g, '') + '</b>! Would you like to explore a related concept?</p>',
-        chips: chipsFor(e, 'none').filter(function (c) { return !/^(Show|Explain|Tell)/.test(c); }).concat(['Recommend books']).slice(0, 5)
+        html: '<p>That covers the core essentials of <b>' + e.q.replace(/^What is (a |an )?|\?$/g, '') + '</b>! Feel free to ask another question anytime.</p>'
       };
     }
     return null;
@@ -730,20 +701,17 @@
   function smallTalk(n) {
     if (/\b(hi|hello|hey|greetings|good (morning|afternoon|evening)|yo)\b/.test(n)) {
       return {
-        html: '<p>Hello there! Ready to master Mobile IPv4? Ask me about <b>encapsulation</b>, <b>tunneling</b>, <b>HA/FA roles</b>, or any diagram from your DCN document!</p>',
-        chips: START_CHIPS.slice(0, 5)
+        html: '<p>Hello there! Ready to master Mobile IPv4? Ask me about <b>encapsulation</b>, <b>tunneling</b>, <b>HA/FA roles</b>, or any diagram from your DCN document!</p>'
       };
     }
     if (/\b(thanks|thank you|thx|awesome|great|cool|nice)\b/.test(n)) {
       return {
-        html: '<p>You\'re very welcome! Keep asking questions, exploring diagrams, or test yourself with another networking concept! 🚀</p>',
-        chips: START_CHIPS.slice(0, 4)
+        html: '<p>You\'re very welcome! Keep asking questions, exploring diagrams, or test yourself with another networking concept! 🚀</p>'
       };
     }
     if (/\b(who are you|what is your name|your name|shinchi)\b/.test(n)) {
       return {
-        html: '<p>I am <b>Shinchi</b>, your animated AI study companion and Mobile IP visual tutor. I know all 20 Mobile IPv4 concepts from your DCN document inside out!</p>',
-        chips: ['What is Mobile IPv4?', 'What is encapsulation?', 'Explain tunneling']
+        html: '<p>I am <b>Shinchi</b>, your animated AI study companion and Mobile IP visual tutor. I know all 20 Mobile IPv4 concepts from your DCN document inside out!</p>'
       };
     }
     if (/\b(book|books|textbook|author|read|reading|study material)\b/.test(n)) {
@@ -752,7 +720,7 @@
         bHtml += '<li><b>' + b.title + '</b> (' + b.edition + ') &mdash; <i>' + b.author + '</i><br><span style="font-size:0.85em;color:#93c5fd;">' + b.note + '</span> &bull; <a href="' + b.url + '" target="_blank" rel="noopener">Find on Google Books &rarr;</a></li>';
       });
       bHtml += '</ul>';
-      return { html: bHtml, chips: ['Study websites', 'What is Mobile IPv4?', 'Care-of Address'] };
+      return { html: bHtml };
     }
     if (/\b(website|sites|links|rfc|where to learn|online resources)\b/.test(n)) {
       var sHtml = '<p><strong>Authoritative Study Websites &amp; RFC Standards:</strong></p><ul>';
@@ -760,7 +728,7 @@
         sHtml += '<li><a href="' + s.url + '" target="_blank" rel="noopener"><b>' + s.name + '</b></a>: ' + s.desc + '</li>';
       });
       sHtml += '</ul>';
-      return { html: sHtml, chips: ['Recommend books', 'What is encapsulation?', 'Triangle routing'] };
+      return { html: sHtml };
     }
     return null;
   }
@@ -774,8 +742,7 @@
         '<li><b>Home Address vs Care-of Address</b></li>' +
         '<li><b>Registration process</b> (Shows the 4-way handshake)</li>' +
         '<li><b>Triangle routing problem</b></li>' +
-        '</ul>',
-      chips: START_CHIPS.slice(0, 5)
+        '</ul>'
     };
   }
 
@@ -797,12 +764,26 @@
 
   var launcher = document.getElementById('shinchiLauncher');
   var windowEl = document.getElementById('shinchiWindow');
+  var fullscreenBtn = document.getElementById('shinchiFullscreen');
   var closeBtn = document.getElementById('shinchiClose');
   var resetBtn = document.getElementById('shinchiReset');
   var log = document.getElementById('shinchiLog');
   var form = document.getElementById('shinchiForm');
   var input = document.getElementById('shinchiInput');
-  var chipsEl = document.getElementById('shinchiChips');
+
+  // Fullscreen controller
+  function toggleFullscreen() {
+    if (!windowEl) return;
+    windowEl.classList.toggle('fullscreen');
+    var isFull = windowEl.classList.contains('fullscreen');
+    if (fullscreenBtn) {
+      fullscreenBtn.setAttribute('title', isFull ? 'Restore original size' : 'Expand to fullscreen');
+      fullscreenBtn.setAttribute('aria-label', isFull ? 'Restore original size' : 'Expand to fullscreen');
+    }
+    scrollDown();
+  }
+
+  if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
 
   // Lightbox elements
   var lightbox = document.getElementById('shinchiLightbox');
@@ -888,26 +869,11 @@
     return row;
   }
 
-  function setChips(list) {
-    if (!chipsEl) return;
-    chipsEl.innerHTML = '';
-    (list || START_CHIPS).forEach(function (t) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'shinchi-chip';
-      b.textContent = t;
-      b.addEventListener('click', function () { send(t); });
-      chipsEl.appendChild(b);
-    });
-    chipsEl.scrollLeft = 0;
-  }
-
   function send(raw) {
     var text = (raw || (input ? input.value : '')).trim();
     if (!text) return;
     if (input) { input.value = ''; input.focus(); }
     addUser(text);
-    setChips([]);
     var tRow = addTyping();
 
     // Check optional external backend API (hook)
@@ -923,7 +889,6 @@
         if (tRow && tRow.parentNode) tRow.parentNode.removeChild(tRow);
         if (data && data.reply) {
           addBot(data.reply);
-          setChips(data.chips || START_CHIPS);
         } else {
           deliverBuiltInReply(text);
         }
@@ -936,7 +901,7 @@
     }
 
     // Pure client-side delivery with natural typing delay
-    var delay = 350 + Math.random() * 250;
+    var delay = 320 + Math.random() * 200;
     setTimeout(function () {
       if (tRow && tRow.parentNode) tRow.parentNode.removeChild(tRow);
       deliverBuiltInReply(text);
@@ -946,7 +911,6 @@
   function deliverBuiltInReply(text) {
     var res = answer(text);
     addBot(res.html);
-    setChips(res.chips);
   }
 
   function start() {
@@ -955,7 +919,6 @@
     chatState.last = null;
     chatState.shown = {};
     addBot(INTRO);
-    setChips(START_CHIPS);
   }
 
   function openChat() {
@@ -970,8 +933,13 @@
   function closeChat() {
     if (!windowEl) return;
     windowEl.classList.remove('open');
+    windowEl.classList.remove('fullscreen');
     windowEl.setAttribute('aria-hidden', 'true');
     if (launcher) launcher.setAttribute('aria-expanded', 'false');
+    if (fullscreenBtn) {
+      fullscreenBtn.setAttribute('title', 'Expand to fullscreen');
+      fullscreenBtn.setAttribute('aria-label', 'Expand to fullscreen');
+    }
   }
 
   function toggleChat() {
@@ -992,8 +960,13 @@
   }
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && windowEl && windowEl.classList.contains('open')) {
-      closeChat();
+    if (e.key === 'Escape') {
+      if (windowEl && windowEl.classList.contains('fullscreen')) {
+        toggleFullscreen();
+        e.stopPropagation();
+      } else if (windowEl && windowEl.classList.contains('open')) {
+        closeChat();
+      }
     }
   });
 
@@ -1002,6 +975,7 @@
     open: openChat,
     close: closeChat,
     toggle: toggleChat,
+    toggleFullscreen: toggleFullscreen,
     reset: start,
     ask: send,
     openLightbox: openLightbox,

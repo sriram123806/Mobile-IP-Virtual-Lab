@@ -674,31 +674,40 @@
         
         <!-- Header -->
         <header class="shinchi-head">
-          <div class="shinchi-avatar-badge" aria-hidden="true">
-            <img src="assets/images/shinchi-avatar.jpg" alt="Shinchi" class="avatar-img" onerror="this.style.display='none'">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-              <circle cx="12" cy="17" r="1.6" fill="currentColor" stroke="none"/>
-              <path d="M8.2 13.6a5.4 5.4 0 0 1 7.6 0M5 10.3a9.9 9.9 0 0 1 14 0M12 17v3.5"/>
-            </svg>
-          </div>
-          <div class="shinchi-who">
-            <h2 id="shinchiTitle">Shinchi</h2>
-            <p class="shinchi-tagline"><span class="live-dot" aria-hidden="true"></span>Let's Ask Shinchi!</p>
-          </div>
-          <div class="shinchi-actions">
-            <button class="shinchi-head-btn btn-new-chat" id="shinchiReset" type="button" title="Start a fresh conversation">New Chat</button>
-            <button class="shinchi-head-btn btn-close-chat" id="shinchiClose" type="button" aria-label="Close chat window">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
+          <div class="shinchi-head-inner">
+            <div class="shinchi-avatar-badge" aria-hidden="true">
+              <img src="assets/images/shinchi-avatar.jpg" alt="Shinchi" class="avatar-img" onerror="this.style.display='none'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <circle cx="12" cy="17" r="1.6" fill="currentColor" stroke="none"/>
+                <path d="M8.2 13.6a5.4 5.4 0 0 1 7.6 0M5 10.3a9.9 9.9 0 0 1 14 0M12 17v3.5"/>
+              </svg>
+            </div>
+            <div class="shinchi-who">
+              <h2 id="shinchiTitle">Shinchi</h2>
+              <p class="shinchi-tagline"><span class="live-dot" aria-hidden="true"></span>Let's Ask Shinchi!</p>
+            </div>
+            <div class="shinchi-actions">
+              <button class="shinchi-head-btn btn-fullscreen" id="shinchiFullscreen" type="button" title="Expand to fullscreen" aria-label="Toggle Fullscreen">
+                <svg class="icon-expand" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+                <svg class="icon-compress" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"/>
+                </svg>
+              </button>
+              <button class="shinchi-head-btn btn-new-chat" id="shinchiReset" type="button" title="Start a fresh conversation">New Chat</button>
+              <button class="shinchi-head-btn btn-close-chat" id="shinchiClose" type="button" aria-label="Close chat window">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
           </div>
         </header>
 
         <!-- Message Log -->
         <div class="shinchi-log" id="shinchiLog" role="log" aria-live="polite" aria-label="Shinchi conversation history"></div>
 
-        <!-- Dock: Suggestions, Input & Send -->
+        <!-- Dock: Input & Send -->
         <div class="shinchi-dock">
-          <div class="shinchi-chips" id="shinchiChips" aria-label="Suggested questions"></div>
           <form class="shinchi-form" id="shinchiForm" autocomplete="off">
             <input id="shinchiInput" type="text" maxlength="240" placeholder="Ask Shinchi about Mobile IP, networking..." aria-label="Type your question to Shinchi">
             <button class="shinchi-send" id="shinchiSend" type="submit" aria-label="Send message">
@@ -706,7 +715,7 @@
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
           </form>
-          <p class="shinchi-footer-note">Shinchi AI Assistant • Mobile IP &amp; DCN Buddy</p>
+          <p class="shinchi-footer-note">Shinchi AI Tutor • Mobile IPv4 &amp; Computer Networks</p>
         </div>
 
       </div>
