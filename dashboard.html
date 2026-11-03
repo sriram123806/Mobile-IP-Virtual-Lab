@@ -15,6 +15,9 @@
 
   <!-- Dashboard Custom Styles -->
   <link rel="stylesheet" href="assets/css/dashboard.css">
+
+  <!-- Shinchi AI Chatbot Custom Styles -->
+  <link rel="stylesheet" href="assets/css/shinchi.css">
 </head>
 <body>
 
@@ -647,6 +650,69 @@
 
   </main>
 
+  <!-- =========================================================================
+       SHINCHI AI CHATBOT INTEGRATION
+       Floating launcher & native glassmorphism chat modal
+       ========================================================================= -->
+  <aside class="shinchi-widget" id="shinchiWidget" aria-label="Shinchi AI Assistant">
+    <!-- Floating Launcher Button -->
+    <button type="button" class="shinchi-launcher-btn" id="shinchiLauncher" aria-expanded="false" aria-controls="shinchiWindow" title="Ask Shinchi - Mobile IP & Networking Buddy">
+      <div class="launcher-avatar" aria-hidden="true">
+        <img src="assets/images/shinchi-avatar.jpg" alt="Shinchi" class="avatar-img" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <circle cx="12" cy="17" r="1.6" fill="currentColor" stroke="none"/>
+          <path d="M8.2 13.6a5.4 5.4 0 0 1 7.6 0M5 10.3a9.9 9.9 0 0 1 14 0M12 17v3.5"/>
+        </svg>
+      </div>
+      <span class="launcher-label">Ask Shinchi!</span>
+      <span class="launcher-ping" aria-hidden="true"></span>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div class="shinchi-window" id="shinchiWindow" role="dialog" aria-labelledby="shinchiTitle" aria-hidden="true">
+      <div class="shinchi-panel">
+        
+        <!-- Header -->
+        <header class="shinchi-head">
+          <div class="shinchi-avatar-badge" aria-hidden="true">
+            <img src="assets/images/shinchi-avatar.jpg" alt="Shinchi" class="avatar-img" onerror="this.style.display='none'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <circle cx="12" cy="17" r="1.6" fill="currentColor" stroke="none"/>
+              <path d="M8.2 13.6a5.4 5.4 0 0 1 7.6 0M5 10.3a9.9 9.9 0 0 1 14 0M12 17v3.5"/>
+            </svg>
+          </div>
+          <div class="shinchi-who">
+            <h2 id="shinchiTitle">Shinchi</h2>
+            <p class="shinchi-tagline"><span class="live-dot" aria-hidden="true"></span>Let's Ask Shinchi!</p>
+          </div>
+          <div class="shinchi-actions">
+            <button class="shinchi-head-btn btn-new-chat" id="shinchiReset" type="button" title="Start a fresh conversation">New Chat</button>
+            <button class="shinchi-head-btn btn-close-chat" id="shinchiClose" type="button" aria-label="Close chat window">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Message Log -->
+        <div class="shinchi-log" id="shinchiLog" role="log" aria-live="polite" aria-label="Shinchi conversation history"></div>
+
+        <!-- Dock: Suggestions, Input & Send -->
+        <div class="shinchi-dock">
+          <div class="shinchi-chips" id="shinchiChips" aria-label="Suggested questions"></div>
+          <form class="shinchi-form" id="shinchiForm" autocomplete="off">
+            <input id="shinchiInput" type="text" maxlength="240" placeholder="Ask Shinchi about Mobile IP, networking..." aria-label="Type your question to Shinchi">
+            <button class="shinchi-send" id="shinchiSend" type="submit" aria-label="Send message">
+              <span>Send</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </form>
+          <p class="shinchi-footer-note">Shinchi AI Assistant • Mobile IP &amp; DCN Buddy</p>
+        </div>
+
+      </div>
+    </div>
+  </aside>
+
   <!-- Leaflet Library -->
   <script src="assets/vendor/leaflet.js"></script>
   <script>
@@ -658,6 +724,9 @@
   <!-- Core Scripts -->
   <script src="assets/js/simulation.js"></script>
   <script src="assets/js/dashboard.js"></script>
+
+  <!-- Shinchi Chatbot Integration -->
+  <script src="assets/js/shinchi.js"></script>
 
 </body>
 </html>
