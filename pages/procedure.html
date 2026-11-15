@@ -10,6 +10,141 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
+  <style>
+    /* ── Neon heading glow ─────────────────────────────── */
+    .lab-page-title {
+      font-weight: 900;
+      text-shadow:
+        0 0 8px rgba(100, 180, 255, 0.9),
+        0 0 20px rgba(100, 180, 255, 0.6),
+        0 0 40px rgba(100, 180, 255, 0.35);
+    }
+
+    /* ── Glassmorphism step cards ──────────────────────── */
+    .proc-steps-grid {
+      display: grid;
+      gap: 14px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .proc-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .proc-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(100, 180, 255, 0.18);
+    }
+
+    .proc-badge {
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      background: linear-gradient(135deg, #4fa3e0, #9270e8);
+      box-shadow:
+        0 0 10px rgba(100, 180, 255, 0.55),
+        0 0 22px rgba(100, 180, 255, 0.25);
+    }
+
+    .proc-body {
+      flex: 1;
+    }
+
+    .proc-body h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e8f0ff;
+      line-height: 1.3;
+    }
+
+    .proc-body p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: rgba(220, 230, 255, 0.78);
+      line-height: 1.5;
+    }
+
+    /* ── Video placeholder card ────────────────────────── */
+    .proc-video-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .proc-video-card h3 {
+      margin: 0 0 16px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #e8f0ff;
+      text-shadow:
+        0 0 8px rgba(100, 180, 255, 0.7),
+        0 0 20px rgba(100, 180, 255, 0.35);
+    }
+
+    .proc-video-box {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      border: 2px dashed rgba(100, 180, 255, 0.45);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    .proc-video-box-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .proc-video-icon {
+      font-size: 2.4rem;
+      opacity: 0.5;
+    }
+
+    .proc-video-box-inner p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: rgba(200, 220, 255, 0.65);
+      line-height: 1.5;
+    }
+
+    .proc-video-note {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: rgba(180, 200, 255, 0.5);
+      font-style: italic;
+    }
+  </style>
 </head>
 <body class="lab-page">
 
@@ -19,142 +154,141 @@
   <main class="lab-wrap">
 
     <section class="lab-hero">
-      <h1 class="lab-page-title">Procedure</h1>
+      <h1 class="lab-page-title" style="font-weight:900;text-shadow:0 0 18px rgba(0,240,255,0.7),0 0 36px rgba(0,240,255,0.4);text-transform:uppercase;">PROCEDURE</h1>
       <div class="lab-page-bar"></div>
-      <p class="lab-page-sub">Follow these 14 steps to operate the simulation. Steps 1–9 are setup steps; steps 10–14 describe what you will observe while the packet travels.</p>
     </section>
 
     <section class="lab-panel" aria-labelledby="proc-steps-h">
       <h2 id="proc-steps-h">Step-by-Step Instructions</h2>
-      <ol class="lab-steps" id="lab-steps">
+      <ol class="proc-steps-grid" id="lab-steps">
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">1</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🖥️</i><span class="lab-sr">Step 1: </span>Open the Simulation page</h3>
-            <p>Click <b>SIMULATION</b> in the top navigation menu to open the lab.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">1</div>
+          <div class="proc-body">
+            <h3>Open the Simulation Page</h3>
+            <p>Navigate to the Simulation tab from the main navigation bar.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">2</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">📍</i><span class="lab-sr">Step 2: </span>Select the Correspondent Node (CN) location</h3>
-            <p>From the CN dropdown, choose a city in Tamil Nadu where the sender is located.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">2</div>
+          <div class="proc-body">
+            <h3>Select Correspondent Node Location</h3>
+            <p>Choose the CN location from the dropdown selector.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">3</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🏠</i><span class="lab-sr">Step 3: </span>Select the Home Agent (HA) location</h3>
-            <p>Choose the city representing the Mobile Node's home network. This must be different from CN.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">3</div>
+          <div class="proc-body">
+            <h3>Select Home Agent Location</h3>
+            <p>Choose the HA location from the dropdown selector.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">4</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🌐</i><span class="lab-sr">Step 4: </span>Select the Foreign Agent (FA) location</h3>
-            <p>Choose a third city representing the visited network where the Mobile Node currently is. Must differ from both CN and HA.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">4</div>
+          <div class="proc-body">
+            <h3>Select Foreign Agent Location</h3>
+            <p>Choose the FA location from the dropdown selector.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">5</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">✅</i><span class="lab-sr">Step 5: </span>Confirm the selected locations</h3>
-            <p>Click <b>OK</b> next to the location selectors. The Tamil Nadu map will show your CN, HA and FA with the tunnel highlighted.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">5</div>
+          <div class="proc-body">
+            <h3>Confirm the Selected Locations</h3>
+            <p>Verify all three locations appear on the map.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">6</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">⌨️</i><span class="lab-sr">Step 6: </span>Enter a message</h3>
-            <p>Type an ASCII message (up to 40 characters) in the message input field — for example, <i>Hello Mobile IP</i>.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">6</div>
+          <div class="proc-body">
+            <h3>Enter a Message</h3>
+            <p>Type your message in the input field provided.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">7</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🔘</i><span class="lab-sr">Step 7: </span>Press OK to convert the message</h3>
-            <p>The message is converted into 8-bit ASCII binary. Each character shows its binary code and ASCII decimal value.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">7</div>
+          <div class="proc-body">
+            <h3>Press OK to Convert</h3>
+            <p>Click OK to convert the message into 8-bit ASCII binary.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">8</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🔍</i><span class="lab-sr">Step 8: </span>Check the binary representation</h3>
-            <p>Each character appears as 8 bits in the bitstream display. Verify that it matches your original message.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">8</div>
+          <div class="proc-body">
+            <h3>Check Binary Representation</h3>
+            <p>Observe the binary output displayed on screen.</p>
           </div>
         </li>
 
-        <li class="lab-step">
-          <div class="lab-step-num" aria-hidden="true">9</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">▶️</i><span class="lab-sr">Step 9: </span>Start the simulation</h3>
-            <p>Press <b>START</b> to begin the animated packet-delivery sequence. Use <b>PAUSE</b> and <b>RESUME</b> to control playback, and <b>RESET</b> to run again.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">9</div>
+          <div class="proc-body">
+            <h3>Start the Simulation</h3>
+            <p>Click the START button to begin packet animation.</p>
           </div>
         </li>
 
-        <li class="lab-step lab-phase">
-          <div class="lab-step-num" aria-hidden="true">10</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">📦</i><span class="lab-sr">Step 10: </span>Observe packet generation at the CN</h3>
-            <p>The CN creates a packet addressed to the Mobile Node's home address. The packet panel shows the inner IP header.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">10</div>
+          <div class="proc-body">
+            <h3>Observe Packet Generation at CN</h3>
+            <p>Watch as the packet is generated at the Correspondent Node.</p>
           </div>
         </li>
 
-        <li class="lab-step lab-phase">
-          <div class="lab-step-num" aria-hidden="true">11</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🛡️</i><span class="lab-sr">Step 11: </span>Observe interception and encapsulation at the HA</h3>
-            <p>The HA intercepts the packet and adds an outer IP header addressed to the FA (care-of address). The packet panel shows both headers.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">11</div>
+          <div class="proc-body">
+            <h3>Observe Packet Interception at HA</h3>
+            <p>See the Home Agent intercept and capture the packet.</p>
           </div>
         </li>
 
-        <li class="lab-step lab-phase">
-          <div class="lab-step-num" aria-hidden="true">12</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">🚇</i><span class="lab-sr">Step 12: </span>Observe the Forward Tunnel</h3>
-            <p>Watch the encapsulated packet animate from the HA city to the FA city along the tunnel on the Tamil Nadu map.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">12</div>
+          <div class="proc-body">
+            <h3>Observe Forward Tunnel Transmission</h3>
+            <p>Watch the encapsulated packet travel through the tunnel.</p>
           </div>
         </li>
 
-        <li class="lab-step lab-phase">
-          <div class="lab-step-num" aria-hidden="true">13</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">📤</i><span class="lab-sr">Step 13: </span>Observe decapsulation at the FA</h3>
-            <p>The FA removes the outer header and recovers the original datagram. The outer header disappears from the packet panel.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">13</div>
+          <div class="proc-body">
+            <h3>Observe Decapsulation at FA</h3>
+            <p>See the Foreign Agent strip the outer IP header.</p>
           </div>
         </li>
 
-        <li class="lab-step lab-phase">
-          <div class="lab-step-num" aria-hidden="true">14</div>
-          <div class="lab-step-body">
-            <h3><i aria-hidden="true">📱</i><span class="lab-sr">Step 14: </span>Observe final delivery to the Mobile Node</h3>
-            <p>The Mobile Node receives the original message. A success message confirms delivery and the waveform turns cyan for all bits.</p>
+        <li class="proc-card">
+          <div class="proc-badge" aria-hidden="true">14</div>
+          <div class="proc-body">
+            <h3>Observe Final Delivery to Mobile Node</h3>
+            <p>Watch the original packet delivered to the Mobile Node.</p>
           </div>
         </li>
 
       </ol>
     </section>
 
-    <!-- Video 2 placeholder -->
-    <section class="lab-panel" data-lab-video="lab-video-2" data-lab-video-url="" aria-labelledby="proc-vid-h">
-      <h2 id="proc-vid-h">Simulation Procedure – Video Walkthrough</h2>
-      <div class="lab-video-block">
-        <div class="lab-vframe" id="lab-vframe-2">
-          <div>
-            <div class="lab-play">&#9654;</div>
-            <div class="lab-vlabel">YouTube Video 2 – How to Operate the Simulation</div>
-            <small>Video will appear here once the YouTube link is added.</small>
+    <!-- Video placeholder -->
+    <section class="lab-panel" aria-labelledby="proc-vid-h">
+      <h2 id="proc-vid-h">Simulation Procedure Video</h2>
+      <div class="proc-video-card">
+        <h3>SIMULATION PROCEDURE VIDEO</h3>
+        <div class="proc-video-box">
+          <div class="proc-video-box-inner">
+            <div class="proc-video-icon">🎬</div>
+            <p>Video coming soon — will be updated with the procedure walkthrough</p>
           </div>
         </div>
-        <a class="lab-watch" href="#" aria-disabled="true" data-lab-video-link="lab-video-2">Watch on YouTube</a>
+        <p class="proc-video-note">This placeholder will be replaced with the uploaded MP4 or YouTube video link.</p>
       </div>
     </section>
 

@@ -23,9 +23,10 @@
 
     <!-- Hero -->
     <section class="lab-hero">
-      <h1 class="lab-page-title">AIM</h1>
+      <h1 class="lab-page-title" style="font-weight:900;text-shadow:0 0 18px rgba(0,240,255,0.7),0 0 36px rgba(0,240,255,0.4);">AIM</h1>
+      <p style="font-size:1.05rem;font-weight:600;color:#c77dff;letter-spacing:0.04em;margin:8px 0 16px;">Objective: Seamless Mobility &amp; Packet Tunneling in Mobile IP</p>
       <div class="lab-page-bar"></div>
-      <p class="lab-page-sub">This virtual laboratory lets you see how a mobile device keeps its connection alive while moving between networks, using Home Agent and Foreign Agent tunneling.</p>
+      <p style="max-width:860px;margin:0 auto;line-height:1.8;font-size:1rem;color:rgba(220,235,255,0.92);">This project aims to demonstrate the fundamental concepts of Mobile IP, specifically the roles of the Home Agent (HA) and Foreign Agent (FA) in enabling seamless mobility across IP networks. It illustrates how packets are encapsulated at the Home Agent and tunneled through the network to reach a Mobile Node located in a foreign network. The project also demonstrates the decapsulation process at the Foreign Agent, which recovers the original IP packet and delivers it to the Mobile Node. Through an interactive simulation, students can observe the complete packet delivery process — from the Correspondent Node through the tunnel to the final destination.</p>
     </section>
 
     <!-- What is this project? -->
@@ -41,49 +42,6 @@
           <img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP overview: CN sends to Home Agent, which tunnels to Foreign Agent, which delivers to Mobile Node">
           <figcaption>Mobile IP overview: CN &rarr; HA &rarr; FA &rarr; MN</figcaption>
         </figure>
-      </div>
-    </section>
-
-    <!-- Problem Being Addressed -->
-    <section class="lab-panel" aria-labelledby="aim-prob-h">
-      <h2 id="aim-prob-h">Problem Being Addressed</h2>
-      <p>The core problem is that the original Internet Protocol was designed for stationary hosts. An IP address encodes both the host's identity and its current network location. When a device moves to a new network, standard routing can no longer reach it at its old address.</p>
-      <div class="lab-pills">
-        <div class="lab-pill">
-          <b>&#128246; Mobility</b>Keep one permanent address while moving across networks.
-        </div>
-        <div class="lab-pill">
-          <b>&#128228; Packet Forwarding</b>Redirect traffic to the Mobile Node's current location.
-        </div>
-        <div class="lab-pill">
-          <b>&#128141; Tunneling</b>Carry packets inside packets (IP-in-IP) across the Internet.
-        </div>
-      </div>
-    </section>
-
-    <!-- Why Mobile IP is Needed -->
-    <section class="lab-panel" aria-labelledby="aim-why-h">
-      <h2 id="aim-why-h">Why Mobile IP Is Needed</h2>
-      <p>Phones, laptops, vehicles and IoT devices change networks constantly. Without Mobile IP, every network change would terminate ongoing calls, video streams and file downloads. Mobile IP solves this by separating <span class="lab-tag">identity</span> (the home address) from <span class="lab-tag">location</span> (the care-of address) and tunneling packets between the two.</p>
-    </section>
-
-    <!-- What the Virtual Lab Demonstrates -->
-    <section class="lab-panel" aria-labelledby="aim-proj-h">
-      <h2 id="aim-proj-h">What the Virtual Lab Demonstrates</h2>
-      <p>In this simulation the Mobile Node starts at its home network (served by the Home Agent). It then moves to a foreign network, where the Foreign Agent provides connectivity. The Correspondent Node keeps sending messages to the original home address. The Home Agent intercepts those packets, encapsulates each one in a new outer IP header addressed to the Foreign Agent (the care-of address), and forwards the encapsulated packet through the tunnel. The Foreign Agent decapsulates the packet and delivers the original datagram to the Mobile Node &mdash; all without the Correspondent Node needing to know the MN has moved.</p>
-      <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-        <div class="lab-term" style="background:rgba(86,184,232,.12);border-color:var(--lab-blue);">
-          <b style="color:var(--lab-navy);">&#127758; Tamil Nadu Map</b><br>
-          Select cities as CN, HA and FA locations. The map shows real geographic positions.
-        </div>
-        <div class="lab-term" style="background:rgba(148,120,232,.12);border-color:var(--lab-violet);">
-          <b style="color:var(--lab-navy);">&#128201; ASCII Binary</b><br>
-          Every character in your message is converted to its correct 8-bit binary representation.
-        </div>
-        <div class="lab-term" style="background:rgba(104,224,224,.12);border-color:var(--lab-cyan);">
-          <b style="color:var(--lab-navy);">&#128246; Packet Animation</b><br>
-          Watch encapsulation, tunnel travel, decapsulation and final delivery in real time.
-        </div>
       </div>
     </section>
 

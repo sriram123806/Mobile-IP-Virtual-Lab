@@ -10,6 +10,337 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
+
+  <style>
+    /* ===== THEORY HEADING ===== */
+    .theory-page-title {
+      font-weight: 900;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      color: #00f0ff;
+      text-align: center;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 18px rgba(0,240,255,0.8), 0 0 40px rgba(0,240,255,0.5), 0 0 70px rgba(0,240,255,0.25), 2px 2px 8px rgba(0,0,0,0.9);
+      margin: 0 0 6px;
+      padding: 48px 0 12px;
+      font-family: 'Cinzel', serif;
+    }
+
+    .theory-title-bar {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+      margin: 0 auto 36px;
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(0,240,255,0.6);
+    }
+
+    /* ===== DETAILED THEORY ===== */
+    .theory-detail-section {
+      max-width: 860px;
+      margin: 0 auto 32px;
+    }
+    .theory-detail-section p {
+      margin-bottom: 1.1em;
+      line-height: 1.75;
+      color: rgba(220,235,255,0.92);
+    }
+
+    /* ===== CAROUSEL / GALLERY ===== */
+    .gallery-wrap {
+      position: relative;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .carousel-stage {
+      position: relative;
+      background: rgba(0,10,30,0.55);
+      border: 1px solid rgba(0,240,255,0.18);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .carousel-slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 24px 20px 16px;
+      box-sizing: border-box;
+    }
+    .carousel-slide.active { display: flex; }
+
+    .carousel-slide img {
+      max-height: 420px;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+      box-shadow: 0 4px 32px rgba(0,240,255,0.1);
+    }
+    .carousel-slide img:hover { opacity: 0.88; }
+
+    .carousel-caption {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: rgba(0,240,255,0.75);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    /* Arrow buttons */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,10,30,0.72);
+      border: 1px solid rgba(0,240,255,0.4);
+      color: #00f0ff;
+      font-size: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(6px);
+    }
+    .carousel-btn:hover {
+      background: rgba(0,240,255,0.15);
+      box-shadow: 0 0 16px rgba(0,240,255,0.4);
+    }
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+
+    /* Dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0,240,255,0.25);
+      border: 1px solid rgba(0,240,255,0.4);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-dot.active {
+      background: #00f0ff;
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(0,240,255,0.7);
+    }
+
+    /* ===== LIGHTBOX ===== */
+    #lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    #lightbox-overlay.open { display: flex; }
+
+    #lightbox-img-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 0 60px rgba(0,240,255,0.2);
+    }
+    #lightbox-caption {
+      position: absolute;
+      bottom: -32px;
+      left: 0; right: 0;
+      text-align: center;
+      color: rgba(0,240,255,0.7);
+      font-size: 0.85rem;
+    }
+
+    .lb-btn {
+      position: fixed;
+      background: rgba(0,10,30,0.8);
+      border: 1px solid rgba(0,240,255,0.5);
+      color: #00f0ff;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.3rem;
+      transition: background 0.2s;
+      z-index: 10000;
+    }
+    .lb-btn:hover { background: rgba(0,240,255,0.18); }
+    #lb-close { top: 20px; right: 24px; font-size: 1.5rem; }
+    #lb-prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
+    #lb-next  { right: 20px; top: 50%; transform: translateY(-50%); }
+
+    /* ===== VIDEO SECTION ===== */
+    .video-placeholder-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto 20px;
+      aspect-ratio: 16/9;
+      background: rgba(0,10,30,0.6);
+      border: 1px solid rgba(0,240,255,0.18);
+      border-radius: 14px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,240,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-placeholder-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-placeholder-inner {
+      text-align: center;
+      color: rgba(180,210,255,0.6);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+    .video-placeholder-inner .vp-icon {
+      font-size: 3.5rem;
+      color: rgba(0,240,255,0.25);
+      margin-bottom: 10px;
+    }
+    .video-placeholder-inner span {
+      display: block;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      color: rgba(0,240,255,0.4);
+    }
+
+    .yt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ff0000;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      padding: 12px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255,0,0,0.4);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      margin: 0 auto;
+    }
+    .yt-btn:hover {
+      background: #cc0000;
+      box-shadow: 0 6px 28px rgba(255,0,0,0.6);
+      transform: translateY(-2px);
+    }
+    .video-soon {
+      text-align: center;
+      color: rgba(180,210,255,0.5);
+      font-size: 0.82rem;
+      margin-top: 10px;
+      letter-spacing: 0.03em;
+    }
+    .video-btn-wrap { text-align: center; }
+
+    /* ===== FAQ ACCORDION ===== */
+    .faq-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .faq-item {}
+
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      background: rgba(0,10,30,0.55);
+      border: 1px solid rgba(0,240,255,0.15);
+      border-radius: 10px;
+      color: rgba(220,235,255,0.92);
+      font-size: 0.93rem;
+      font-weight: 500;
+      padding: 14px 46px 14px 16px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+      backdrop-filter: blur(6px);
+      font-family: inherit;
+    }
+    .faq-q:hover, .faq-q[aria-expanded="true"] {
+      background: rgba(0,240,255,0.08);
+      border-color: rgba(0,240,255,0.35);
+    }
+    .faq-q .faq-num {
+      color: #00f0ff;
+      font-weight: 700;
+      margin-right: 8px;
+      font-size: 0.8rem;
+    }
+    .faq-q::after {
+      content: '+';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: rgba(0,240,255,0.6);
+      transition: transform 0.25s, content 0.1s;
+    }
+    .faq-q[aria-expanded="true"]::after {
+      content: '−';
+    }
+
+    .faq-answer-wrap {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .faq-answer-wrap.open { max-height: 600px; }
+
+    .faq-answer-inner {
+      padding: 12px 18px 16px;
+      background: rgba(0,8,24,0.42);
+      border: 1px solid rgba(0,240,255,0.08);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      color: rgba(200,220,255,0.85);
+      font-size: 0.88rem;
+      line-height: 1.72;
+    }
+  </style>
 </head>
 <body class="lab-page">
 
@@ -21,319 +352,297 @@
 
   <main class="lab-wrap">
 
-    <!-- Hero Section -->
-    <section class="lab-hero">
-      <h1 class="lab-page-title">THEORY</h1>
-      <div class="lab-page-bar"></div>
-      <p class="lab-page-sub">Mobile IP lets a moving device keep one permanent address. A Home Agent and a Foreign Agent redirect packets through a tunnel, so communication continues wherever the device goes.</p>
+    <!-- 1. PAGE HEADING -->
+    <section class="lab-hero" style="padding-bottom:0;">
+      <h1 class="theory-page-title">THEORY</h1>
+      <div class="theory-title-bar"></div>
     </section>
 
-    <!-- Overview Panel -->
+    <!-- 2. OVERVIEW SECTION -->
     <section class="lab-panel" aria-labelledby="th-ov-h">
       <h2 id="th-ov-h">Overview</h2>
       <p>The Internet was originally designed for fixed hosts: an IP address indicates both a device's identity and its topological point of attachment to a network. When a device moves to a new network, its IP address must either change (breaking active TCP sessions and sockets) or packets continue routing to the original network. <b>Mobile IP (RFC&nbsp;5944)</b> resolves this fundamental limitation by separating <b>identity</b> (the device's permanent Home Address) from <b>location</b> (the temporary Care-of Address) and tunneling packets between the two. This ensures seamless, transparent connectivity across heterogeneous networks without requiring any modifications to higher-layer protocols or correspondent nodes.</p>
     </section>
 
-    <!-- Concept Gallery (4 cards) -->
-    <section class="lab-panel" aria-labelledby="th-gal-h">
-      <h2 id="th-gal-h">Concept Gallery</h2>
-      <div class="lab-gallery">
-        <article class="lab-card">
-          <img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP Architecture">
-          <div class="lab-card-body">
-            <h3>Mobile IP Architecture</h3>
-            <p>How CN, HA, FA and MN connect across the Internet.</p>
-          </div>
-        </article>
-        <article class="lab-card">
-          <img src="../assets/diagrams/home-agent-foreign-agent.svg" alt="Home Agent and Foreign Agent">
-          <div class="lab-card-body">
-            <h3>Home Agent &amp; Foreign Agent</h3>
-            <p>The two mobility agents and their core responsibilities.</p>
-          </div>
-        </article>
-        <article class="lab-card">
-          <img src="../assets/diagrams/encapsulation-decapsulation.svg" alt="Encapsulation and Decapsulation">
-          <div class="lab-card-body">
-            <h3>Encapsulation / Decapsulation</h3>
-            <p>Outer IP header added by HA and stripped by FA.</p>
-          </div>
-        </article>
-        <article class="lab-card">
-          <img src="../assets/diagrams/forward-tunneling.svg" alt="Forward Tunneling and Delivery">
-          <div class="lab-card-body">
-            <h3>Forward Tunneling &amp; Delivery</h3>
-            <p>The complete path of a packet from CN to MN.</p>
-          </div>
-        </article>
+    <!-- 3. DETAILED THEORY SECTION -->
+    <section class="lab-panel" aria-labelledby="th-det-h">
+      <h2 id="th-det-h">Detailed Theory</h2>
+      <div class="theory-detail-section">
+        <p>Mobile IP (RFC 5944) allows a mobile device (Mobile Node) to maintain the same IP address regardless of its location. Without Mobile IP, moving to a new network would require a new IP address, breaking all ongoing connections.</p>
+        <p>The Home Agent (HA) is a router on the Mobile Node's home network. When the Mobile Node is away, the HA intercepts all packets destined for the MN's home address and tunnels them to the MN's current location using IP-in-IP encapsulation (Protocol 4).</p>
+        <p>The Foreign Agent (FA) is a router on the visited network. It advertises its presence using Agent Advertisement messages (ICMP Router Discovery extensions). The Mobile Node registers with the FA, which relays the registration to the HA. The FA's address becomes the Care-of Address (CoA).</p>
+        <p>Encapsulation adds a new outer IP header to the original packet. The outer header has source = HA address, destination = CoA (FA address). The FA receives the tunneled packet, strips the outer header (decapsulation), and delivers the original packet to the Mobile Node.</p>
+        <p>Reverse tunneling allows the Mobile Node to send packets back through the FA and HA to avoid topological incorrectness caused by ingress filtering on routers.</p>
       </div>
     </section>
 
-    <!-- Detailed Theory concepts -->
-    <h2 class="lab-page-title" style="font-size:1.6rem;margin:34px 0 10px;text-align:center">Detailed Theory</h2>
+    <!-- 4. CONCEPTUAL GALLERY SECTION -->
+    <section class="lab-panel" aria-labelledby="th-gal-h">
+      <h2 id="th-gal-h">Conceptual Gallery</h2>
 
-    <!-- Concept 1: Mobile IP -->
-    <article class="lab-panel lab-concept lab-has-fig" id="th-c1">
-      <div>
-        <h3 class="lab-h3"><span>1</span>Mobile IP</h3>
-        <p>Mobile IP (RFC&nbsp;5944 for IPv4) is an Internet standard protocol that enables a device to retain its permanent <span class="lab-tag">home address</span> while attached to different networks and subnets. Applications and transport connections continue using this single address, so TCP sessions, socket states, and open streams survive a network handoff without interruption.</p>
+      <div class="gallery-wrap">
+        <div class="carousel-stage" id="carousel-stage">
+          <button class="carousel-btn prev" id="car-prev" aria-label="Previous image">&#9664;</button>
+          <button class="carousel-btn next" id="car-next" aria-label="Next image">&#9654;</button>
+
+          <!-- doc-images image1–image22 -->
+          <div class="carousel-slide active" data-idx="0">
+            <img src="../assets/doc-images/image1.png" alt="Image 1" data-caption="Image 1">
+            <div class="carousel-caption">Image 1</div>
+          </div>
+          <div class="carousel-slide" data-idx="1">
+            <img src="../assets/doc-images/image2.png" alt="Image 2" data-caption="Image 2">
+            <div class="carousel-caption">Image 2</div>
+          </div>
+          <div class="carousel-slide" data-idx="2">
+            <img src="../assets/doc-images/image3.png" alt="Image 3" data-caption="Image 3">
+            <div class="carousel-caption">Image 3</div>
+          </div>
+          <div class="carousel-slide" data-idx="3">
+            <img src="../assets/doc-images/image4.png" alt="Image 4" data-caption="Image 4">
+            <div class="carousel-caption">Image 4</div>
+          </div>
+          <div class="carousel-slide" data-idx="4">
+            <img src="../assets/doc-images/image5.png" alt="Image 5" data-caption="Image 5">
+            <div class="carousel-caption">Image 5</div>
+          </div>
+          <div class="carousel-slide" data-idx="5">
+            <img src="../assets/doc-images/image6.png" alt="Image 6" data-caption="Image 6">
+            <div class="carousel-caption">Image 6</div>
+          </div>
+          <div class="carousel-slide" data-idx="6">
+            <img src="../assets/doc-images/image7.png" alt="Image 7" data-caption="Image 7">
+            <div class="carousel-caption">Image 7</div>
+          </div>
+          <div class="carousel-slide" data-idx="7">
+            <img src="../assets/doc-images/image8.png" alt="Image 8" data-caption="Image 8">
+            <div class="carousel-caption">Image 8</div>
+          </div>
+          <div class="carousel-slide" data-idx="8">
+            <img src="../assets/doc-images/image9.png" alt="Image 9" data-caption="Image 9">
+            <div class="carousel-caption">Image 9</div>
+          </div>
+          <div class="carousel-slide" data-idx="9">
+            <img src="../assets/doc-images/image10.png" alt="Image 10" data-caption="Image 10">
+            <div class="carousel-caption">Image 10</div>
+          </div>
+          <div class="carousel-slide" data-idx="10">
+            <img src="../assets/doc-images/image11.png" alt="Image 11" data-caption="Image 11">
+            <div class="carousel-caption">Image 11</div>
+          </div>
+          <div class="carousel-slide" data-idx="11">
+            <img src="../assets/doc-images/image12.png" alt="Image 12" data-caption="Image 12">
+            <div class="carousel-caption">Image 12</div>
+          </div>
+          <div class="carousel-slide" data-idx="12">
+            <img src="../assets/doc-images/image13.png" alt="Image 13" data-caption="Image 13">
+            <div class="carousel-caption">Image 13</div>
+          </div>
+          <div class="carousel-slide" data-idx="13">
+            <img src="../assets/doc-images/image14.png" alt="Image 14" data-caption="Image 14">
+            <div class="carousel-caption">Image 14</div>
+          </div>
+          <div class="carousel-slide" data-idx="14">
+            <img src="../assets/doc-images/image15.png" alt="Image 15" data-caption="Image 15">
+            <div class="carousel-caption">Image 15</div>
+          </div>
+          <div class="carousel-slide" data-idx="15">
+            <img src="../assets/doc-images/image16.png" alt="Image 16" data-caption="Image 16">
+            <div class="carousel-caption">Image 16</div>
+          </div>
+          <div class="carousel-slide" data-idx="16">
+            <img src="../assets/doc-images/image17.png" alt="Image 17" data-caption="Image 17">
+            <div class="carousel-caption">Image 17</div>
+          </div>
+          <div class="carousel-slide" data-idx="17">
+            <img src="../assets/doc-images/image18.png" alt="Image 18" data-caption="Image 18">
+            <div class="carousel-caption">Image 18</div>
+          </div>
+          <div class="carousel-slide" data-idx="18">
+            <img src="../assets/doc-images/image19.png" alt="Image 19" data-caption="Image 19">
+            <div class="carousel-caption">Image 19</div>
+          </div>
+          <div class="carousel-slide" data-idx="19">
+            <img src="../assets/doc-images/image20.png" alt="Image 20" data-caption="Image 20">
+            <div class="carousel-caption">Image 20</div>
+          </div>
+          <div class="carousel-slide" data-idx="20">
+            <img src="../assets/doc-images/image21.png" alt="Image 21" data-caption="Image 21">
+            <div class="carousel-caption">Image 21</div>
+          </div>
+          <div class="carousel-slide" data-idx="21">
+            <img src="../assets/doc-images/image22.png" alt="Image 22" data-caption="Image 22">
+            <div class="carousel-caption">Image 22</div>
+          </div>
+
+          <!-- SVG diagrams (7) -->
+          <div class="carousel-slide" data-idx="22">
+            <img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP Architecture" data-caption="mobile-ip-architecture.svg">
+            <div class="carousel-caption">mobile-ip-architecture.svg</div>
+          </div>
+          <div class="carousel-slide" data-idx="23">
+            <img src="../assets/diagrams/home-agent-foreign-agent.svg" alt="Home Agent and Foreign Agent" data-caption="home-agent-foreign-agent.svg">
+            <div class="carousel-caption">home-agent-foreign-agent.svg</div>
+          </div>
+          <div class="carousel-slide" data-idx="24">
+            <img src="../assets/diagrams/encapsulation-decapsulation.svg" alt="Encapsulation and Decapsulation" data-caption="encapsulation-decapsulation.svg">
+            <div class="carousel-caption">encapsulation-decapsulation.svg</div>
+          </div>
+          <div class="carousel-slide" data-idx="25">
+            <img src="../assets/diagrams/forward-tunneling.svg" alt="Forward Tunneling" data-caption="forward-tunneling.svg">
+            <div class="carousel-caption">forward-tunneling.svg</div>
+          </div>
+          <div class="carousel-slide" data-idx="26">
+            <img src="../assets/diagrams/reverse-tunneling.svg" alt="Reverse Tunneling" data-caption="reverse-tunneling.svg">
+            <div class="carousel-caption">reverse-tunneling.svg</div>
+          </div>
+          <div class="carousel-slide" data-idx="27">
+            <img src="../assets/diagrams/packet-delivery.svg" alt="Packet Delivery" data-caption="packet-delivery.svg">
+            <div class="carousel-caption">packet-delivery.svg</div>
+          </div>
+          <div class="carousel-slide" data-idx="28">
+            <img src="../assets/diagrams/mobile-ip-overview.svg" alt="Mobile IP Overview" data-caption="mobile-ip-overview.svg">
+            <div class="carousel-caption">mobile-ip-overview.svg</div>
+          </div>
+        </div><!-- /carousel-stage -->
+
+        <div class="carousel-dots" id="carousel-dots"></div>
+      </div><!-- /gallery-wrap -->
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Image lightbox">
+      <button class="lb-btn" id="lb-close" aria-label="Close lightbox">&#x2715;</button>
+      <button class="lb-btn" id="lb-prev" aria-label="Previous image">&#9664;</button>
+      <div id="lightbox-img-wrap">
+        <img id="lightbox-img" src="" alt="">
+        <div id="lightbox-caption"></div>
       </div>
-      <figure class="lab-fig">
-        <img src="../assets/diagrams/mobile-ip-architecture.svg" alt="The Mobile IP architecture">
-        <figcaption>The Mobile IP architecture</figcaption>
-      </figure>
-    </article>
+      <button class="lb-btn" id="lb-next" aria-label="Next image">&#9654;</button>
+    </div>
 
-    <!-- Concept 2: Mobile Node (MN) -->
-    <article class="lab-panel lab-concept" id="th-c2">
-      <div>
-        <h3 class="lab-h3"><span>2</span>Mobile Node (MN)</h3>
-        <p>The <b>Mobile Node (MN)</b> is a host or router that changes its point of attachment from one network or subnetwork to another without changing its IP address. Examples include smartphones, laptops, and vehicular communications units. The MN has a permanent Home Address assigned by its home network and discovers mobility agents to acquire a Care-of Address when moving to foreign subnets.</p>
+    <!-- 5. YOUTUBE VIDEO SECTION -->
+    <section class="lab-panel" aria-labelledby="th-vid-h">
+      <h2 id="th-vid-h">Video Learning</h2>
+      <div class="video-placeholder-wrap">
+        <div class="video-placeholder-inner">
+          <div class="vp-icon">&#9654;</div>
+          THEORY EXPLANATION VIDEO
+          <span>YouTube video will appear here once the link is added.</span>
+        </div>
+        <iframe src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-    </article>
-
-    <!-- Concept 3: Correspondent Node (CN) -->
-    <article class="lab-panel lab-concept" id="th-c3">
-      <div>
-        <h3 class="lab-h3"><span>3</span>Correspondent Node (CN)</h3>
-        <p>The <b>Correspondent Node (CN)</b> is the peer host communicating with the Mobile Node, such as a web server, streaming service, or another computer. The CN is completely unaware of the Mobile Node's movement; it sends regular IP packets addressed to the MN's permanent Home Address, trusting standard routing and the Mobile IP infrastructure to deliver them.</p>
+      <div class="video-btn-wrap">
+        <a class="yt-btn" href="" target="_blank" rel="noopener noreferrer">&#9654; WATCH ON YOUTUBE</a>
       </div>
-    </article>
+      <p class="video-soon">Video will be available soon</p>
+    </section>
 
-    <!-- Word Document Image 3 after Concept 3 -->
-    <figure class="lab-fig" style="max-width:860px;margin:0 auto 20px;">
-      <img src="../assets/doc-images/image3.png" alt="Mobile IP Architecture Diagram">
-      <figcaption>Mobile IP Architecture</figcaption>
-    </figure>
-
-    <!-- Concept 4: Home Agent (HA) -->
-    <article class="lab-panel lab-concept lab-has-fig" id="th-c4">
-      <div>
-        <h3 class="lab-h3"><span>4</span>Home Agent (HA)</h3>
-        <p>The <b>Home Agent (HA)</b> is a specialized router on the Mobile Node's home network. It maintains a <i>mobility binding</i> directory associating the MN's Home Address with its current Care-of Address. While the MN is away, the HA intercepts packets addressed to the MN using proxy ARP, encapsulates each packet inside a new outer IP datagram, and forwards it through a tunnel to the Care-of Address.</p>
-      </div>
-      <figure class="lab-fig">
-        <img src="../assets/diagrams/home-agent-foreign-agent.svg" alt="Home Agent and Foreign Agent roles">
-        <figcaption>Home Agent and Foreign Agent roles</figcaption>
-      </figure>
-    </article>
-
-    <!-- Concept 5: Foreign Agent (FA) -->
-    <article class="lab-panel lab-concept" id="th-c5">
-      <div>
-        <h3 class="lab-h3"><span>5</span>Foreign Agent (FA)</h3>
-        <p>The <b>Foreign Agent (FA)</b> is a router on the visited network providing routing services to registered Mobile Nodes. It periodically advertises its presence via Agent Advertisements, relays the MN's registration messages to and from the Home Agent, decapsulates tunneled packets forwarded by the HA, and delivers the unencapsulated inner datagrams to the Mobile Node across the local physical link.</p>
-      </div>
-    </article>
-
-    <!-- Concept 6: Care-of Address (CoA) -->
-    <article class="lab-panel lab-concept" id="th-c6">
-      <div>
-        <h3 class="lab-h3"><span>6</span>Care-of Address (CoA)</h3>
-        <p>The <b>Care-of Address (CoA)</b> is a temporary IP address that reflects the Mobile Node's current topological location on a visited network, serving as the tunnel exit point. A <i>Foreign Agent CoA</i> is the IP address of an FA on that network, shared by multiple MNs. A <i>co-located CoA</i> is a unique address acquired directly by the MN (e.g., via DHCP), where the MN itself decapsulates packets.</p>
-      </div>
-    </article>
-
-    <!-- Word Document Image 6 after Concept 6 -->
-    <figure class="lab-fig" style="max-width:860px;margin:0 auto 20px;">
-      <img src="../assets/doc-images/image6.png" alt="Agent Discovery diagram">
-      <figcaption>Agent Discovery</figcaption>
-    </figure>
-
-    <!-- Concept 7: Encapsulation -->
-    <article class="lab-panel lab-concept lab-has-fig" id="th-c7">
-      <div>
-        <h3 class="lab-h3"><span>7</span>Encapsulation</h3>
-        <p><b>Encapsulation</b> is the process where the Home Agent wraps the entire original IP packet inside a new outer IP datagram. The outer header specifies the HA as the source address and the Care-of Address as the destination address. Setting IP protocol number 4 (IP-in-IP, RFC&nbsp;2003) informs intermediate routers to forward the packet based strictly on the outer header without altering the inner datagram.</p>
-      </div>
-      <figure class="lab-fig">
-        <img src="../assets/diagrams/encapsulation-decapsulation.svg" alt="Encapsulation and decapsulation">
-        <figcaption>Encapsulation and decapsulation</figcaption>
-      </figure>
-    </article>
-
-    <!-- Concept 8: Decapsulation -->
-    <article class="lab-panel lab-concept" id="th-c8">
-      <div>
-        <h3 class="lab-h3"><span>8</span>Decapsulation</h3>
-        <p><b>Decapsulation</b> is performed at the tunnel endpoint (the Foreign Agent or the Mobile Node itself when using a co-located CoA). The outer IP header is stripped off, uncovering the original packet with its initial CN source address and MN Home Address destination. The recovered packet is delivered to the Mobile Node's operating system stack completely intact.</p>
-      </div>
-    </article>
-
-    <!-- Word Document Image 8 after Concept 8 -->
-    <figure class="lab-fig" style="max-width:860px;margin:0 auto 20px;">
-      <img src="../assets/doc-images/image8.png" alt="Registration Process">
-      <figcaption>Registration Process</figcaption>
-    </figure>
-
-    <!-- Concept 9: Forward Tunneling -->
-    <article class="lab-panel lab-concept lab-has-fig" id="th-c9">
-      <div>
-        <h3 class="lab-h3"><span>9</span>Forward Tunneling</h3>
-        <p><b>Forward Tunneling</b> is the path taken by packets sent from the Correspondent Node to the Mobile Node. Standard IP routing brings packets to the MN's home network, where the Home Agent intercepts them. The HA encapsulates the packets and forwards them through the tunnel across the Internet to the Care-of Address (Foreign Agent), which delivers them to the Mobile Node.</p>
-      </div>
-      <figure class="lab-fig">
-        <img src="../assets/diagrams/forward-tunneling.svg" alt="Forward tunnel from HA to FA">
-        <figcaption>Forward tunnel from HA to FA</figcaption>
-      </figure>
-    </article>
-
-    <!-- Word Document Image 10 after Concept 9 -->
-    <figure class="lab-fig" style="max-width:860px;margin:0 auto 20px;">
-      <img src="../assets/doc-images/image10.png" alt="IP-in-IP Tunneling">
-      <figcaption>IP-in-IP Tunneling</figcaption>
-    </figure>
-
-    <!-- Concept 10: Reverse Tunneling -->
-    <article class="lab-panel lab-concept lab-has-fig" id="th-c10">
-      <div>
-        <h3 class="lab-h3"><span>10</span>Reverse Tunneling</h3>
-        <p><b>Reverse Tunneling</b> (RFC&nbsp;3024) carries packets sent by the Mobile Node back through the Foreign Agent and Home Agent to the Correspondent Node. Although an MN could theoretically send packets directly to the CN, visited network routers with <i>ingress filtering</i> often drop outbound packets whose source address does not belong to the local subnet. Reverse tunneling overcomes this by channeling traffic back to the HA first.</p>
-      </div>
-      <figure class="lab-fig">
-        <img src="../assets/diagrams/reverse-tunneling.svg" alt="Reverse tunnel from MN to CN">
-        <figcaption>Reverse tunnel from MN to CN</figcaption>
-      </figure>
-    </article>
-
-    <!-- Concept 11: Complete Packet Delivery Process -->
-    <article class="lab-panel lab-concept lab-has-fig" id="th-c11">
-      <div>
-        <h3 class="lab-h3"><span>11</span>Complete Packet Delivery Process</h3>
-        <ol style="padding-left:18px;margin-top:6px;line-height:1.65;">
-          <li><b>Agent Discovery &amp; Registration:</b> The MN discovers a Foreign Agent on the visited network and registers its CoA with the Home Agent via a Registration Request and Reply sequence.</li>
-          <li><b>Packet Transmission:</b> The Correspondent Node sends a standard IP datagram addressed to the MN's permanent Home Address.</li>
-          <li><b>Interception:</b> The Home Agent intercepts the datagram on the home network using proxy ARP.</li>
-          <li><b>Encapsulation &amp; Forwarding:</b> The HA consults its mobility binding table, wraps the packet in an outer IP header addressed to the CoA, and tunnels it across the Internet.</li>
-          <li><b>Decapsulation &amp; Delivery:</b> The FA receives the packet, removes the outer header, and delivers the original datagram to the Mobile Node.</li>
-        </ol>
-      </div>
-      <figure class="lab-fig">
-        <img src="../assets/diagrams/packet-delivery.svg" alt="Complete packet delivery process">
-        <figcaption>Complete packet delivery process</figcaption>
-      </figure>
-    </article>
-
-    <!-- Frequently Asked Questions (20 FAQs) -->
+    <!-- 6. FAQ SECTION -->
     <section class="lab-panel" aria-labelledby="th-faq-h">
       <h2 id="th-faq-h">Frequently Asked Questions</h2>
-      <div class="lab-faq">
+      <div class="faq-list" id="faq-list">
 
-        <div>
-          <button class="lab-q" id="lab-q-1" aria-expanded="false" aria-controls="lab-a-1">What is Mobile IPv4?</button>
-          <div class="lab-answer" id="lab-a-1" role="region" aria-labelledby="lab-q-1"><div><p>Mobile IPv4 (RFC 5944) is an Internet protocol that lets a device keep its permanent Home Address while moving between IP networks. The Mobile Node registers its current Care-of Address (CoA) with its Home Agent (HA). The HA forwards packets sent to the Home Address through a tunnel to the current CoA, ensuring seamless connectivity.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q1</span>What is Mobile IPv4?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Mobile IPv4 (RFC 5944) is an Internet protocol that lets a device keep its permanent Home Address while moving between IP networks. The Mobile Node registers its current Care-of Address (CoA) with its Home Agent (HA). The HA forwards packets sent to the Home Address through a tunnel to the current CoA, ensuring seamless connectivity.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-2" aria-expanded="false" aria-controls="lab-a-2">Why is Mobile IPv4 required?</button>
-          <div class="lab-answer" id="lab-a-2" role="region" aria-labelledby="lab-q-2"><div><p>Normal IP addresses identify both a host and its point of attachment. When a device moves, its old address becomes unreachable through normal routing, breaking existing sessions. Mobile IPv4 maintains reachability by keeping the Home Address unchanged and updating only the Care-of Address, so communication continues without interruption.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q2</span>Why is Mobile IPv4 required?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Normal IP addresses identify both a host and its point of attachment. When a device moves, its old address becomes unreachable through normal routing, breaking existing sessions. Mobile IPv4 maintains reachability by keeping the Home Address unchanged and updating only the Care-of Address, so communication continues without interruption.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-3" aria-expanded="false" aria-controls="lab-a-3">Explain the architecture of Mobile IPv4.</button>
-          <div class="lab-answer" id="lab-a-3" role="region" aria-labelledby="lab-q-3"><div><p>The main entities are: Mobile Node (MN) — the mobile device; Home Agent (HA) — a router on the home network maintaining the MN mobility binding; Foreign Agent (FA) — a router on the visited network providing a CoA; Correspondent Node (CN) — the host communicating with the MN. The CN sends packets to the Home Address; the HA intercepts and tunnels them to the FA; the FA delivers them to the MN.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q3</span>Explain the architecture of Mobile IPv4.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>The main entities are: Mobile Node (MN) — the mobile device; Home Agent (HA) — a router on the home network maintaining the MN mobility binding; Foreign Agent (FA) — a router on the visited network providing a CoA; Correspondent Node (CN) — the host communicating with the MN. The CN sends packets to the Home Address; the HA intercepts and tunnels them to the FA; the FA delivers them to the MN.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-4" aria-expanded="false" aria-controls="lab-a-4">What are the functions of MN, HA and FA?</button>
-          <div class="lab-answer" id="lab-a-4" role="region" aria-labelledby="lab-q-4"><div><p>Mobile Node (MN): moves between networks, discovers mobility agents, and requests registration. Home Agent (HA): stores the Home Address-to-CoA binding, intercepts packets for the MN, and tunnels them to the CoA. Foreign Agent (FA): advertises mobility services, provides an FA CoA, relays registration messages, and delivers decapsulated packets to the MN. Correspondent Node (CN): communicates with the MN using its Home Address without needing to know the MN has moved.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q4</span>What are the functions of MN, HA and FA?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Mobile Node (MN): moves between networks, discovers mobility agents, and requests registration. Home Agent (HA): stores the Home Address-to-CoA binding, intercepts packets for the MN, and tunnels them to the CoA. Foreign Agent (FA): advertises mobility services, provides an FA CoA, relays registration messages, and delivers decapsulated packets to the MN. Correspondent Node (CN): communicates with the MN using its Home Address without needing to know the MN has moved.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-5" aria-expanded="false" aria-controls="lab-a-5">Differentiate Home Address and Care-of Address.</button>
-          <div class="lab-answer" id="lab-a-5" role="region" aria-labelledby="lab-q-5"><div><p>The Home Address (HoA) is the permanent IP address assigned to the MN on its home network. It remains unchanged when the MN moves and is used by the CN to reach the MN. The Care-of Address (CoA) identifies the MN current point of attachment on a visited network. The HA uses the CoA as the tunnel destination to route packets to the MN current location.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q5</span>Differentiate Home Address and Care-of Address.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>The Home Address (HoA) is the permanent IP address assigned to the MN on its home network. It remains unchanged when the MN moves and is used by the CN to reach the MN. The Care-of Address (CoA) identifies the MN current point of attachment on a visited network. The HA uses the CoA as the tunnel destination to route packets to the MN current location.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-6" aria-expanded="false" aria-controls="lab-a-6">What is Agent Discovery?</button>
-          <div class="lab-answer" id="lab-a-6" role="region" aria-labelledby="lab-q-6"><div><p>Agent Discovery allows an MN to detect whether it is on its home network or a foreign network, and to identify available mobility agents. Mobility agents periodically send Agent Advertisements (ICMP Router Advertisements with Mobile IPv4 extensions) that announce their role and available Care-of Addresses. If no advertisement is received in time, the MN can send an Agent Solicitation to request one immediately.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q6</span>What is Agent Discovery?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Agent Discovery allows an MN to detect whether it is on its home network or a foreign network, and to identify available mobility agents. Mobility agents periodically send Agent Advertisements (ICMP Router Advertisements with Mobile IPv4 extensions) that announce their role and available Care-of Addresses. If no advertisement is received in time, the MN can send an Agent Solicitation to request one immediately.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-7" aria-expanded="false" aria-controls="lab-a-7">Explain Agent Advertisement and Agent Solicitation.</button>
-          <div class="lab-answer" id="lab-a-7" role="region" aria-labelledby="lab-q-7"><div><p>An Agent Advertisement is an ICMP Router Advertisement containing a Mobile IPv4 Mobility Agent Advertisement extension. It announces the agent mobility role (HA, FA or both) and may include one or more CoAs and registration lifetime information. An Agent Solicitation is an ICMP message sent by an MN when it needs to find an agent quickly. It prompts agents on the local link to send an advertisement sooner than their next scheduled interval.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q7</span>Explain Agent Advertisement and Agent Solicitation.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>An Agent Advertisement is an ICMP Router Advertisement containing a Mobile IPv4 Mobility Agent Advertisement extension. It announces the agent mobility role (HA, FA or both) and may include one or more CoAs and registration lifetime information. An Agent Solicitation is an ICMP message sent by an MN when it needs to find an agent quickly. It prompts agents on the local link to send an advertisement sooner than their next scheduled interval.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-8" aria-expanded="false" aria-controls="lab-a-8">Explain the Mobile IPv4 registration process.</button>
-          <div class="lab-answer" id="lab-a-8" role="region" aria-labelledby="lab-q-8"><div><p>The MN discovers an FA or obtains a co-located CoA. It then sends a Registration Request containing its Home Address, HA address, CoA, requested lifetime, and authentication. If using an FA, the FA relays the request to the HA. The HA authenticates the request and creates or updates the mobility binding. The HA replies with a Registration Reply (accepted or rejected), which the FA relays back. The request path is MN → FA → HA; the reply path is HA → FA → MN.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q8</span>Explain the Mobile IPv4 registration process.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>The MN discovers an FA or obtains a co-located CoA. It then sends a Registration Request containing its Home Address, HA address, CoA, requested lifetime, and authentication. If using an FA, the FA relays the request to the HA. The HA authenticates the request and creates or updates the mobility binding. The HA replies with a Registration Reply (accepted or rejected), which the FA relays back. The request path is MN → FA → HA; the reply path is HA → FA → MN.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-9" aria-expanded="false" aria-controls="lab-a-9">What are Registration Request and Registration Reply?</button>
-          <div class="lab-answer" id="lab-a-9" role="region" aria-labelledby="lab-q-9"><div><p>A Registration Request is sent by the MN to ask the HA to register or renew its current location. It includes flags, the requested lifetime, Home Address, HA address, CoA and an identification value for replay protection. A Registration Reply reports whether the request was accepted or rejected. It includes a result code (0 = accepted, non-zero = rejected with reason), the granted lifetime, and a matching identification value.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q9</span>What are Registration Request and Registration Reply?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>A Registration Request is sent by the MN to ask the HA to register or renew its current location. It includes flags, the requested lifetime, Home Address, HA address, CoA and an identification value for replay protection. A Registration Reply reports whether the request was accepted or rejected. It includes a result code (0 = accepted, non-zero = rejected with reason), the granted lifetime, and a matching identification value.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-10" aria-expanded="false" aria-controls="lab-a-10">How are packets delivered to a Mobile Node in a foreign network?</button>
-          <div class="lab-answer" id="lab-a-10" role="region" aria-labelledby="lab-q-10"><div><p>The CN sends an IP packet to the MN permanent Home Address. The HA intercepts the packet on the home network using proxy ARP. The HA encapsulates the original packet in a new IP packet addressed to the CoA (IP-in-IP). The tunnel carries the encapsulated packet to the FA or co-located CoA. At the tunnel endpoint, the outer header is removed and the original packet is delivered to the MN.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q10</span>How are packets delivered to a Mobile Node in a foreign network?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>The CN sends an IP packet to the MN permanent Home Address. The HA intercepts the packet on the home network using proxy ARP. The HA encapsulates the original packet in a new IP packet addressed to the CoA (IP-in-IP). The tunnel carries the encapsulated packet to the FA or co-located CoA. At the tunnel endpoint, the outer header is removed and the original packet is delivered to the MN.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-11" aria-expanded="false" aria-controls="lab-a-11">What is tunneling in Mobile IPv4?</button>
-          <div class="lab-answer" id="lab-a-11" role="region" aria-labelledby="lab-q-11"><div><p>Tunneling in Mobile IPv4 is the process of carrying an original IP packet inside another IP packet. The HA is the tunnel entry point and the CoA is the tunnel endpoint. The outer IP header carries the packet to the MN current location, while the inner packet retains the original CN source address and MN Home Address. This technique is called IP-in-IP encapsulation (RFC 2003).</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q11</span>What is tunneling in Mobile IPv4?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Tunneling in Mobile IPv4 is the process of carrying an original IP packet inside another IP packet. The HA is the tunnel entry point and the CoA is the tunnel endpoint. The outer IP header carries the packet to the MN current location, while the inner packet retains the original CN source address and MN Home Address. This technique is called IP-in-IP encapsulation (RFC 2003).</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-12" aria-expanded="false" aria-controls="lab-a-12">Explain encapsulation and decapsulation.</button>
-          <div class="lab-answer" id="lab-a-12" role="region" aria-labelledby="lab-q-12"><div><p>Encapsulation is performed at the HA by wrapping the original IP packet in a new outer IP header. The outer header sets the HA address as source and the CoA as destination. The original packet (inner packet) remains unchanged. Decapsulation is performed at the tunnel endpoint (the FA or MN): the outer header is removed, exposing the original packet, which is then delivered to the MN.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q12</span>Explain encapsulation and decapsulation.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Encapsulation is performed at the HA by wrapping the original IP packet in a new outer IP header. The outer header sets the HA address as source and the CoA as destination. The original packet (inner packet) remains unchanged. Decapsulation is performed at the tunnel endpoint (the FA or MN): the outer header is removed, exposing the original packet, which is then delivered to the MN.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-13" aria-expanded="false" aria-controls="lab-a-13">Explain IP-in-IP encapsulation.</button>
-          <div class="lab-answer" id="lab-a-13" role="region" aria-labelledby="lab-q-13"><div><p>IP-in-IP is a tunneling method where an entire original IP packet is placed inside a new IP packet. The outer header has the HA address as source and the CoA as destination. The inner header retains the original CN source address and MN Home Address as destination. Protocol number 4 in the outer IP header identifies it as IP-in-IP. Tunnel routers forward using the outer header; the inner packet is recovered only after decapsulation at the endpoint.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q13</span>Explain IP-in-IP encapsulation.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>IP-in-IP is a tunneling method where an entire original IP packet is placed inside a new IP packet. The outer header has the HA address as source and the CoA as destination. The inner header retains the original CN source address and MN Home Address as destination. Protocol number 4 in the outer IP header identifies it as IP-in-IP. Tunnel routers forward using the outer header; the inner packet is recovered only after decapsulation at the endpoint.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-14" aria-expanded="false" aria-controls="lab-a-14">What is Reverse Tunneling?</button>
-          <div class="lab-answer" id="lab-a-14" role="region" aria-labelledby="lab-q-14"><div><p>Reverse tunneling (RFC 3024) carries packets sent by the MN through a tunnel back to the HA. The MN outgoing packet is sent to the FA, which tunnels it to the HA. The HA decapsulates it and forwards it toward the CN. Reverse tunneling is used when visited-network ingress filtering would otherwise drop packets whose source address is the MN Home Address, since those addresses are not topologically correct on the visited network.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q14</span>What is Reverse Tunneling?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Reverse tunneling (RFC 3024) carries packets sent by the MN through a tunnel back to the HA. The MN outgoing packet is sent to the FA, which tunnels it to the HA. The HA decapsulates it and forwards it toward the CN. Reverse tunneling is used when visited-network ingress filtering would otherwise drop packets whose source address is the MN Home Address, since those addresses are not topologically correct on the visited network.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-15" aria-expanded="false" aria-controls="lab-a-15">Differentiate Foreign Agent CoA and co-located CoA.</button>
-          <div class="lab-answer" id="lab-a-15" role="region" aria-labelledby="lab-q-15"><div><p>A Foreign Agent CoA is an address advertised by a Foreign Agent in the visited network. The FA is the tunnel endpoint and delivers the decapsulated packet to the MN. This requires no address acquisition by the MN. A co-located CoA is an address obtained directly by the MN on the visited network (via DHCP or similar). With a co-located CoA, the MN itself is the tunnel endpoint and performs decapsulation, so no FA is needed.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q15</span>Differentiate Foreign Agent CoA and co-located CoA.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>A Foreign Agent CoA is an address advertised by a Foreign Agent in the visited network. The FA is the tunnel endpoint and delivers the decapsulated packet to the MN. This requires no address acquisition by the MN. A co-located CoA is an address obtained directly by the MN on the visited network (via DHCP or similar). With a co-located CoA, the MN itself is the tunnel endpoint and performs decapsulation, so no FA is needed.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-16" aria-expanded="false" aria-controls="lab-a-16">What is a Mobility Binding?</button>
-          <div class="lab-answer" id="lab-a-16" role="region" aria-labelledby="lab-q-16"><div><p>A mobility binding is an entry maintained by the HA for each registered MN. It associates the MN Home Address with its current CoA, along with a registration lifetime and related state. The HA uses the binding to determine the tunnel destination when forwarding packets to the MN. The binding is created on the first successful registration and is refreshed or replaced whenever the MN re-registers with an updated CoA or renewed lifetime.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q16</span>What is a Mobility Binding?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>A mobility binding is an entry maintained by the HA for each registered MN. It associates the MN Home Address with its current CoA, along with a registration lifetime and related state. The HA uses the binding to determine the tunnel destination when forwarding packets to the MN. The binding is created on the first successful registration and is refreshed or replaced whenever the MN re-registers with an updated CoA or renewed lifetime.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-17" aria-expanded="false" aria-controls="lab-a-17">What happens when a Mobile Node moves to another foreign network?</button>
-          <div class="lab-answer" id="lab-a-17" role="region" aria-labelledby="lab-q-17"><div><p>The MN detects movement by receiving Agent Advertisements from a new FA. It obtains a new CoA on the new visited network. The MN sends a new Registration Request to its HA (via the new FA). The HA updates its mobility binding with the new CoA. Subsequently, all packets destined for the MN Home Address are tunneled to the new CoA. Packets in transit to the old CoA may be lost until the binding update completes.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q17</span>What happens when a Mobile Node moves to another foreign network?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>The MN detects movement by receiving Agent Advertisements from a new FA. It obtains a new CoA on the new visited network. The MN sends a new Registration Request to its HA (via the new FA). The HA updates its mobility binding with the new CoA. Subsequently, all packets destined for the MN Home Address are tunneled to the new CoA. Packets in transit to the old CoA may be lost until the binding update completes.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-18" aria-expanded="false" aria-controls="lab-a-18">What is Triangle Routing?</button>
-          <div class="lab-answer" id="lab-a-18" role="region" aria-labelledby="lab-q-18"><div><p>Triangle routing occurs because the CN always sends packets to the MN Home Address, so traffic must first reach the home network. The HA intercepts and tunnels the packet to the MN CoA, creating a triangular forwarding path: CN → HA → FA → MN. The MN may reply directly to the CN, so return paths can be shorter. This triangle can cause longer end-to-end paths and additional delay compared with route-optimized communication.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q18</span>What is Triangle Routing?</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Triangle routing occurs because the CN always sends packets to the MN Home Address, so traffic must first reach the home network. The HA intercepts and tunnels the packet to the MN CoA, creating a triangular forwarding path: CN → HA → FA → MN. The MN may reply directly to the CN, so return paths can be shorter. This triangle can cause longer end-to-end paths and additional delay compared with route-optimized communication.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-19" aria-expanded="false" aria-controls="lab-a-19">Explain security in Mobile IPv4.</button>
-          <div class="lab-answer" id="lab-a-19" role="region" aria-labelledby="lab-q-19"><div><p>Registration security is critical because a false update could redirect the MN traffic to an attacker. Mobile IPv4 uses authentication extensions, especially the Mobile-Home Authentication Extension, which is a mandatory HMAC-based message authentication code. The HA verifies the authentication before accepting any registration update. Security associations and shared keys are configured between MN and HA (and optionally FA). Replay protection using a timestamp or nonce in the identification field prevents reuse of old registration messages.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q19</span>Explain security in Mobile IPv4.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p>Registration security is critical because a false update could redirect the MN traffic to an attacker. Mobile IPv4 uses authentication extensions, especially the Mobile-Home Authentication Extension, which is a mandatory HMAC-based message authentication code. The HA verifies the authentication before accepting any registration update. Security associations and shared keys are configured between MN and HA (and optionally FA). Replay protection using a timestamp or nonce in the identification field prevents reuse of old registration messages.</p></div></div>
         </div>
 
-        <div>
-          <button class="lab-q" id="lab-q-20" aria-expanded="false" aria-controls="lab-a-20">State the advantages and limitations of Mobile IPv4.</button>
-          <div class="lab-answer" id="lab-a-20" role="region" aria-labelledby="lab-q-20"><div><p><b>Advantages:</b> The MN retains its permanent Home Address while moving between IPv4 networks. Communication can continue without requiring the correspondent node to track the MN every movement. Mobility support is provided at the network layer, transparent to applications. <b>Limitations:</b> Encapsulation adds 20 bytes of outer-header overhead per packet. Triangle routing can increase path length and delay. Agent discovery and registration introduce signaling overhead. Secure deployment requires careful management of keys and security associations.</p></div></div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false"><span class="faq-num">Q20</span>State the advantages and limitations of Mobile IPv4.</button>
+          <div class="faq-answer-wrap"><div class="faq-answer-inner"><p><b>Advantages:</b> The MN retains its permanent Home Address while moving between IPv4 networks. Communication can continue without requiring the correspondent node to track the MN every movement. Mobility support is provided at the network layer, transparent to applications. <b>Limitations:</b> Encapsulation adds 20 bytes of outer-header overhead per packet. Triangle routing can increase path length and delay. Agent discovery and registration introduce signaling overhead. Secure deployment requires careful management of keys and security associations.</p></div></div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- Video Learning section -->
-    <section class="lab-panel" data-lab-video="lab-video-1" data-lab-video-url="" aria-labelledby="th-vid-h">
-      <h2 id="th-vid-h">Video Learning</h2>
-      <div class="lab-video-block">
-        <div class="lab-vframe" id="lab-vframe-1">
-          <div>
-            <div class="lab-play" aria-hidden="true">&#9654;</div>
-            <div class="lab-vlabel">THEORY EXPLANATION VIDEO</div>
-            <small>Video will appear here once the YouTube link is added.</small>
-          </div>
-        </div>
-        <a class="lab-watch" href="#" aria-disabled="true" data-lab-video-link="lab-video-1">Watch on YouTube</a>
       </div>
     </section>
 
@@ -344,5 +653,123 @@
 
   <!-- Scripts -->
   <script src="../scripts/global-nav.js"></script>
+
+  <script>
+    // ===== CAROUSEL =====
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+      const dotsContainer = document.getElementById('carousel-dots');
+      const total = slides.length;
+      let current = 0;
+
+      // Build dots
+      slides.forEach(function (_, i) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', function () { goTo(i); });
+        dotsContainer.appendChild(dot);
+      });
+
+      function getDots() { return Array.from(dotsContainer.querySelectorAll('.carousel-dot')); }
+
+      function goTo(idx) {
+        slides[current].classList.remove('active');
+        getDots()[current].classList.remove('active');
+        current = (idx + total) % total;
+        slides[current].classList.add('active');
+        getDots()[current].classList.add('active');
+      }
+
+      document.getElementById('car-prev').addEventListener('click', function () { goTo(current - 1); });
+      document.getElementById('car-next').addEventListener('click', function () { goTo(current + 1); });
+
+      // Keyboard nav (only when gallery is in view / focused)
+      document.addEventListener('keydown', function (e) {
+        if (lightboxOpen) return; // let lightbox handle keys
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+      });
+
+      // ===== LIGHTBOX =====
+      var lightboxOpen = false;
+      var lbIndex = 0;
+      var lbImages = slides.map(function (s) {
+        var img = s.querySelector('img');
+        return { src: img.src, alt: img.alt, caption: img.dataset.caption || img.alt };
+      });
+
+      var overlay   = document.getElementById('lightbox-overlay');
+      var lbImg     = document.getElementById('lightbox-img');
+      var lbCaption = document.getElementById('lightbox-caption');
+      var lbClose   = document.getElementById('lb-close');
+      var lbPrev    = document.getElementById('lb-prev');
+      var lbNext    = document.getElementById('lb-next');
+
+      function openLightbox(idx) {
+        lbIndex = (idx + total) % total;
+        lbImg.src = lbImages[lbIndex].src;
+        lbImg.alt = lbImages[lbIndex].alt;
+        lbCaption.textContent = lbImages[lbIndex].caption;
+        overlay.classList.add('open');
+        lightboxOpen = true;
+        lbClose.focus();
+      }
+
+      function closeLightbox() {
+        overlay.classList.remove('open');
+        lightboxOpen = false;
+        lbImg.src = '';
+      }
+
+      function lbGo(dir) {
+        lbIndex = (lbIndex + dir + total) % total;
+        lbImg.src = lbImages[lbIndex].src;
+        lbImg.alt = lbImages[lbIndex].alt;
+        lbCaption.textContent = lbImages[lbIndex].caption;
+      }
+
+      slides.forEach(function (slide, i) {
+        slide.querySelector('img').addEventListener('click', function () { openLightbox(i); });
+      });
+
+      lbClose.addEventListener('click', closeLightbox);
+      lbPrev.addEventListener('click',  function () { lbGo(-1); });
+      lbNext.addEventListener('click',  function () { lbGo(1); });
+
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeLightbox();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (!lightboxOpen) return;
+        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'ArrowLeft')  lbGo(-1);
+        if (e.key === 'ArrowRight') lbGo(1);
+      });
+    })();
+
+    // ===== FAQ ACCORDION =====
+    (function () {
+      var items = Array.from(document.querySelectorAll('.faq-item'));
+      items.forEach(function (item) {
+        var btn = item.querySelector('.faq-q');
+        var wrap = item.querySelector('.faq-answer-wrap');
+        btn.addEventListener('click', function () {
+          var isOpen = btn.getAttribute('aria-expanded') === 'true';
+          // Close all
+          items.forEach(function (it) {
+            it.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+            it.querySelector('.faq-answer-wrap').classList.remove('open');
+          });
+          // Open clicked if it was closed
+          if (!isOpen) {
+            btn.setAttribute('aria-expanded', 'true');
+            wrap.classList.add('open');
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

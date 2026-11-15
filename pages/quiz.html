@@ -11,51 +11,179 @@
   <link href='https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../styles/global.css'>
   <style>
-    /* Alias mip- classes to lab- styles so quiz.js works with global.css design */
-    .mip-btn { display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border-radius:12px;border:none;cursor:pointer;font:600 .88rem/1 var(--lab-font-body);letter-spacing:.06em;color:#fff;background:linear-gradient(90deg,var(--lab-blue),var(--lab-violet));transition:transform .15s,box-shadow .2s; }
-    .mip-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 20px rgba(148,120,232,.55);}
-    .mip-btn:disabled{opacity:.4;cursor:not-allowed;}
-    .mip-btn-alt{background:rgba(255,255,255,.9);color:var(--lab-navy);border:1.5px solid var(--lab-violet);}
-    .mip-progress{height:10px;background:rgba(16,26,53,.2);border-radius:99px;overflow:hidden;margin:6px 0 14px;}
-    .mip-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lab-cyan),var(--lab-violet));transition:width .3s;}
-    .mip-opts{display:flex;flex-direction:column;gap:10px;margin:14px 0;}
-    .mip-opt{text-align:left;padding:12px 14px;border-radius:12px;border:2px solid var(--lab-blue);background:rgba(255,255,255,.92);font:inherit;color:#18233B;cursor:pointer;transition:all .2s;width:100%;}
-    .mip-opt:hover{border-color:var(--lab-violet);background:#fff;}
-    .mip-opt.mip-sel{border-color:var(--lab-violet);background:rgba(199,184,245,.5);font-weight:600;}
-    .mip-rev{border-left:6px solid var(--lab-bad);padding:10px 14px;background:rgba(255,255,255,.9);border-radius:10px;margin:10px 0;color:#18233B;}
-    .mip-rev.mip-right{border-color:var(--lab-ok);}
-    .mip-score{font-size:2.4rem;font-weight:800;color:var(--lab-violet);margin:0;display:block;}
-    table.mip-hist{width:100%;border-collapse:collapse;font-size:.9rem;color:#18233B;}
-    .mip-hist th,.mip-hist td{padding:6px 8px;border-bottom:1px solid var(--lab-lav);text-align:left;}
-    .mip-empty{color:#667;font-style:italic;font-size:.84rem;}
-    .mip-note{font-size:.8rem;color:#4a5578;margin:4px 0 0;}
+    /* ── Quiz heading: neon glow ── */
+    .lab-page-title {
+      font-weight: 900;
+      color: #00f0ff;
+      text-shadow: 0 0 18px rgba(0,240,255,0.8), 0 0 40px rgba(0,240,255,0.5), 2px 2px 8px rgba(0,0,0,0.9);
+    }
+
+    /* ── Quiz container: glassmorphism ── */
+    #mip-quiz-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(0,240,255,0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 18px;
+      padding: 28px 24px;
+    }
+
+    /* ── Question text ── */
+    .mip-q {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+
+    /* ── Option buttons: glassmorphism ── */
+    .mip-opt {
+      text-align: left;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(0,240,255,0.3);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font: inherit;
+      color: #e8f4ff;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .mip-opt:hover {
+      border-color: rgba(0,240,255,0.7);
+      background: rgba(0,240,255,0.1);
+      color: #fff;
+    }
+    .mip-opt.mip-sel {
+      border-color: #c7b8f5;
+      background: rgba(199,184,245,0.2);
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ── Score display: large neon ── */
+    .mip-score {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #00f0ff;
+      text-shadow: 0 0 16px rgba(0,240,255,0.7), 0 0 32px rgba(0,240,255,0.4);
+      margin: 0;
+      display: block;
+    }
+
+    /* ── Buttons ── */
+    .mip-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 22px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font: 600 .88rem/1 var(--lab-font-body);
+      letter-spacing: .06em;
+      color: #fff;
+      background: linear-gradient(90deg, var(--lab-blue), var(--lab-violet));
+      transition: transform .15s, box-shadow .2s;
+    }
+    .mip-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(148,120,232,.55); }
+    .mip-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .mip-btn-alt {
+      background: rgba(255,255,255,0.1);
+      color: #e8f4ff;
+      border: 1.5px solid rgba(0,240,255,0.5);
+    }
+
+    /* ── Progress bar ── */
+    .mip-progress {
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 6px 0 14px;
+    }
+    .mip-progress i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #00f0ff, var(--lab-violet));
+      transition: width .3s;
+    }
+
+    /* ── Options container ── */
+    .mip-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    /* ── Review/feedback ── */
+    .mip-rev {
+      border-left: 6px solid var(--lab-bad);
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      margin: 10px 0;
+      color: #e8f4ff;
+    }
+    .mip-rev.mip-right { border-color: var(--lab-ok); }
+
+    /* ── History table ── */
+    table.mip-hist {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      color: #e8f4ff;
+    }
+    .mip-hist th, .mip-hist td {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(0,240,255,0.15);
+      text-align: left;
+    }
+    .mip-hist th { color: #00f0ff; font-weight: 700; }
+
+    /* ── Attempt History panel ── */
+    section.lab-panel:has(#mip-history) {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,240,255,0.15);
+      backdrop-filter: blur(12px);
+    }
+    section.lab-panel:has(#mip-history) h2 {
+      color: #00f0ff;
+    }
+
+    .mip-empty { color: rgba(200,220,255,0.6); font-style: italic; font-size: .84rem; }
+    .mip-note { font-size: .8rem; color: rgba(200,220,255,0.6); margin: 4px 0 0; }
   </style>
 </head>
 <body class='lab-page'>
   <div class='lab-bg lab-bg-quiz' aria-hidden='true'></div>
   <nav id='lab-nav' data-active='quiz'></nav>
-  
+
   <main class='lab-wrap'>
     <section class='lab-hero'>
-      <h1 class='lab-page-title'>Quiz</h1>
+      <h1 class='lab-page-title'>QUIZ</h1>
       <div class='lab-page-bar'></div>
-      <p class='lab-page-sub'>Five randomly selected questions from a bank of ten. Answers are shuffled each attempt.</p>
     </section>
-    
+
     <div style='max-width:820px;margin:0 auto;'>
       <section class='lab-panel' id='mip-quiz-box' aria-live='polite'>
         <!-- Quiz renders here via quiz.js -->
       </section>
-      
+
       <section class='lab-panel'>
         <h2>Attempt History</h2>
         <div id='mip-history'></div>
       </section>
     </div>
   </main>
-  
+
   <footer class='lab-foot'>Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
-  
+
   <script src='../scripts/global-nav.js'></script>
   <script src='../scripts/quiz.js'></script>
 </body>

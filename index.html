@@ -12,6 +12,56 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/landing.css">
+  <style>
+    main::before, main::after { display: none !important; }
+    main h1 {
+      font-family: "Cinzel", Georgia, serif !important;
+      font-weight: 900 !important;
+      font-size: clamp(2.2rem, 5.5vw, 4.2rem) !important;
+      letter-spacing: 0.06em !important;
+      text-transform: uppercase !important;
+      color: #00f0ff !important;
+      background: linear-gradient(135deg, #00f0ff 0%, #e0aaff 50%, #ffffff 100%) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      filter: drop-shadow(0 0 24px rgba(0,240,255,0.85)) drop-shadow(0 0 48px rgba(199,125,255,0.6)) drop-shadow(2px 4px 12px rgba(0,0,0,0.95)) !important;
+      margin-bottom: 40px !important;
+      max-width: 900px;
+    }
+    .actions {
+      margin-top: 10px;
+    }
+    .btn {
+      background: rgba(10,10,30,0.85) !important;
+      border: 2px solid rgba(0,240,255,0.8) !important;
+      color: #ffffff !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      box-shadow: 0 0 24px rgba(0,240,255,0.4), inset 0 0 12px rgba(0,240,255,0.15) !important;
+      padding: 15px 40px !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 1rem !important;
+      letter-spacing: 0.1em !important;
+      text-transform: uppercase !important;
+      transition: all 0.25s ease !important;
+    }
+    .btn:hover {
+      background: rgba(0,240,255,0.2) !important;
+      border-color: #00f0ff !important;
+      box-shadow: 0 0 36px rgba(0,240,255,0.7), inset 0 0 16px rgba(0,240,255,0.3) !important;
+      transform: translateY(-3px) scale(1.02) !important;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0,240,255,0.35), rgba(148,120,232,0.45)) !important;
+      border: 2px solid #00f0ff !important;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(0,240,255,0.55), rgba(148,120,232,0.65)) !important;
+      box-shadow: 0 0 40px rgba(0,240,255,0.8) !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,12 +72,11 @@
   <div class="overlay" aria-hidden="true"></div>
 
   <main>
-    <h1>Home Agent &amp; Foreign Agent Tunneling</h1>
-    <p class="subtitle">An Interactive Mobile IP Virtual Laboratory</p>
+    <h1>HOME AGENT &amp; FOREIGN AGENT TUNNELING</h1>
 
     <div class="actions">
-      <a class="btn btn-primary" id="getStarted" href="pages/aim.html">Get Started &rarr;</a>
-      <button class="btn" id="aboutBtn" type="button" aria-haspopup="dialog">About Us</button>
+      <a class="btn btn-primary" id="getStarted" href="pages/aim.html">GET STARTED &rarr;</a>
+      <button class="btn" id="aboutBtn" type="button" aria-haspopup="dialog">ABOUT US</button>
     </div>
   </main>
 
