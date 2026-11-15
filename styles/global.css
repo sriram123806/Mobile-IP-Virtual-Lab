@@ -908,3 +908,53 @@ table.lab-hist { width: 100%; border-collapse: collapse; font-size: .9rem; color
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* ================================================================
+   MIP- PREFIX ALIASES
+   learning.js, quiz.js and references.js output these class names.
+   Map them to the lab- design tokens for visual consistency.
+================================================================ */
+.mip-case-card     { background:rgba(255,255,255,.92); border:1px solid rgba(148,120,232,.35); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; gap:14px; color:#18233B; transition:box-shadow .2s,transform .2s; box-shadow:0 2px 8px rgba(10,15,36,.06); }
+.mip-case-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(148,120,232,.2); }
+.mip-case-card.mip-open { box-shadow:0 0 0 3px var(--lab-cyan); }
+.mip-detail-grid   { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-bottom:14px; }
+.mip-detail ul,.mip-detail ol { margin:4px 0; padding-left:20px; color:#18233B; }
+.mip-flow          { display:flex; flex-direction:column; align-items:flex-start; gap:0; margin-top:8px; }
+.mip-fline         { display:flex; align-items:stretch; gap:10px; flex-wrap:wrap; margin:4px 0; }
+.mip-fq            { background:rgba(255,255,255,.95); border:2px solid var(--lab-blue); padding:10px 14px; border-radius:14px; max-width:340px; font-weight:600; font-size:.9rem; color:#18233B; }
+.mip-fno           { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.mip-fno em,.mip-fyes { font-style:normal; font-weight:700; font-size:.78rem; padding:3px 10px; border-radius:999px; }
+.mip-fno em        { background:#fde1e5; color:var(--lab-bad); }
+.mip-fyes          { background:#d8f5e8; color:var(--lab-ok); margin:4px 0 4px 18px; }
+.mip-fact          { background:#fff4e0; border:2px dashed #e0a030; border-radius:10px; padding:8px 12px; max-width:340px; font-size:.84rem; color:#18233B; }
+.mip-fend          { background:#d8f5e8; border:2px solid var(--lab-ok); border-radius:14px; padding:8px 14px; font-weight:700; font-size:.9rem; color:#18233B; margin:4px 0; }
+.mip-btn           { display:inline-flex; align-items:center; justify-content:center; padding:10px 22px; border-radius:12px; border:none; cursor:pointer; font:600 .88rem/1 var(--lab-font-body); letter-spacing:.06em; color:#fff; background:linear-gradient(90deg,var(--lab-blue),var(--lab-violet)); transition:transform .15s,box-shadow .2s; }
+.mip-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 6px 20px rgba(148,120,232,.55); }
+.mip-btn:disabled  { opacity:.4; cursor:not-allowed; }
+.mip-btn-alt       { background:rgba(255,255,255,.92); color:var(--lab-navy); border:1.5px solid var(--lab-violet); }
+.mip-btn-alt:hover:not(:disabled) { background:#fff; box-shadow:0 4px 16px rgba(148,120,232,.4); }
+.mip-progress      { height:10px; background:rgba(16,26,53,.18); border-radius:99px; overflow:hidden; margin:6px 0 14px; }
+.mip-progress i    { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--lab-cyan),var(--lab-violet)); transition:width .3s; }
+.mip-opts          { display:flex; flex-direction:column; gap:10px; margin:14px 0; }
+.mip-opt           { text-align:left; padding:12px 14px; border-radius:12px; border:2px solid rgba(86,184,232,.5); background:rgba(255,255,255,.92); font:inherit; color:#18233B; cursor:pointer; transition:all .2s; width:100%; }
+.mip-opt:hover     { border-color:var(--lab-violet); background:#fff; }
+.mip-opt.mip-sel   { border-color:var(--lab-violet); background:rgba(199,184,245,.5); font-weight:600; }
+.mip-rev           { border-left:6px solid var(--lab-bad); padding:10px 14px; background:rgba(255,255,255,.9); border-radius:10px; margin:10px 0; color:#18233B; }
+.mip-rev.mip-right { border-color:var(--lab-ok); }
+.mip-score         { font-size:2.4rem; font-weight:800; color:var(--lab-violet); margin:0; display:block; }
+table.mip-hist     { width:100%; border-collapse:collapse; font-size:.9rem; color:#18233B; }
+.mip-hist th,.mip-hist td { padding:6px 8px; border-bottom:1px solid var(--lab-lav); text-align:left; }
+.mip-empty         { color:#667; font-style:italic; font-size:.84rem; }
+.mip-note          { font-size:.8rem; color:#4a5578; margin:4px 0 0; }
+.mip-msg           { min-height:1.3em; margin:8px 0 0; font-size:.88rem; font-weight:600; }
+.mip-msg.mip-err   { color:var(--lab-bad); }
+.mip-msg.mip-good  { color:var(--lab-ok); }
+/* mip- reference page aliases */
+.mip-ref-list      { display:grid; gap:12px; }
+.mip-ref           { background:rgba(255,255,255,.92); border:1px solid rgba(199,184,245,.5); border-radius:14px; padding:14px 16px; color:#18233B; transition:box-shadow .2s; }
+.mip-ref:hover     { box-shadow:0 4px 12px rgba(148,120,232,.15); }
+.mip-ref a         { color:#2255cc; font-weight:700; word-break:break-word; text-decoration:none; }
+.mip-ref a:hover   { text-decoration:underline; }
+.mip-ref p         { margin:4px 0 0; font-size:.9rem; color:#4a5578; }
+.mip-edit          { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+.mip-edit input    { flex:1 1 240px; padding:8px 10px; border-radius:10px; border:1px solid var(--lab-blue); font:inherit; color:#18233B; background:#fff; }
