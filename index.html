@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Home Agent &amp; Foreign Agent Tunneling | Mobile IP Virtual Lab</title>
+  <meta name="description" content="An Interactive Mobile IP Virtual Laboratory demonstrating Home Agent and Foreign Agent tunneling.">
+  <meta name="theme-color" content="#050816">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/videos/poster.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/landing.css">
+</head>
+<body>
+
+  <video class="bg-video" id="bgVideo" autoplay muted loop playsinline preload="auto"
+         poster="assets/videos/poster.jpg" aria-hidden="true" disablepictureinpicture>
+    <source src="assets/videos/background.mp4" type="video/mp4">
+  </video>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <main>
+    <h1>Home Agent &amp; Foreign Agent Tunneling</h1>
+    <p class="subtitle">An Interactive Mobile IP Virtual Laboratory</p>
+
+    <div class="actions">
+      <a class="btn btn-primary" id="getStarted" href="pages/aim.html">Get Started &rarr;</a>
+      <button class="btn" id="aboutBtn" type="button" aria-haspopup="dialog">About Us</button>
+    </div>
+  </main>
+
+  <div class="scroll-hint" aria-hidden="true">EXPLORE</div>
+
+  <!-- About Us Modal -->
+  <div class="modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" aria-hidden="true">
+    <div class="modal-card">
+      <h2 id="aboutTitle">About This Project</h2>
+      <p>This virtual laboratory demonstrates how Mobile IP maintains seamless communication when a mobile device moves between networks. It explains Home Agent and Foreign Agent operations through encapsulation, tunneling and decapsulation using an interactive simulation with a Tamil Nadu map, real ASCII binary conversion, animated packet-flow visualisation and comprehensive theory content.</p>
+      <p>Built as a final university Data Communications &amp; Networking project, this site covers Mobile IPv4 (RFC 5944), IP-in-IP tunneling (RFC 2003) and reverse tunneling (RFC 3024).</p>
+      <button class="btn" id="closeBtn" type="button">Close</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+      var video = document.getElementById('bgVideo');
+      function tryPlay() { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+      video.muted = true;
+      video.addEventListener('canplay', tryPlay, { once: true });
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { video.pause(); } else { tryPlay(); }
+      });
+      document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+      var saveData = navigator.connection && navigator.connection.saveData;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || saveData) {
+        video.removeAttribute('autoplay'); video.pause();
+      }
+      var modal = document.getElementById('aboutModal');
+      var aboutBtn = document.getElementById('aboutBtn');
+      var closeBtn = document.getElementById('closeBtn');
+      function openAbout() { modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); closeBtn.focus({ preventScroll: true }); }
+      function closeAbout() { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); aboutBtn.focus({ preventScroll: true }); }
+      aboutBtn.addEventListener('click', openAbout);
+      closeBtn.addEventListener('click', closeAbout);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeAbout(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) closeAbout(); });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>References | Mobile IP Virtual Lab</title>
+  <meta name='description' content='Official RFC standards, textbooks, and educational resources for Mobile IPv4 and packet tunneling.'>
+  <link rel='icon' href='../assets/icons/favicon.svg' type='image/svg+xml'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='../styles/global.css'>
+  <style>
+    .mip-ref-list{display:grid;gap:12px;}
+    .mip-ref{background:rgba(255,255,255,.92);border:1px solid var(--lab-lav);border-radius:14px;padding:12px 14px;color:#18233B;}
+    .mip-ref a{color:#2a62c9;font-weight:700;word-break:break-word;}
+    .mip-ref p{margin:4px 0 0;font-size:.9rem;color:#4a5578;}
+    .mip-edit{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+    .mip-edit input{flex:1 1 240px;padding:8px 10px;border-radius:10px;border:1px solid var(--lab-blue);font:inherit;color:#18233B;background:#fff;}
+    .mip-btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border-radius:12px;border:none;cursor:pointer;font:600 .88rem/1 var(--lab-font-body);color:#fff;background:linear-gradient(90deg,var(--lab-blue),var(--lab-violet));}
+    .mip-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(148,120,232,.55);}
+    .mip-msg{min-height:1.3em;margin:8px 0 0;font-size:.88rem;font-weight:600;}
+    .mip-msg.mip-err{color:var(--lab-bad);}
+    .mip-msg.mip-good{color:var(--lab-ok);}
+    .mip-empty{color:#667;font-style:italic;font-size:.84rem;}
+    .mip-note{font-size:.8rem;color:#4a5578;margin:4px 0 0;}
+  </style>
+</head>
+<body class='lab-page'>
+  <div class='lab-bg lab-bg-references' aria-hidden='true'></div>
+  <nav id='lab-nav' data-active='references'></nav>
+  
+  <main class='lab-wrap'>
+    <section class='lab-hero'>
+      <h1 class='lab-page-title'>References</h1>
+      <div class='lab-page-bar'></div>
+      <p class='lab-page-sub'>Official standards, textbooks, educational resources and project links for the Mobile IP Virtual Laboratory.</p>
+    </section>
+    
+    <!-- RFC Standards -->
+    <section class='lab-panel' aria-labelledby='ref-rfc-h'>
+      <h2 id='ref-rfc-h'>Official RFC Standards</h2>
+      <div class='mip-ref-list'>
+        <div class='mip-ref'>
+          <a href='https://www.rfc-editor.org/rfc/rfc5944' target='_blank' rel='noopener noreferrer'>RFC 5944 &mdash; IP Mobility Support for IPv4, Revised</a>
+          <p>The updated Mobile IPv4 standard defining agents, registration, care-of addresses and tunneling. Obsoletes RFC 3344.</p>
+        </div>
+        <div class='mip-ref'>
+          <a href='https://www.rfc-editor.org/rfc/rfc2003' target='_blank' rel='noopener noreferrer'>RFC 2003 &mdash; IP Encapsulation within IP</a>
+          <p>Defines IP-in-IP (protocol number 4) encapsulation and decapsulation, used by the HA-to-FA tunnel.</p>
+        </div>
+        <div class='mip-ref'>
+          <a href='https://www.rfc-editor.org/rfc/rfc3024' target='_blank' rel='noopener noreferrer'>RFC 3024 &mdash; Reverse Tunneling for Mobile IP, Revised</a>
+          <p>Describes reverse tunneling from the care-of address back through the Home Agent toward the Correspondent Node.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Textbooks -->
+    <section class='lab-panel' aria-labelledby='ref-books-h'>
+      <h2 id='ref-books-h'>Networking Textbooks</h2>
+      <div class='mip-ref-list'>
+        <div class='mip-ref'>
+          <b>Computer Networks</b> &mdash; Andrew S. Tanenbaum &amp; David J. Wetherall
+          <p>Covers network-layer mobility concepts including Mobile IP, tunneling and address management. (5th edition, Pearson)</p>
+        </div>
+        <div class='mip-ref'>
+          <b>Data Communications and Networking</b> &mdash; Behrouz A. Forouzan
+          <p>Introductory text covering IP routing, mobile IP architecture and care-of address registration. (5th edition, McGraw-Hill)</p>
+        </div>
+        <div class='mip-ref'>
+          <b>Computer Networking: A Top-Down Approach</b> &mdash; James Kurose &amp; Keith Ross
+          <p>Explains mobility at the network layer, agent discovery, registration and tunneling in the context of modern networking.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Educational websites -->
+    <section class='lab-panel' aria-labelledby='ref-edu-h'>
+      <h2 id='ref-edu-h'>Educational Resources</h2>
+      <div class='mip-ref-list'>
+        <div class='mip-ref'>
+          <a href='https://datatracker.ietf.org/doc/rfc5944/' target='_blank' rel='noopener noreferrer'>IETF Datatracker &mdash; RFC 5944</a>
+          <p>RFC status history, related documents, and errata for the Mobile IPv4 standard.</p>
+        </div>
+        <div class='mip-ref'>
+          <a href='https://en.wikipedia.org/wiki/Mobile_IP' target='_blank' rel='noopener noreferrer'>Wikipedia &mdash; Mobile IP</a>
+          <p>Overview article covering Mobile IP terminology, registration summary and comparison with Mobile IPv6.</p>
+        </div>
+        <div class='mip-ref'>
+          <a href='https://www.rfc-editor.org/' target='_blank' rel='noopener noreferrer'>RFC Editor &mdash; rfc-editor.org</a>
+          <p>Official index and archive of all IETF RFC documents. Search for RFC 2003, 3024 or 5944.</p>
+        </div>
+        <div class='mip-ref'>
+          <a href='https://datatracker.ietf.org/doc/rfc2003/' target='_blank' rel='noopener noreferrer'>IETF Datatracker &mdash; RFC 2003</a>
+          <p>IP-in-IP encapsulation standard used for the Mobile IP forward tunnel.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Videos -->
+    <section class='lab-panel' aria-labelledby='ref-vid-h'>
+      <h2 id='ref-vid-h'>Video References</h2>
+      <div class='mip-ref-list'>
+        <div class='mip-ref'>
+          <b>Theory Explanation Video (Video 1)</b>
+          <p>Mobile IP theory and architecture explanation. <em style='color:#4a5578'>URL to be added — see the Theory page video section.</em></p>
+        </div>
+        <div class='mip-ref'>
+          <b>Simulation Procedure Video (Video 2)</b>
+          <p>Step-by-step walkthrough of the simulation. <em style='color:#4a5578'>Not yet completed. Placeholder available on the Procedure page.</em></p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Project links -->
+    <section class='lab-panel' aria-labelledby='ref-proj-h'>
+      <h2 id='ref-proj-h'>Project Links</h2>
+      <div class='mip-ref-list' id='mip-project-links'></div>
+      <p class='mip-note'>Links are saved in this browser. For permanent values, update defaults in scripts/references.js.</p>
+    </section>
+  </main>
+  
+  <footer class='lab-foot'>Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
+  
+  <script src='../scripts/global-nav.js'></script>
+  <script src='../scripts/references.js'></script>
+</body>
+</html>

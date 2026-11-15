@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aim | Mobile IP Virtual Lab</title>
+  <meta name="description" content="Aim and overview of the Home Agent and Foreign Agent Tunneling virtual lab project.">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body class="lab-page">
+
+  <!-- Background -->
+  <div class="lab-bg lab-bg-aim" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav id="lab-nav" data-active="aim" role="navigation" aria-label="Virtual Lab Sections"></nav>
+
+  <main class="lab-wrap">
+
+    <!-- Hero -->
+    <section class="lab-hero">
+      <h1 class="lab-page-title">AIM</h1>
+      <div class="lab-page-bar"></div>
+      <p class="lab-page-sub">This virtual laboratory lets you see how a mobile device keeps its connection alive while moving between networks, using Home Agent and Foreign Agent tunneling.</p>
+    </section>
+
+    <!-- What is this project? -->
+    <section class="lab-panel" aria-labelledby="aim-what-h">
+      <h2 id="aim-what-h">What Is This Project About?</h2>
+      <div class="lab-split">
+        <div>
+          <p><b>Mobile IP</b> is an Internet standard (RFC&nbsp;5944) that lets a device keep one permanent IP address &mdash; its <i>home address</i> &mdash; while it moves from one network to another.</p>
+          <p>Normal IP routing sends packets by network prefix. A device that moves to a new network would need a new address, and every open connection would break. Mobile IP adds mobility support so the device stays reachable at all times.</p>
+          <p>This project demonstrates the problem and its solution. The <b>Home Agent</b> receives packets meant for the away device, wraps them in a new IP header and sends them through a tunnel to the <b>Foreign Agent</b>. The Foreign Agent unwraps them and delivers them to the <b>Mobile Node</b>.</p>
+        </div>
+        <figure class="lab-fig">
+          <img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP overview: CN sends to Home Agent, which tunnels to Foreign Agent, which delivers to Mobile Node">
+          <figcaption>Mobile IP overview: CN &rarr; HA &rarr; FA &rarr; MN</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Problem Being Addressed -->
+    <section class="lab-panel" aria-labelledby="aim-prob-h">
+      <h2 id="aim-prob-h">Problem Being Addressed</h2>
+      <p>The core problem is that the original Internet Protocol was designed for stationary hosts. An IP address encodes both the host's identity and its current network location. When a device moves to a new network, standard routing can no longer reach it at its old address.</p>
+      <div class="lab-pills">
+        <div class="lab-pill">
+          <b>&#128246; Mobility</b>Keep one permanent address while moving across networks.
+        </div>
+        <div class="lab-pill">
+          <b>&#128228; Packet Forwarding</b>Redirect traffic to the Mobile Node's current location.
+        </div>
+        <div class="lab-pill">
+          <b>&#128141; Tunneling</b>Carry packets inside packets (IP-in-IP) across the Internet.
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Mobile IP is Needed -->
+    <section class="lab-panel" aria-labelledby="aim-why-h">
+      <h2 id="aim-why-h">Why Mobile IP Is Needed</h2>
+      <p>Phones, laptops, vehicles and IoT devices change networks constantly. Without Mobile IP, every network change would terminate ongoing calls, video streams and file downloads. Mobile IP solves this by separating <span class="lab-tag">identity</span> (the home address) from <span class="lab-tag">location</span> (the care-of address) and tunneling packets between the two.</p>
+    </section>
+
+    <!-- What the Virtual Lab Demonstrates -->
+    <section class="lab-panel" aria-labelledby="aim-proj-h">
+      <h2 id="aim-proj-h">What the Virtual Lab Demonstrates</h2>
+      <p>In this simulation the Mobile Node starts at its home network (served by the Home Agent). It then moves to a foreign network, where the Foreign Agent provides connectivity. The Correspondent Node keeps sending messages to the original home address. The Home Agent intercepts those packets, encapsulates each one in a new outer IP header addressed to the Foreign Agent (the care-of address), and forwards the encapsulated packet through the tunnel. The Foreign Agent decapsulates the packet and delivers the original datagram to the Mobile Node &mdash; all without the Correspondent Node needing to know the MN has moved.</p>
+      <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+        <div class="lab-term" style="background:rgba(86,184,232,.12);border-color:var(--lab-blue);">
+          <b style="color:var(--lab-navy);">&#127758; Tamil Nadu Map</b><br>
+          Select cities as CN, HA and FA locations. The map shows real geographic positions.
+        </div>
+        <div class="lab-term" style="background:rgba(148,120,232,.12);border-color:var(--lab-violet);">
+          <b style="color:var(--lab-navy);">&#128201; ASCII Binary</b><br>
+          Every character in your message is converted to its correct 8-bit binary representation.
+        </div>
+        <div class="lab-term" style="background:rgba(104,224,224,.12);border-color:var(--lab-cyan);">
+          <b style="color:var(--lab-navy);">&#128246; Packet Animation</b><br>
+          Watch encapsulation, tunnel travel, decapsulation and final delivery in real time.
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="lab-panel" aria-labelledby="aim-team-h">
+      <h2 id="aim-team-h">Our Team</h2>
+      <p style="margin-bottom:18px;color:#4a5578;font-size:.93rem;">Replace the placeholder details below with your actual names and registration numbers.</p>
+      <div class="lab-team" id="lab-team">
+        <article class="lab-member">
+          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
+          <p class="lab-mname">Team Member Name 1</p>
+          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
+        </article>
+        <article class="lab-member">
+          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
+          <p class="lab-mname">Team Member Name 2</p>
+          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
+        </article>
+        <article class="lab-member">
+          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
+          <p class="lab-mname">Team Member Name 3</p>
+          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
+        </article>
+        <article class="lab-member">
+          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
+          <p class="lab-mname">Team Member Name 4</p>
+          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
+        </article>
+        <article class="lab-member">
+          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
+          <p class="lab-mname">Team Member Name 5</p>
+          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
+        </article>
+        <article class="lab-member">
+          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
+          <p class="lab-mname">Team Member Name 6</p>
+          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
+
+  <script src="../scripts/global-nav.js"></script>
+</body>
+</html>

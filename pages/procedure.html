@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Procedure | Mobile IP Virtual Lab</title>
+  <meta name="description" content="Step-by-step procedure to operate the Mobile IP simulation: 14 steps from setup to packet delivery.">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body class="lab-page">
+
+  <div class="lab-bg lab-bg-procedure" aria-hidden="true"></div>
+  <nav id="lab-nav" data-active="procedure"></nav>
+
+  <main class="lab-wrap">
+
+    <section class="lab-hero">
+      <h1 class="lab-page-title">Procedure</h1>
+      <div class="lab-page-bar"></div>
+      <p class="lab-page-sub">Follow these 14 steps to operate the simulation. Steps 1–9 are setup steps; steps 10–14 describe what you will observe while the packet travels.</p>
+    </section>
+
+    <section class="lab-panel" aria-labelledby="proc-steps-h">
+      <h2 id="proc-steps-h">Step-by-Step Instructions</h2>
+      <ol class="lab-steps" id="lab-steps">
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">1</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🖥️</i><span class="lab-sr">Step 1: </span>Open the Simulation page</h3>
+            <p>Click <b>SIMULATION</b> in the top navigation menu to open the lab.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">2</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">📍</i><span class="lab-sr">Step 2: </span>Select the Correspondent Node (CN) location</h3>
+            <p>From the CN dropdown, choose a city in Tamil Nadu where the sender is located.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">3</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🏠</i><span class="lab-sr">Step 3: </span>Select the Home Agent (HA) location</h3>
+            <p>Choose the city representing the Mobile Node's home network. This must be different from CN.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">4</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🌐</i><span class="lab-sr">Step 4: </span>Select the Foreign Agent (FA) location</h3>
+            <p>Choose a third city representing the visited network where the Mobile Node currently is. Must differ from both CN and HA.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">5</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">✅</i><span class="lab-sr">Step 5: </span>Confirm the selected locations</h3>
+            <p>Click <b>OK</b> next to the location selectors. The Tamil Nadu map will show your CN, HA and FA with the tunnel highlighted.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">6</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">⌨️</i><span class="lab-sr">Step 6: </span>Enter a message</h3>
+            <p>Type an ASCII message (up to 40 characters) in the message input field — for example, <i>Hello Mobile IP</i>.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">7</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🔘</i><span class="lab-sr">Step 7: </span>Press OK to convert the message</h3>
+            <p>The message is converted into 8-bit ASCII binary. Each character shows its binary code and ASCII decimal value.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">8</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🔍</i><span class="lab-sr">Step 8: </span>Check the binary representation</h3>
+            <p>Each character appears as 8 bits in the bitstream display. Verify that it matches your original message.</p>
+          </div>
+        </li>
+
+        <li class="lab-step">
+          <div class="lab-step-num" aria-hidden="true">9</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">▶️</i><span class="lab-sr">Step 9: </span>Start the simulation</h3>
+            <p>Press <b>START</b> to begin the animated packet-delivery sequence. Use <b>PAUSE</b> and <b>RESUME</b> to control playback, and <b>RESET</b> to run again.</p>
+          </div>
+        </li>
+
+        <li class="lab-step lab-phase">
+          <div class="lab-step-num" aria-hidden="true">10</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">📦</i><span class="lab-sr">Step 10: </span>Observe packet generation at the CN</h3>
+            <p>The CN creates a packet addressed to the Mobile Node's home address. The packet panel shows the inner IP header.</p>
+          </div>
+        </li>
+
+        <li class="lab-step lab-phase">
+          <div class="lab-step-num" aria-hidden="true">11</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🛡️</i><span class="lab-sr">Step 11: </span>Observe interception and encapsulation at the HA</h3>
+            <p>The HA intercepts the packet and adds an outer IP header addressed to the FA (care-of address). The packet panel shows both headers.</p>
+          </div>
+        </li>
+
+        <li class="lab-step lab-phase">
+          <div class="lab-step-num" aria-hidden="true">12</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">🚇</i><span class="lab-sr">Step 12: </span>Observe the Forward Tunnel</h3>
+            <p>Watch the encapsulated packet animate from the HA city to the FA city along the tunnel on the Tamil Nadu map.</p>
+          </div>
+        </li>
+
+        <li class="lab-step lab-phase">
+          <div class="lab-step-num" aria-hidden="true">13</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">📤</i><span class="lab-sr">Step 13: </span>Observe decapsulation at the FA</h3>
+            <p>The FA removes the outer header and recovers the original datagram. The outer header disappears from the packet panel.</p>
+          </div>
+        </li>
+
+        <li class="lab-step lab-phase">
+          <div class="lab-step-num" aria-hidden="true">14</div>
+          <div class="lab-step-body">
+            <h3><i aria-hidden="true">📱</i><span class="lab-sr">Step 14: </span>Observe final delivery to the Mobile Node</h3>
+            <p>The Mobile Node receives the original message. A success message confirms delivery and the waveform turns cyan for all bits.</p>
+          </div>
+        </li>
+
+      </ol>
+    </section>
+
+    <!-- Video 2 placeholder -->
+    <section class="lab-panel" data-lab-video="lab-video-2" data-lab-video-url="" aria-labelledby="proc-vid-h">
+      <h2 id="proc-vid-h">Simulation Procedure – Video Walkthrough</h2>
+      <div class="lab-video-block">
+        <div class="lab-vframe" id="lab-vframe-2">
+          <div>
+            <div class="lab-play">&#9654;</div>
+            <div class="lab-vlabel">YouTube Video 2 – How to Operate the Simulation</div>
+            <small>Video will appear here once the YouTube link is added.</small>
+          </div>
+        </div>
+        <a class="lab-watch" href="#" aria-disabled="true" data-lab-video-link="lab-video-2">Watch on YouTube</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
+
+  <script src="../scripts/global-nav.js"></script>
+</body>
+</html>

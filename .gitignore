@@ -1,0 +1,8 @@
+﻿# Backup folder (do not publish)
+*_BACKUP/
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+# node modules (if any)
+node_modules/
