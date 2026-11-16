@@ -58,106 +58,175 @@
       font-size: 1rem;
     }
 
-    /* Netflix Shelf Gallery */
-    .netflix-shelf-wrapper {
+    /* 3D Cover-Flow Conceptual Gallery */
+    .coverflow-stage-wrap {
       position: relative;
       width: 100%;
-      margin: 10px 0 6px;
-    }
-    .netflix-shelf {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding: 10px 4px 16px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(148, 120, 232, 0.45) transparent;
-    }
-    .netflix-shelf::-webkit-scrollbar {
-      height: 7px;
-    }
-    .netflix-shelf::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.04);
-      border-radius: 4px;
-    }
-    .netflix-shelf::-webkit-scrollbar-thumb {
-      background: rgba(148, 120, 232, 0.45);
-      border-radius: 4px;
-    }
-    .netflix-shelf::-webkit-scrollbar-thumb:hover {
-      background: #56B8E8;
-    }
-    .shelf-card {
-      flex: 0 0 240px;
-      width: 240px;
-      height: 165px;
-      scroll-snap-align: start;
-      background: #ffffff;
-      border: 1px solid rgba(148, 120, 232, 0.3);
-      border-radius: 12px;
+      max-width: 980px;
+      margin: 14px auto 10px;
+      perspective: 1200px;
       overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(10, 15, 36, 0.08);
-      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      padding: 24px 0 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
+    }
+    .coverflow-container {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+    }
+    .cf-card {
+      position: absolute;
+      width: 440px;
+      max-width: 82vw;
+      height: 280px;
+      background: #ffffff;
+      border-radius: 22px;
+      border: 1px solid rgba(148, 120, 232, 0.35);
+      box-shadow: 0 10px 25px rgba(10, 15, 36, 0.15);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
       user-select: none;
+      transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+                  box-shadow 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+                  z-index 0.65s ease;
+      will-change: transform, opacity;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(0) translateZ(-120px) scale(0.65);
+      z-index: 1;
     }
-    .shelf-card:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 10px 24px rgba(10, 15, 36, 0.16), 0 0 0 2px #56B8E8;
-      border-color: #56B8E8;
-      z-index: 2;
-    }
-    .shelf-card img {
+    .cf-card img {
       max-width: 100%;
       max-height: 100%;
       width: auto;
       height: auto;
       object-fit: contain;
+      border-radius: 14px;
       pointer-events: none;
+      display: block;
+      margin: auto;
     }
-    .shelf-card-badge {
+    .cf-badge {
       position: absolute;
-      bottom: 6px;
-      left: 8px;
+      bottom: 8px;
+      left: 12px;
       background: rgba(16, 26, 53, 0.85);
       color: #ffffff;
       font-size: 0.72rem;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      letter-spacing: 0.03em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
       pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
-    .shelf-arrow-btn {
+
+    /* Centre Card (Prominent, Elevated, Foreground) */
+    .cf-card.is-center {
+      transform: translateX(0) translateZ(60px) scale(1.0);
+      opacity: 1;
+      z-index: 10;
+      box-shadow: 0 22px 50px rgba(10, 15, 36, 0.3), 0 0 0 2px #56B8E8;
+      border-color: #56B8E8;
+      pointer-events: auto;
+      cursor: zoom-in;
+    }
+
+    /* Left Card (Smaller, Shifted Back, Left Side) */
+    .cf-card.is-left {
+      transform: translateX(-56%) translateZ(-40px) scale(0.82) rotateY(12deg);
+      opacity: 0.88;
+      z-index: 5;
+      box-shadow: 0 12px 28px rgba(10, 15, 36, 0.2);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    .cf-card.is-left:hover {
+      opacity: 0.98;
+      transform: translateX(-54%) translateZ(-20px) scale(0.85) rotateY(10deg);
+    }
+
+    /* Right Card (Smaller, Shifted Back, Right Side) */
+    .cf-card.is-right {
+      transform: translateX(56%) translateZ(-40px) scale(0.82) rotateY(-12deg);
+      opacity: 0.88;
+      z-index: 5;
+      box-shadow: 0 12px 28px rgba(10, 15, 36, 0.2);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    .cf-card.is-right:hover {
+      opacity: 0.98;
+      transform: translateX(54%) translateZ(-20px) scale(0.85) rotateY(-10deg);
+    }
+
+    /* Hidden cards offstage */
+    .cf-card.is-far-left {
+      transform: translateX(-95%) translateZ(-120px) scale(0.65);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .cf-card.is-far-right {
+      transform: translateX(95%) translateZ(-120px) scale(0.65);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Navigation Arrows */
+    .cf-nav-btn {
       background: #ffffff;
       border: 1px solid rgba(148, 120, 232, 0.35);
       color: #18233B;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 0.9rem;
-      box-shadow: 0 2px 8px rgba(10, 15, 36, 0.1);
+      font-size: 0.95rem;
+      box-shadow: 0 2px 8px rgba(10, 15, 36, 0.12);
       transition: all 0.2s ease;
     }
-    .shelf-arrow-btn:hover {
+    .cf-nav-btn:hover {
       background: #56B8E8;
       color: #ffffff;
       border-color: #56B8E8;
       transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(86, 184, 232, 0.4);
     }
 
-    /* Lightbox Modal *//* Lightbox Modal */
+    @media (max-width: 680px) {
+      .coverflow-container {
+        height: 250px;
+      }
+      .cf-card {
+        width: 300px;
+        height: 210px;
+        border-radius: 16px;
+      }
+      .cf-card.is-left {
+        transform: translateX(-48%) translateZ(-30px) scale(0.78) rotateY(10deg);
+      }
+      .cf-card.is-right {
+        transform: translateX(48%) translateZ(-30px) scale(0.78) rotateY(-10deg);
+      }
+    }
+
+    /* Lightbox Modal *//* Lightbox Modal *//* Lightbox Modal */
     #lightbox-overlay {
       display: none;
       position: fixed;
@@ -408,47 +477,106 @@
       </div>
     </section>
 
-        <!-- 3. CONCEPTUAL GALLERY SECTION -->
+            <!-- 3. CONCEPTUAL GALLERY SECTION - 3D COVER-FLOW -->
     <section class="lab-panel" aria-labelledby="th-gal-h">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <h2 id="th-gal-h" style="margin:0;">Conceptual Gallery</h2>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <button class="shelf-arrow-btn" id="shelf-prev" aria-label="Scroll gallery left" type="button">&#9664;</button>
-          <button class="shelf-arrow-btn" id="shelf-next" aria-label="Scroll gallery right" type="button">&#9654;</button>
+        <div class="cf-controls" style="display:flex;gap:10px;align-items:center;">
+          <button class="cf-nav-btn" id="cf-prev" aria-label="Previous image" type="button">&#9664;</button>
+          <button class="cf-nav-btn" id="cf-next" aria-label="Next image" type="button">&#9654;</button>
         </div>
       </div>
 
-      <div class="netflix-shelf-wrapper">
-        <div class="netflix-shelf" id="netflix-shelf" role="region" aria-label="Conceptual Images Shelf">
-          <div class="shelf-card" data-idx="0" tabindex="0" role="button" aria-label="Concept Image 1"><img src="../assets/doc-images/image1.png" alt="Concept Image 1" loading="lazy"><div class="shelf-card-badge">Concept 01</div></div>
-          <div class="shelf-card" data-idx="1" tabindex="0" role="button" aria-label="Concept Image 2"><img src="../assets/doc-images/image2.png" alt="Concept Image 2" loading="lazy"><div class="shelf-card-badge">Concept 02</div></div>
-          <div class="shelf-card" data-idx="2" tabindex="0" role="button" aria-label="Concept Image 3"><img src="../assets/doc-images/image3.png" alt="Concept Image 3" loading="lazy"><div class="shelf-card-badge">Concept 03</div></div>
-          <div class="shelf-card" data-idx="3" tabindex="0" role="button" aria-label="Concept Image 4"><img src="../assets/doc-images/image4.png" alt="Concept Image 4" loading="lazy"><div class="shelf-card-badge">Concept 04</div></div>
-          <div class="shelf-card" data-idx="4" tabindex="0" role="button" aria-label="Concept Image 5"><img src="../assets/doc-images/image5.png" alt="Concept Image 5" loading="lazy"><div class="shelf-card-badge">Concept 05</div></div>
-          <div class="shelf-card" data-idx="5" tabindex="0" role="button" aria-label="Concept Image 6"><img src="../assets/doc-images/image6.png" alt="Concept Image 6" loading="lazy"><div class="shelf-card-badge">Concept 06</div></div>
-          <div class="shelf-card" data-idx="6" tabindex="0" role="button" aria-label="Concept Image 7"><img src="../assets/doc-images/image7.png" alt="Concept Image 7" loading="lazy"><div class="shelf-card-badge">Concept 07</div></div>
-          <div class="shelf-card" data-idx="7" tabindex="0" role="button" aria-label="Concept Image 8"><img src="../assets/doc-images/image8.png" alt="Concept Image 8" loading="lazy"><div class="shelf-card-badge">Concept 08</div></div>
-          <div class="shelf-card" data-idx="8" tabindex="0" role="button" aria-label="Concept Image 9"><img src="../assets/doc-images/image9.png" alt="Concept Image 9" loading="lazy"><div class="shelf-card-badge">Concept 09</div></div>
-          <div class="shelf-card" data-idx="9" tabindex="0" role="button" aria-label="Concept Image 10"><img src="../assets/doc-images/image10.png" alt="Concept Image 10" loading="lazy"><div class="shelf-card-badge">Concept 10</div></div>
-          <div class="shelf-card" data-idx="10" tabindex="0" role="button" aria-label="Concept Image 11"><img src="../assets/doc-images/image11.png" alt="Concept Image 11" loading="lazy"><div class="shelf-card-badge">Concept 11</div></div>
-          <div class="shelf-card" data-idx="11" tabindex="0" role="button" aria-label="Concept Image 12"><img src="../assets/doc-images/image12.png" alt="Concept Image 12" loading="lazy"><div class="shelf-card-badge">Concept 12</div></div>
-          <div class="shelf-card" data-idx="12" tabindex="0" role="button" aria-label="Concept Image 13"><img src="../assets/doc-images/image13.png" alt="Concept Image 13" loading="lazy"><div class="shelf-card-badge">Concept 13</div></div>
-          <div class="shelf-card" data-idx="13" tabindex="0" role="button" aria-label="Concept Image 14"><img src="../assets/doc-images/image14.png" alt="Concept Image 14" loading="lazy"><div class="shelf-card-badge">Concept 14</div></div>
-          <div class="shelf-card" data-idx="14" tabindex="0" role="button" aria-label="Concept Image 15"><img src="../assets/doc-images/image15.png" alt="Concept Image 15" loading="lazy"><div class="shelf-card-badge">Concept 15</div></div>
-          <div class="shelf-card" data-idx="15" tabindex="0" role="button" aria-label="Concept Image 16"><img src="../assets/doc-images/image16.png" alt="Concept Image 16" loading="lazy"><div class="shelf-card-badge">Concept 16</div></div>
-          <div class="shelf-card" data-idx="16" tabindex="0" role="button" aria-label="Concept Image 17"><img src="../assets/doc-images/image17.png" alt="Concept Image 17" loading="lazy"><div class="shelf-card-badge">Concept 17</div></div>
-          <div class="shelf-card" data-idx="17" tabindex="0" role="button" aria-label="Concept Image 18"><img src="../assets/doc-images/image18.png" alt="Concept Image 18" loading="lazy"><div class="shelf-card-badge">Concept 18</div></div>
-          <div class="shelf-card" data-idx="18" tabindex="0" role="button" aria-label="Concept Image 19"><img src="../assets/doc-images/image19.png" alt="Concept Image 19" loading="lazy"><div class="shelf-card-badge">Concept 19</div></div>
-          <div class="shelf-card" data-idx="19" tabindex="0" role="button" aria-label="Concept Image 20"><img src="../assets/doc-images/image20.png" alt="Concept Image 20" loading="lazy"><div class="shelf-card-badge">Concept 20</div></div>
-          <div class="shelf-card" data-idx="20" tabindex="0" role="button" aria-label="Concept Image 21"><img src="../assets/doc-images/image21.png" alt="Concept Image 21" loading="lazy"><div class="shelf-card-badge">Concept 21</div></div>
-          <div class="shelf-card" data-idx="21" tabindex="0" role="button" aria-label="Concept Image 22"><img src="../assets/doc-images/image22.png" alt="Concept Image 22" loading="lazy"><div class="shelf-card-badge">Concept 22</div></div>
-          <div class="shelf-card" data-idx="22" tabindex="0" role="button" aria-label="Mobile IP System Architecture"><img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP System Architecture" loading="lazy"><div class="shelf-card-badge">Architecture</div></div>
-          <div class="shelf-card" data-idx="23" tabindex="0" role="button" aria-label="HA and FA Interaction"><img src="../assets/diagrams/home-agent-foreign-agent.svg" alt="HA and FA Interaction" loading="lazy"><div class="shelf-card-badge">HA & FA</div></div>
-          <div class="shelf-card" data-idx="24" tabindex="0" role="button" aria-label="IP-in-IP Encapsulation"><img src="../assets/diagrams/encapsulation-decapsulation.svg" alt="IP-in-IP Encapsulation" loading="lazy"><div class="shelf-card-badge">Encapsulation</div></div>
-          <div class="shelf-card" data-idx="25" tabindex="0" role="button" aria-label="Forward Tunneling Path"><img src="../assets/diagrams/forward-tunneling.svg" alt="Forward Tunneling Path" loading="lazy"><div class="shelf-card-badge">Tunneling</div></div>
-          <div class="shelf-card" data-idx="26" tabindex="0" role="button" aria-label="Reverse Tunneling Path"><img src="../assets/diagrams/reverse-tunneling.svg" alt="Reverse Tunneling Path" loading="lazy"><div class="shelf-card-badge">Rev Tunnel</div></div>
-          <div class="shelf-card" data-idx="27" tabindex="0" role="button" aria-label="Complete Packet Delivery"><img src="../assets/diagrams/packet-delivery.svg" alt="Complete Packet Delivery" loading="lazy"><div class="shelf-card-badge">Delivery</div></div>
-          <div class="shelf-card" data-idx="28" tabindex="0" role="button" aria-label="Protocol State Overview"><img src="../assets/diagrams/mobile-ip-overview.svg" alt="Protocol State Overview" loading="lazy"><div class="shelf-card-badge">Overview</div></div>
+      <div class="coverflow-stage-wrap" id="coverflow-stage">
+        <div class="coverflow-container" id="coverflow-container" role="region" aria-label="3D Cover-Flow Conceptual Gallery">
+          <article class="cf-card" data-idx="0" tabindex="0" role="button" aria-label="Conceptual Image 1">
+            <img src="../assets/doc-images/image1.png" alt="Mobile IP Concept 1" loading="eager">
+            <div class="cf-badge">Concept 01 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="1" tabindex="0" role="button" aria-label="Conceptual Image 2">
+            <img src="../assets/doc-images/image2.png" alt="Mobile IP Concept 2" loading="eager">
+            <div class="cf-badge">Concept 02 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="2" tabindex="0" role="button" aria-label="Conceptual Image 3">
+            <img src="../assets/doc-images/image3.png" alt="Mobile IP Concept 3" loading="eager">
+            <div class="cf-badge">Concept 03 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="3" tabindex="0" role="button" aria-label="Conceptual Image 4">
+            <img src="../assets/doc-images/image4.png" alt="Mobile IP Concept 4" loading="lazy">
+            <div class="cf-badge">Concept 04 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="4" tabindex="0" role="button" aria-label="Conceptual Image 5">
+            <img src="../assets/doc-images/image5.png" alt="Mobile IP Concept 5" loading="lazy">
+            <div class="cf-badge">Concept 05 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="5" tabindex="0" role="button" aria-label="Conceptual Image 6">
+            <img src="../assets/doc-images/image6.png" alt="Mobile IP Concept 6" loading="lazy">
+            <div class="cf-badge">Concept 06 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="6" tabindex="0" role="button" aria-label="Conceptual Image 7">
+            <img src="../assets/doc-images/image7.png" alt="Mobile IP Concept 7" loading="lazy">
+            <div class="cf-badge">Concept 07 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="7" tabindex="0" role="button" aria-label="Conceptual Image 8">
+            <img src="../assets/doc-images/image8.png" alt="Mobile IP Concept 8" loading="lazy">
+            <div class="cf-badge">Concept 08 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="8" tabindex="0" role="button" aria-label="Conceptual Image 9">
+            <img src="../assets/doc-images/image9.png" alt="Mobile IP Concept 9" loading="lazy">
+            <div class="cf-badge">Concept 09 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="9" tabindex="0" role="button" aria-label="Conceptual Image 10">
+            <img src="../assets/doc-images/image10.png" alt="Mobile IP Concept 10" loading="lazy">
+            <div class="cf-badge">Concept 10 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="10" tabindex="0" role="button" aria-label="Conceptual Image 11">
+            <img src="../assets/doc-images/image11.png" alt="Mobile IP Concept 11" loading="lazy">
+            <div class="cf-badge">Concept 11 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="11" tabindex="0" role="button" aria-label="Conceptual Image 12">
+            <img src="../assets/doc-images/image12.png" alt="Mobile IP Concept 12" loading="lazy">
+            <div class="cf-badge">Concept 12 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="12" tabindex="0" role="button" aria-label="Conceptual Image 13">
+            <img src="../assets/doc-images/image13.png" alt="Mobile IP Concept 13" loading="lazy">
+            <div class="cf-badge">Concept 13 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="13" tabindex="0" role="button" aria-label="Conceptual Image 14">
+            <img src="../assets/doc-images/image14.png" alt="Mobile IP Concept 14" loading="lazy">
+            <div class="cf-badge">Concept 14 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="14" tabindex="0" role="button" aria-label="Conceptual Image 15">
+            <img src="../assets/doc-images/image15.png" alt="Mobile IP Concept 15" loading="lazy">
+            <div class="cf-badge">Concept 15 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="15" tabindex="0" role="button" aria-label="Conceptual Image 16">
+            <img src="../assets/doc-images/image16.png" alt="Mobile IP Concept 16" loading="lazy">
+            <div class="cf-badge">Concept 16 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="16" tabindex="0" role="button" aria-label="Conceptual Image 17">
+            <img src="../assets/doc-images/image17.png" alt="Mobile IP Concept 17" loading="lazy">
+            <div class="cf-badge">Concept 17 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="17" tabindex="0" role="button" aria-label="Conceptual Image 18">
+            <img src="../assets/doc-images/image18.png" alt="Mobile IP Concept 18" loading="lazy">
+            <div class="cf-badge">Concept 18 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="18" tabindex="0" role="button" aria-label="Conceptual Image 19">
+            <img src="../assets/doc-images/image19.png" alt="Mobile IP Concept 19" loading="lazy">
+            <div class="cf-badge">Concept 19 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="19" tabindex="0" role="button" aria-label="Conceptual Image 20">
+            <img src="../assets/doc-images/image20.png" alt="Mobile IP Concept 20" loading="lazy">
+            <div class="cf-badge">Concept 20 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="20" tabindex="0" role="button" aria-label="Conceptual Image 21">
+            <img src="../assets/doc-images/image21.png" alt="Mobile IP Concept 21" loading="lazy">
+            <div class="cf-badge">Concept 21 / 22</div>
+          </article>
+          <article class="cf-card" data-idx="21" tabindex="0" role="button" aria-label="Conceptual Image 22">
+            <img src="../assets/doc-images/image22.png" alt="Mobile IP Concept 22" loading="eager">
+            <div class="cf-badge">Concept 22 / 22</div>
+          </article>
         </div>
       </div>
     </section>
@@ -554,51 +682,125 @@
 
   <!-- Carousel & Lightbox Script -->
   <script>
-    // Conceptual Gallery Netflix-Shelf & Lightbox Functionality
+        // 3D Cover-Flow Gallery & Lightbox Controller
     (function () {
       'use strict';
 
-      var shelf = document.getElementById('netflix-shelf');
-      var shelfPrev = document.getElementById('shelf-prev');
-      var shelfNext = document.getElementById('shelf-next');
-      var cards = Array.from(document.querySelectorAll('.shelf-card'));
+      var cards = Array.from(document.querySelectorAll('.cf-card'));
       var total = cards.length;
+      if (total === 0) return;
 
-      // Arrow navigation
-      if (shelfPrev && shelf && shelfNext) {
-        shelfPrev.addEventListener('click', function () {
-          shelf.scrollBy({ left: -450, behavior: 'smooth' });
-        });
-        shelfNext.addEventListener('click', function () {
-          shelf.scrollBy({ left: 450, behavior: 'smooth' });
+      var prevBtn = document.getElementById('cf-prev');
+      var nextBtn = document.getElementById('cf-next');
+      var stage = document.getElementById('coverflow-stage');
+      var curIdx = 0; // Starts with Image 1 (idx 0)
+      var autoTimer = null;
+      var resumeTimeout = null;
+
+      function updateCoverFlow() {
+        var leftIdx = (curIdx - 1 + total) % total;
+        var rightIdx = (curIdx + 1) % total;
+
+        cards.forEach(function (card, idx) {
+          card.classList.remove('is-center', 'is-left', 'is-right', 'is-far-left', 'is-far-right');
+
+          if (idx === curIdx) {
+            card.classList.add('is-center');
+          } else if (idx === leftIdx) {
+            card.classList.add('is-left');
+          } else if (idx === rightIdx) {
+            card.classList.add('is-right');
+          } else {
+            var diff = (idx - curIdx + total) % total;
+            if (diff > total / 2) {
+              card.classList.add('is-far-left');
+            } else {
+              card.classList.add('is-far-right');
+            }
+          }
         });
       }
 
-      // Mouse drag-to-scroll support
-      var isDown = false;
-      var startX, scrollLeft;
-      if (shelf) {
-        shelf.addEventListener('mousedown', function (e) {
-          isDown = true;
-          shelf.style.cursor = 'grabbing';
-          startX = e.pageX - shelf.offsetLeft;
-          scrollLeft = shelf.scrollLeft;
+      function goTo(idx) {
+        curIdx = (idx + total) % total;
+        updateCoverFlow();
+      }
+
+      function next() {
+        goTo(curIdx + 1);
+      }
+
+      function prev() {
+        goTo(curIdx - 1);
+      }
+
+      // Auto-rotation every 3 seconds
+      function startAuto() {
+        stopAuto();
+        autoTimer = setInterval(next, 3000);
+      }
+
+      function stopAuto() {
+        if (autoTimer) {
+          clearInterval(autoTimer);
+          autoTimer = null;
+        }
+        if (resumeTimeout) {
+          clearTimeout(resumeTimeout);
+          resumeTimeout = null;
+        }
+      }
+
+      function pauseAndResume() {
+        stopAuto();
+        resumeTimeout = setTimeout(startAuto, 4000);
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+          next();
+          pauseAndResume();
         });
-        shelf.addEventListener('mouseleave', function () {
-          isDown = false;
-          if (shelf) shelf.style.cursor = '';
+      }
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function () {
+          prev();
+          pauseAndResume();
         });
-        shelf.addEventListener('mouseup', function () {
-          isDown = false;
-          if (shelf) shelf.style.cursor = '';
+      }
+
+      cards.forEach(function (card, idx) {
+        card.addEventListener('click', function () {
+          if (idx === curIdx) {
+            openLightbox(curIdx);
+          } else if (idx === (curIdx - 1 + total) % total) {
+            prev();
+            pauseAndResume();
+          } else if (idx === (curIdx + 1) % total) {
+            next();
+            pauseAndResume();
+          } else {
+            goTo(idx);
+            pauseAndResume();
+          }
         });
-        shelf.addEventListener('mousemove', function (e) {
-          if (!isDown) return;
-          e.preventDefault();
-          var x = e.pageX - shelf.offsetLeft;
-          var walk = (x - startX) * 1.5;
-          shelf.scrollLeft = scrollLeft - walk;
+
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (idx === curIdx) {
+              openLightbox(curIdx);
+            } else {
+              goTo(idx);
+              pauseAndResume();
+            }
+          }
         });
+      });
+
+      if (stage) {
+        stage.addEventListener('mouseenter', stopAuto);
+        stage.addEventListener('mouseleave', startAuto);
       }
 
       // Lightbox Modal
@@ -619,10 +821,11 @@
       }
 
       function openLightbox(idx) {
+        stopAuto();
         lbIndex = (idx + total) % total;
         var card = cards[lbIndex];
         var img = card.querySelector('img');
-        var badge = card.querySelector('.shelf-card-badge');
+        var badge = card.querySelector('.cf-badge');
         if (lbImg && img) {
           lbImg.src = img.src;
           lbImg.alt = img.alt;
@@ -640,13 +843,14 @@
         if (lbImg) lbImg.src = '';
         zoomScale = 1.0;
         updateZoom();
+        startAuto();
       }
 
       function lbNav(step) {
         lbIndex = (lbIndex + step + total) % total;
         var card = cards[lbIndex];
         var img = card.querySelector('img');
-        var badge = card.querySelector('.shelf-card-badge');
+        var badge = card.querySelector('.cf-badge');
         if (lbImg && img) {
           lbImg.src = img.src;
           lbImg.alt = img.alt;
@@ -656,19 +860,8 @@
         }
         zoomScale = 1.0;
         updateZoom();
+        goTo(lbIndex);
       }
-
-      cards.forEach(function (card, idx) {
-        card.addEventListener('click', function () {
-          openLightbox(idx);
-        });
-        card.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openLightbox(idx);
-          }
-        });
-      });
 
       if (lbClose) lbClose.addEventListener('click', closeLightbox);
       if (lbPrev) lbPrev.addEventListener('click', function () { lbNav(-1); });
@@ -692,13 +885,37 @@
       }
 
       document.addEventListener('keydown', function (e) {
-        if (!overlay || !overlay.classList.contains('open')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') lbNav(-1);
-        if (e.key === 'ArrowRight') lbNav(1);
-        if (e.key === '+' || e.key === '=') { zoomScale = Math.min(3.0, zoomScale + 0.25); updateZoom(); }
-        if (e.key === '-' || e.key === '_') { zoomScale = Math.max(0.5, zoomScale - 0.25); updateZoom(); }
+        if (overlay && overlay.classList.contains('open')) {
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowLeft') lbNav(-1);
+          if (e.key === 'ArrowRight') lbNav(1);
+          if (e.key === '+' || e.key === '=') { zoomScale = Math.min(3.0, zoomScale + 0.25); updateZoom(); }
+          if (e.key === '-' || e.key === '_') { zoomScale = Math.max(0.5, zoomScale - 0.25); updateZoom(); }
+        }
       });
+
+      // Mobile Touch Swiping
+      var touchStartX = 0;
+      var touchEndX = 0;
+      if (stage) {
+        stage.addEventListener('touchstart', function (e) {
+          touchStartX = e.changedTouches[0].screenX;
+          stopAuto();
+        }, { passive: true });
+        stage.addEventListener('touchend', function (e) {
+          touchEndX = e.changedTouches[0].screenX;
+          if (touchEndX < touchStartX - 40) {
+            next();
+          } else if (touchEndX > touchStartX + 40) {
+            prev();
+          }
+          pauseAndResume();
+        }, { passive: true });
+      }
+
+      // Initial state & start rotation
+      updateCoverFlow();
+      startAuto();
     })();
 
     // FAQ Accordion
