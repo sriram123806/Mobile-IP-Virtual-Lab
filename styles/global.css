@@ -34,9 +34,13 @@
   padding: 0;
 }
 
+html {
+  background: #060e24;
+}
+
 body.lab-page {
   font-family: var(--lab-font-body);
-  background: radial-gradient(ellipse 120% 70% at 50% -10%, #0d2858 0%, #061230 45%, #030818 100%) fixed;
+  background: transparent;
   color: var(--lab-text-light);
   line-height: 1.6;
   min-height: 100vh;
@@ -45,10 +49,51 @@ body.lab-page {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Remove old video backgrounds and blurry textures */
-.bg-video, .bg-video-overlay, .lab-bg {
-  display: none !important;
+/* ================================================================
+   RESTORED HIGH-DEFINITION BACKGROUND SYSTEM
+   Videos autoplay, loop, muted with subtle controlled overlay
+================================================================ */
+.bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
 }
+
+.bg-video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: rgba(4, 10, 26, 0.42);
+  pointer-events: none;
+}
+
+.lab-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+.lab-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 10, 26, 0.42);
+  pointer-events: none;
+}
+
+.lab-bg-aim        { background-image: url('../assets/backgrounds/bg-aim.png'); }
+.lab-bg-learning   { background-image: url('../assets/backgrounds/bg-learning-new.png'), url('../assets/backgrounds/bg-learning.jpg'); }
+.lab-bg-quiz       { background-image: url('../assets/backgrounds/bg-quiz.jpg'); }
+.lab-bg-references { background-image: url('../assets/backgrounds/bg-references.jpg'); }
 
 /* Content Container */
 .lab-wrap {
@@ -1292,4 +1337,30 @@ body.lab-page {
 .lab-btn-alt:hover {
   background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
+}
+
+/* Simulation Section 1 Clean Alignment */
+.sim-loc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+@media (max-width: 860px) {
+  .sim-loc-row {
+    grid-template-columns: 1fr;
+  }
+}
+.sim-msg-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+@media (max-width: 640px) {
+  .sim-msg-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

@@ -725,6 +725,13 @@
 </head>
 <body class="lab-page">
 
+  <!-- Original Background Video -->
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-simulation-poster.jpg" aria-hidden="true">
+    <source src="../assets/videos/video-simulation.mp4" type="video/mp4">
+  </video>
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
+
   <!-- Background Video: Pink Dreamcore video -->
   
   
@@ -747,31 +754,35 @@
       <h2 id="sec1-config-h">SECTION 1 &mdash; Network Configuration &amp; Message Encoding</h2>
       <p style="margin-bottom:16px;">Select the geographical locations across Tamil Nadu for the Correspondent Node, Home Agent, and Foreign Agent, then enter your transmission message.</p>
 
-      <!-- Row 1: Location Selectors -->
-      <div class="lab-row" style="margin-bottom:16px;">
+      <!-- Row 1: 3 Location Selectors on ONE horizontal row on desktop with short labels CN, HA, FA -->
+      <div class="sim-loc-row">
         <label class="lab-field">
-          CORRESPONDENT NODE (CN)
+          <b>CN</b>
           <select id="mip-sel-cn"><option value="">Select CN location</option></select>
         </label>
         <label class="lab-field">
-          HOME AGENT (HA)
+          <b>HA</b>
           <select id="mip-sel-ha"><option value="">Select HA location</option></select>
         </label>
         <label class="lab-field">
-          FOREIGN AGENT (FA)
+          <b>FA</b>
           <select id="mip-sel-fa"><option value="">Select FA location</option></select>
         </label>
-        <button class="lab-btn" id="mip-loc-ok" type="button">Confirm Locations</button>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="lab-btn" id="mip-loc-ok" type="button" style="height:42px;white-space:nowrap;">Confirm Locations</button>
+        </div>
       </div>
-      <p class="lab-msg" id="mip-loc-msg" role="status" style="margin-bottom:16px;"></p>
+      <p class="lab-msg" id="mip-loc-msg" role="status" style="margin-bottom:14px;"></p>
 
-      <!-- Row 2: Message Input & Encoding -->
-      <div class="lab-row">
-        <label class="lab-field" style="flex:5 1 340px">
+      <!-- Row 2: Message Input & 8-Bit ASCII Conversion Control -->
+      <div class="sim-msg-row">
+        <label class="lab-field" style="flex:1;">
           Transmission Message (ASCII, up to 40 characters)
           <input id="mip-input" type="text" maxlength="40" autocomplete="off" placeholder="e.g., Mobile IP Lab 2026">
         </label>
-        <button class="lab-btn" id="mip-msg-ok" type="button">Convert to 8-Bit ASCII</button>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="lab-btn" id="mip-msg-ok" type="button" style="height:42px;white-space:nowrap;">Convert to 8-Bit ASCII</button>
+        </div>
       </div>
       <p class="lab-msg" id="mip-text-msg" role="status"></p>
 
@@ -1218,40 +1229,94 @@
   </script>
 
   <!-- STAGE INFO OBSERVER -->
-    // Synchronize Session 3 Packet Cards with Current Stage
-    function syncSession3Cards(stage) {
-      // 5 cards: 1 (orig), 2 (encap), 3 (tunnel), 4 (decap), 5 (delivered)
-      var activeCardNum = 1;
-      if (stage === 0 || stage === 1) activeCardNum = 1;
-      else if (stage === 2) activeCardNum = 2;
-      else if (stage === 3) activeCardNum = 3;
-      else if (stage === 4) activeCardNum = 4;
-      else if (stage === 5) activeCardNum = 5;
+  <script>
+  
+  // ================================================================
+  // SESSION 3 CONTROLLER & STANDALONE RUNNER
+  // ================================================================
+  var _s3Timer = null;
 
-      for (var c = 1; c <= 5; c++) {
-        var cardEl = document.getElementById('pkt-card-' + c);
-        if (cardEl) {
-          if (c === activeCardNum) cardEl.classList.add('is-active-step');
-          else cardEl.classList.remove('is-active-step');
+  window.syncSession3Cards = function(stage) {
+    var activeCardNum = 1;
+    if (stage === 0 || stage === 1) activeCardNum = 1;
+    else if (stage === 2) activeCardNum = 2;
+    else if (stage === 3) activeCardNum = 3;
+    else if (stage === 4) activeCardNum = 4;
+    else if (stage >= 5) activeCardNum = 5;
+
+    for (var c = 1; c <= 5; c++) {
+      var cardEl = document.getElementById('pkt-card-' + c);
+      if (cardEl) {
+        if (c === activeCardNum) {
+          cardEl.classList.add('is-active-step');
+          cardEl.style.borderColor = '#00d2ff';
+          cardEl.style.boxShadow = '0 0 24px rgba(0, 210, 255, 0.75), inset 0 0 12px rgba(0, 210, 255, 0.25)';
+          cardEl.style.transform = 'translateY(-3px) scale(1.03)';
+        } else {
+          cardEl.classList.remove('is-active-step');
+          cardEl.style.borderColor = '';
+          cardEl.style.boxShadow = '';
+          cardEl.style.transform = '';
         }
-      }
-
-      // Update message text in Session 3
-      var msgVal = (window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.msg) || 'HELLO';
-      var d1 = document.getElementById('blk-data-text');
-      var d2 = document.getElementById('blk-data-text2');
-      var bMsg = document.getElementById('bit-msg-val');
-      var bAscii = document.getElementById('bit-ascii-val');
-      if (d1) d1.textContent = '"' + msgVal + '"';
-      if (d2) d2.textContent = '"' + msgVal + '"';
-      if (bMsg) bMsg.textContent = msgVal;
-
-      if (window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.chars && bAscii) {
-        bAscii.textContent = window.MIP_SIM.state.chars.map(function(c){ return c.bin; }).join(' ');
       }
     }
 
-  <script>
+    var inp = document.getElementById('mip-input');
+    var userMsg = (inp && inp.value.trim()) || ((window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.msg) || 'HELLO');
+    var d1 = document.getElementById('blk-data-text');
+    var d2 = document.getElementById('blk-data-text2');
+    var bMsg = document.getElementById('bit-msg-val');
+    var bAscii = document.getElementById('bit-ascii-val');
+    if (d1) d1.textContent = '"' + userMsg + '"';
+    if (d2) d2.textContent = '"' + userMsg + '"';
+    if (bMsg) bMsg.textContent = userMsg;
+
+    var bitsArr = [];
+    for (var i = 0; i < userMsg.length; i++) {
+      var binStr = userMsg.charCodeAt(i).toString(2);
+      while (binStr.length < 8) binStr = '0' + binStr;
+      bitsArr.push(binStr);
+    }
+    if (bAscii) bAscii.textContent = bitsArr.join(' ');
+  };
+
+  window.runSession3Solo = function() {
+    if (_s3Timer) {
+      clearInterval(_s3Timer);
+      _s3Timer = null;
+    }
+
+    var inp = document.getElementById('mip-input');
+    var userMsg = (inp && inp.value.trim()) || ((window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.msg) || 'HELLO');
+
+    // Populate MIP_SIM state if not already done
+    if (window.MIP_SIM && window.MIP_SIM.state) {
+      window.MIP_SIM.state.msg = userMsg;
+      window.MIP_SIM.state.chars = userMsg.split('').map(function(ch) {
+        var code = ch.charCodeAt(0);
+        var bin = code.toString(2);
+        while (bin.length < 8) bin = '0' + bin;
+        return { ch: ch, code: code, bin: bin };
+      });
+      window.MIP_SIM.state.running = true;
+    }
+
+    // Immediately sync card 1 and update bitstream data
+    syncSession3Cards(1);
+
+    var currentStep = 1;
+    _s3Timer = setInterval(function() {
+      currentStep++;
+      if (currentStep > 5) {
+        clearInterval(_s3Timer);
+        _s3Timer = null;
+        syncSession3Cards(5);
+        return;
+      }
+      syncSession3Cards(currentStep);
+    }, 1400);
+  };
+
   (function(){
     var STAGE_INFO = [
       {
@@ -1572,6 +1637,115 @@
         requestAnimationFrame(drawRfWave);
       }
       drawRfWave();
+
+    // Independent NRZ-L waveform renderer
+    (function(){
+      var waveCanvas = document.getElementById('mip-wave');
+      if (!waveCanvas) return;
+      var wCtx = waveCanvas.getContext('2d');
+      var waveCursor = 0;
+
+      function resizeWave() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = waveCanvas.clientWidth || 600;
+        waveCanvas.width  = w * dpr;
+        waveCanvas.height = 130 * dpr;
+        wCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resizeWave();
+      window.addEventListener('resize', resizeWave);
+
+      function drawNrzl() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = waveCanvas.width / dpr;
+        var h = waveCanvas.height / dpr;
+        wCtx.clearRect(0, 0, w, h);
+
+        var inp = document.getElementById('mip-input');
+        var userMsg = (inp && inp.value.trim()) || ((window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.msg) || 'HELLO');
+        var bits = '';
+        for (var i = 0; i < userMsg.length; i++) {
+          var b = userMsg.charCodeAt(i).toString(2);
+          while (b.length < 8) b = '0' + b;
+          bits += b;
+        }
+
+        var numBits = Math.min(bits.length, 32);
+        var startX = 35;
+        var bitW = (w - startX - 15) / numBits;
+        var highY = 28;
+        var lowY = h - 28;
+
+        // Draw Voltage Axis Labels (1 and 0)
+        wCtx.fillStyle = '#94a3b8';
+        wCtx.font = 'bold 11px monospace';
+        wCtx.textAlign = 'right';
+        wCtx.fillText('1', 26, highY + 4);
+        wCtx.fillText('0', 26, lowY + 4);
+
+        // Grid lines
+        wCtx.strokeStyle = 'rgba(255,255,255,0.08)';
+        wCtx.lineWidth = 1;
+        wCtx.beginPath();
+        wCtx.moveTo(startX, highY); wCtx.lineTo(w - 10, highY);
+        wCtx.moveTo(startX, lowY);  wCtx.lineTo(w - 10, lowY);
+        wCtx.stroke();
+
+        var curBitIdx = Math.floor(waveCursor) % numBits;
+
+        // Draw waveform
+        for (var idx = 0; idx < numBits; idx++) {
+          var bx = startX + idx * bitW;
+          var bitVal = bits[idx];
+          var y = (bitVal === '1') ? highY : lowY;
+
+          wCtx.lineWidth = 2.4;
+          if (idx <= curBitIdx) {
+            wCtx.strokeStyle = '#00d2ff';
+            wCtx.shadowColor = 'rgba(0, 210, 255, 0.6)';
+            wCtx.shadowBlur = 6;
+          } else {
+            wCtx.strokeStyle = '#c084fc';
+            wCtx.shadowColor = 'rgba(192, 132, 252, 0.4)';
+            wCtx.shadowBlur = 4;
+          }
+
+          wCtx.beginPath();
+          wCtx.moveTo(bx, y);
+          wCtx.lineTo(bx + bitW, y);
+          wCtx.stroke();
+
+          // Transition vertical line to next bit
+          if (idx < numBits - 1) {
+            var nextBitVal = bits[idx + 1];
+            if (nextBitVal !== bitVal) {
+              var nextY = (nextBitVal === '1') ? highY : lowY;
+              wCtx.beginPath();
+              wCtx.moveTo(bx + bitW, y);
+              wCtx.lineTo(bx + bitW, nextY);
+              wCtx.stroke();
+            }
+          }
+        }
+        wCtx.shadowBlur = 0;
+
+        // Moving dashed divider cursor
+        var cursorX = startX + (curBitIdx + 1) * bitW;
+        wCtx.strokeStyle = '#ffffff';
+        wCtx.setLineDash([4, 4]);
+        wCtx.lineWidth = 1.5;
+        wCtx.beginPath();
+        wCtx.moveTo(cursorX, 10);
+        wCtx.lineTo(cursorX, h - 10);
+        wCtx.stroke();
+        wCtx.setLineDash([]);
+
+        waveCursor += 0.05;
+        requestAnimationFrame(drawNrzl);
+      }
+      drawNrzl();
+    })();
+
     })();
   </script>
 

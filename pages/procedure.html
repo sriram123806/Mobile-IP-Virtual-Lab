@@ -12,12 +12,17 @@
   <link rel="stylesheet" href="../styles/global.css">
   <style>
     .proc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
       list-style: none;
       padding: 0;
       margin-top: 18px;
+      width: 100%;
+    }
+    .proc-item {
+      width: 100%;
+      box-sizing: border-box;
     }
     .proc-item {
       background: #f8fafc;
@@ -93,6 +98,13 @@
   </style>
 </head>
 <body class="lab-page">
+
+  <!-- Original Background Video -->
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-procedure-poster.jpg" aria-hidden="true">
+    <source src="../assets/videos/video-procedure.mp4" type="video/mp4">
+  </video>
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
 
   <!-- Navigation Bar -->
   <nav id="lab-nav" data-active="procedure" role="navigation" aria-label="Virtual Lab Sections"></nav>

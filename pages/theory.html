@@ -357,6 +357,13 @@
 </head>
 <body class="lab-page">
 
+  <!-- Original Background Video -->
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-theory-poster.jpg" aria-hidden="true">
+    <source src="../assets/videos/video-theory.mp4" type="video/mp4">
+  </video>
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
+
   <!-- Navigation Bar -->
   <nav id="lab-nav" data-active="theory" role="navigation" aria-label="Virtual Lab Sections"></nav>
 
@@ -371,7 +378,7 @@
       </div>
     </header>
 
-    <!-- SECTION 1: 1. OVERVIEW (Crisp White Card matching Reference media_1794820196997_40f220ae) -->
+        <!-- SECTION 1: 1. OVERVIEW (Crisp White Card matching Reference media_1794820196997_40f220ae) -->
     <section class="lab-panel-white" aria-labelledby="th-ov-title">
       <h2 id="th-ov-title">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -380,6 +387,13 @@
         </svg>
         1. OVERVIEW
       </h2>
+
+      <p style="font-size:0.98rem;color:#1e293b;line-height:1.7;margin-bottom:12px;">
+        In conventional IP networks, an IP address serves two fundamental purposes simultaneously: <b>host identification</b> and <b>topological location</b>. Standard routing relies on network prefixes to direct datagrams to their destination subnet. Consequently, when a mobile host roams into a foreign network, its IP address must either change—breaking all active TCP sockets, ongoing downloads, and live voice/video streams—or incoming packets become topologically unreachable.
+      </p>
+      <p style="font-size:0.98rem;color:#1e293b;line-height:1.7;margin-bottom:16px;">
+        <b>Mobile IPv4 (RFC 5944)</b> resolves this challenge by separating identity from location. The roaming device maintains its permanent <b>Home Address (HoA)</b> for ongoing connections while acquiring a temporary <b>Care-of Address (CoA)</b> on visited subnets. Through automated mobility registration and IP-in-IP encapsulation tunneling (RFC 2003), packets are intercepted by a Home Agent and forwarded through the Internet to a Foreign Agent, guaranteeing seamless, transparent mobility.
+      </p>
 
       <ul class="aim-bullet-list">
         <li>
