@@ -11,19 +11,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
   <style>
-    /* ── Neon heading glow ─────────────────────────────── */
+    /* Clean, non-neon white page title */
     .lab-page-title {
-      font-weight: 900;
-      text-shadow:
-        0 0 8px rgba(100, 180, 255, 0.9),
-        0 0 20px rgba(100, 180, 255, 0.6),
-        0 0 40px rgba(100, 180, 255, 0.35);
+      font-family: var(--lab-font-title);
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.85);
+      letter-spacing: 0.08em;
     }
 
-    /* ── Glassmorphism step cards ──────────────────────── */
+    /* Light glass panels with dark text */
+    .lab-panel {
+      background: rgba(255, 255, 255, 0.94) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+      color: #18233B !important;
+    }
+    .lab-panel h2 {
+      color: #101A35 !important;
+      border-bottom: 2px solid #56B8E8;
+      padding-bottom: 6px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    /* Step cards with high contrast and readable text */
     .proc-steps-grid {
       display: grid;
-      gap: 14px;
+      gap: 12px;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -33,87 +50,73 @@
       display: flex;
       align-items: flex-start;
       gap: 16px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      padding: 16px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 18px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
     .proc-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(100, 180, 255, 0.18);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
     }
 
     .proc-badge {
       flex-shrink: 0;
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 1rem;
-      color: #fff;
-      background: linear-gradient(135deg, #4fa3e0, #9270e8);
-      box-shadow:
-        0 0 10px rgba(100, 180, 255, 0.55),
-        0 0 22px rgba(100, 180, 255, 0.25);
+      font-size: 0.95rem;
+      color: #ffffff;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
     }
 
     .proc-body {
       flex: 1;
     }
-
     .proc-body h3 {
-      margin: 0 0 6px;
-      font-size: 1rem;
+      margin: 0 0 4px;
+      font-size: 1.02rem;
       font-weight: 700;
-      color: #e8f0ff;
-      line-height: 1.3;
+      color: #0f172a;
+      line-height: 1.35;
     }
-
     .proc-body p {
       margin: 0;
-      font-size: 0.9rem;
-      color: rgba(220, 230, 255, 0.78);
-      line-height: 1.5;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.55;
     }
 
-    /* ── Video placeholder card ────────────────────────── */
+    /* Video placeholder */
     .proc-video-card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
       padding: 24px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
     }
-
     .proc-video-card h3 {
       margin: 0 0 16px;
       font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: #e8f0ff;
-      text-shadow:
-        0 0 8px rgba(100, 180, 255, 0.7),
-        0 0 20px rgba(100, 180, 255, 0.35);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #0f172a;
     }
-
     .proc-video-box {
       position: relative;
       width: 100%;
       padding-top: 56.25%; /* 16:9 */
-      border: 2px dashed rgba(100, 180, 255, 0.45);
+      border: 2px dashed #94a3b8;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.25);
+      background: #0f172a;
       overflow: hidden;
     }
-
     .proc-video-box-inner {
       position: absolute;
       inset: 0;
@@ -124,37 +127,42 @@
       gap: 10px;
       padding: 20px;
       text-align: center;
+      color: #94a3b8;
     }
-
     .proc-video-icon {
-      font-size: 2.4rem;
-      opacity: 0.5;
+      font-size: 2.8rem;
+      color: #ef4444;
     }
-
     .proc-video-box-inner p {
       margin: 0;
-      font-size: 0.92rem;
-      color: rgba(200, 220, 255, 0.65);
-      line-height: 1.5;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      font-weight: 600;
     }
-
     .proc-video-note {
       margin-top: 12px;
-      font-size: 0.8rem;
-      color: rgba(180, 200, 255, 0.5);
+      font-size: 0.85rem;
+      color: #64748b;
       font-style: italic;
     }
   </style>
 </head>
 <body class="lab-page">
 
-  <div class="lab-bg lab-bg-procedure" aria-hidden="true"></div>
+  <!-- Background Video: New black-themed video -->
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-procedure-poster.jpg" aria-hidden="true">
+    <source src="../assets/videos/video-procedure.mp4" type="video/mp4">
+  </video>
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
+  <!-- Navigation -->
   <nav id="lab-nav" data-active="procedure"></nav>
 
   <main class="lab-wrap">
 
     <section class="lab-hero">
-      <h1 class="lab-page-title" style="font-weight:900;text-shadow:0 0 18px rgba(0,240,255,0.7),0 0 36px rgba(0,240,255,0.4);text-transform:uppercase;">PROCEDURE</h1>
+      <h1 class="lab-page-title">PROCEDURE</h1>
+      <p class="lab-page-sub">Step-by-step operating instructions for the Mobile IP Virtual Laboratory</p>
       <div class="lab-page-bar"></div>
     </section>
 
@@ -166,7 +174,7 @@
           <div class="proc-badge" aria-hidden="true">1</div>
           <div class="proc-body">
             <h3>Open the Simulation Page</h3>
-            <p>Navigate to the Simulation tab from the main navigation bar.</p>
+            <p>Navigate to the Simulation tab from the main horizontal navigation bar.</p>
           </div>
         </li>
 
@@ -174,7 +182,7 @@
           <div class="proc-badge" aria-hidden="true">2</div>
           <div class="proc-body">
             <h3>Select Correspondent Node Location</h3>
-            <p>Choose the CN location from the dropdown selector.</p>
+            <p>Choose the CN location (origin of data packets) from the location dropdown selector.</p>
           </div>
         </li>
 
@@ -182,7 +190,7 @@
           <div class="proc-badge" aria-hidden="true">3</div>
           <div class="proc-body">
             <h3>Select Home Agent Location</h3>
-            <p>Choose the HA location from the dropdown selector.</p>
+            <p>Choose the HA location (home network where the Mobile Node is originally registered) from the dropdown selector.</p>
           </div>
         </li>
 
@@ -190,23 +198,23 @@
           <div class="proc-badge" aria-hidden="true">4</div>
           <div class="proc-body">
             <h3>Select Foreign Agent Location</h3>
-            <p>Choose the FA location from the dropdown selector.</p>
+            <p>Choose the FA location (visited network where the Mobile Node is currently roaming) from the dropdown selector.</p>
           </div>
         </li>
 
         <li class="proc-card">
           <div class="proc-badge" aria-hidden="true">5</div>
           <div class="proc-body">
-            <h3>Confirm the Selected Locations</h3>
-            <p>Verify all three locations appear on the map.</p>
+            <h3>Confirm Selected Locations</h3>
+            <p>Click the location OK button and verify that all three distinct node markers and route lines appear on the Tamil Nadu map.</p>
           </div>
         </li>
 
         <li class="proc-card">
           <div class="proc-badge" aria-hidden="true">6</div>
           <div class="proc-body">
-            <h3>Enter a Message</h3>
-            <p>Type your message in the input field provided.</p>
+            <h3>Enter a Transmission Message</h3>
+            <p>Type your alphanumeric message (up to 40 characters) into the ASCII message input field.</p>
           </div>
         </li>
 
@@ -214,7 +222,7 @@
           <div class="proc-badge" aria-hidden="true">7</div>
           <div class="proc-body">
             <h3>Press OK to Convert</h3>
-            <p>Click OK to convert the message into 8-bit ASCII binary.</p>
+            <p>Click the message OK button to encode the text into its standard 8-bit ASCII binary representation.</p>
           </div>
         </li>
 
@@ -222,7 +230,7 @@
           <div class="proc-badge" aria-hidden="true">8</div>
           <div class="proc-body">
             <h3>Check Binary Representation</h3>
-            <p>Observe the binary output displayed on screen.</p>
+            <p>Inspect the generated binary bit stream and verify each character's 8-bit sequence and byte length.</p>
           </div>
         </li>
 
@@ -230,7 +238,7 @@
           <div class="proc-badge" aria-hidden="true">9</div>
           <div class="proc-body">
             <h3>Start the Simulation</h3>
-            <p>Click the START button to begin packet animation.</p>
+            <p>Click the START button to initiate the live packet animation and signal wave generation.</p>
           </div>
         </li>
 
@@ -238,7 +246,7 @@
           <div class="proc-badge" aria-hidden="true">10</div>
           <div class="proc-body">
             <h3>Observe Packet Generation at CN</h3>
-            <p>Watch as the packet is generated at the Correspondent Node.</p>
+            <p>Watch the original IP packet form at the Correspondent Node addressed to the Mobile Node's home address.</p>
           </div>
         </li>
 
@@ -246,7 +254,7 @@
           <div class="proc-badge" aria-hidden="true">11</div>
           <div class="proc-body">
             <h3>Observe Packet Interception at HA</h3>
-            <p>See the Home Agent intercept and capture the packet.</p>
+            <p>See the Home Agent intercept the packet using proxy ARP and look up the Care-of Address in its binding table.</p>
           </div>
         </li>
 
@@ -254,7 +262,7 @@
           <div class="proc-badge" aria-hidden="true">12</div>
           <div class="proc-body">
             <h3>Observe Forward Tunnel Transmission</h3>
-            <p>Watch the encapsulated packet travel through the tunnel.</p>
+            <p>Watch the encapsulated IP-in-IP datagram travel across intermediate routers to the Foreign Agent.</p>
           </div>
         </li>
 
@@ -262,7 +270,7 @@
           <div class="proc-badge" aria-hidden="true">13</div>
           <div class="proc-body">
             <h3>Observe Decapsulation at FA</h3>
-            <p>See the Foreign Agent strip the outer IP header.</p>
+            <p>Witness the Foreign Agent strip the outer header and recover the pristine inner datagram.</p>
           </div>
         </li>
 
@@ -270,7 +278,7 @@
           <div class="proc-badge" aria-hidden="true">14</div>
           <div class="proc-body">
             <h3>Observe Final Delivery to Mobile Node</h3>
-            <p>Watch the original packet delivered to the Mobile Node.</p>
+            <p>Confirm the final delivery of the datagram to the Mobile Node over the visited local link.</p>
           </div>
         </li>
 
@@ -285,10 +293,10 @@
         <div class="proc-video-box">
           <div class="proc-video-box-inner">
             <div class="proc-video-icon">🎬</div>
-            <p>Video coming soon — will be updated with the procedure walkthrough</p>
+            <p>Video walkthrough will be displayed here.</p>
           </div>
         </div>
-        <p class="proc-video-note">This placeholder will be replaced with the uploaded MP4 or YouTube video link.</p>
+        <p class="proc-video-note">This placeholder will be linked to the final recorded simulation procedure walkthrough.</p>
       </div>
     </section>
 

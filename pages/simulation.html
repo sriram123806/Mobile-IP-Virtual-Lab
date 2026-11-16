@@ -13,395 +13,529 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
-    /* ===== HEADING ===== */
+    /* Clean white page title */
     .lab-page-title {
-      font-weight: 900 !important;
-      color: #00f0ff !important;
-      text-shadow: 0 0 24px rgba(0,240,255,0.85), 0 0 48px rgba(0,240,255,0.5), 0 0 80px rgba(0,240,255,0.25), 2px 2px 8px rgba(0,0,0,0.9) !important;
+      font-family: var(--lab-font-title);
+      font-weight: 800 !important;
+      color: #ffffff !important;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.85) !important;
       letter-spacing: 0.08em !important;
     }
-    /* Hide subtitle */
-    .lab-page-sub { display: none !important; }
 
-    /* ===== LEAFLET MAP ===== */
-    #mip-leaflet-map {
-      height: 420px;
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid rgba(0,240,255,0.3);
-      box-shadow: 0 0 32px rgba(0,240,255,0.15);
-      overflow: hidden;
+    /* Light glass panels with dark text */
+    .lab-panel {
+      background: rgba(255, 255, 255, 0.94) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
+      color: #18233B !important;
+      margin-bottom: 24px;
     }
-    /* Hide the original SVG map but keep it in DOM for simulation.js */
+    .lab-panel h2 {
+      color: #101A35 !important;
+      border-bottom: 2px solid #56B8E8;
+      padding-bottom: 6px;
+      display: inline-block;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    /* Leaflet Map */
+    #mip-leaflet-map {
+      height: 480px;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      overflow: hidden;
+      z-index: 10;
+    }
     #mip-map { display: none !important; }
 
-    /* ===== GLASS PANELS ===== */
-    .glass-panel {
-      background: rgba(10,10,30,0.75);
-      border: 1px solid rgba(0,240,255,0.3);
-      border-radius: 16px;
-      padding: 20px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    /* Section 2 two-column layout */
+    .sim-sec2-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .sim-sec2-grid { grid-template-columns: 1fr; }
     }
 
-    /* ===== STAGES ===== */
-    .mip-msg { min-height:1.3em; margin:8px 0 0; font-size:.88rem; font-weight:600; }
-    .mip-msg.mip-err  { color: #ff4466; }
-    .mip-msg.mip-good { color: #00f0ff; }
-    .mip-stages { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; counter-reset:s; }
+    /* Stages List */
+    .mip-stages {
+      list-style: none;
+      margin: 0 0 16px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      counter-reset: stage-num;
+    }
     .mip-stages li {
-      counter-increment: s;
-      padding: 10px 12px 10px 46px;
+      counter-increment: stage-num;
+      padding: 9px 12px 9px 42px;
       position: relative;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(0,240,255,0.2);
+      border-radius: 10px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
       font-weight: 600;
-      font-size: .9rem;
-      color: #c0d8ff;
-      transition: all .3s;
+      font-size: 0.88rem;
+      color: #334155;
+      transition: all 0.25s;
     }
     .mip-stages li::before {
-      content: counter(s);
+      content: counter(stage-num);
       position: absolute;
       left: 10px;
       top: 50%;
       transform: translateY(-50%);
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      background: rgba(148,120,232,0.6);
-      display: grid;
-      place-items: center;
-      font-size: .84rem;
-      color: #fff;
+      background: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #ffffff;
+      font-weight: 700;
     }
     .mip-stages li.mip-done {
-      opacity: .75;
-      border-color: rgba(0,240,255,0.5);
-      background: rgba(0,240,255,0.06);
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #065f46;
     }
-    .mip-stages li.mip-done::before { background: #00f0ff; color: #000; }
+    .mip-stages li.mip-done::before {
+      background: #10b981;
+    }
     .mip-stages li.mip-active {
-      background: rgba(148,120,232,0.18);
-      border-color: #9478e8;
-      box-shadow: 0 0 20px rgba(148,120,232,0.6), inset 0 0 10px rgba(148,120,232,0.1);
-      color: #fff;
+      background: #eff6ff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      color: #1d4ed8;
+      font-weight: 700;
     }
-    .mip-stages li.mip-active::before { background: #9478e8; color: #fff; }
+    .mip-stages li.mip-active::before {
+      background: #2563eb;
+    }
 
-    /* ===== INFO PANEL ===== */
+    /* Live Info Panel */
     #mip-info-panel {
-      margin-top: 18px;
-      background: rgba(10,10,30,0.75);
-      border: 1px solid rgba(0,240,255,0.3);
-      border-radius: 16px;
-      padding: 20px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    #mip-info-panel h3 {
-      margin: 0 0 12px;
-      font-size: .85rem;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: rgba(0,240,255,0.7);
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
     #mip-info-stage-name {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #00f0ff;
-      margin-bottom: 8px;
+      color: #1e3a8a;
+      margin-bottom: 6px;
     }
     #mip-info-desc {
-      font-size: .88rem;
-      color: #c0d8ff;
+      font-size: 0.9rem;
+      color: #334155;
       line-height: 1.6;
       margin-bottom: 10px;
     }
     .mip-info-row {
       display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-    .mip-info-badge {
-      background: rgba(0,240,255,0.08);
-      border: 1px solid rgba(0,240,255,0.25);
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-size: .82rem;
-      color: #a8d8ff;
-    }
-    .mip-info-badge span { color: #00f0ff; font-weight: 700; }
-    #mip-info-status {
-      margin-top: 10px;
-      font-size: .82rem;
-      color: rgba(0,240,255,0.6);
-      font-style: italic;
-    }
-
-    /* ===== PACKET STRUCTURE ===== */
-    .mip-layer { border:2px solid rgba(148,120,232,0.6); border-radius:12px; padding:8px; margin:6px 0; background:rgba(148,120,232,0.1); }
-    .mip-layer.mip-inner { border-color:rgba(86,184,232,0.6); background:rgba(86,184,232,0.08); }
-    .mip-layer.mip-payload { border-color:rgba(0,240,255,0.5); background:rgba(0,240,255,0.06); }
-    .mip-layer h4 { margin:0 0 4px; font-size:.84rem; color:#00f0ff; }
-    .mip-fields { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:2px 10px; font-family:Consolas,monospace; font-size:.77rem; }
-    .mip-fields span:nth-child(odd) { color: rgba(0,240,255,0.6); }
-    .mip-fields span:nth-child(even) { color: #c0d8ff; }
-    .mip-empty { color: rgba(255,255,255,0.4); font-style:italic; font-size:.84rem; }
-    .mip-note { font-size:.8rem; color:rgba(0,240,255,0.5); margin:4px 0 0; }
-
-    /* Packet legend */
-    .mip-pkt-legend {
-      display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .mip-info-badge {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.82rem;
+      color: #475569;
+    }
+    .mip-info-badge span {
+      color: #0f172a;
+      font-weight: 700;
+    }
+    #mip-info-status {
+      font-size: 0.84rem;
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    /* Controls */
+    .lab-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .lab-controls button {
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    #mip-start {
+      background: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+    }
+    #mip-start:hover:not(:disabled) { background: #1d4ed8; }
+    #mip-pause, #mip-resume, #mip-reset {
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+    }
+    #mip-pause:hover:not(:disabled),
+    #mip-resume:hover:not(:disabled),
+    #mip-reset:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+    .lab-controls button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Form selectors */
+    .lab-field select, .lab-field input[type="text"] {
+      background: #ffffff !important;
+      border: 1.5px solid #cbd5e1 !important;
+      color: #0f172a !important;
+      border-radius: 8px !important;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+    }
+    .lab-field select:focus, .lab-field input[type="text"]:focus {
+      border-color: #2563eb !important;
+      outline: none;
+    }
+
+    /* ASCII bit cards */
+    .lab-bits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .mip-bit {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 4px 8px;
+      text-align: center;
+      font-family: Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.3;
+      color: #334155;
+    }
+    .mip-bit b {
+      display: block;
+      color: #2563eb;
+      font-size: 0.92rem;
+      font-family: var(--lab-font-body);
+    }
+    .mip-bit small { color: #64748b; }
+    .mip-bit.mip-hot {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+
+    /* Packet Structure Layers */
+    .mip-pkt-legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
       margin-bottom: 12px;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 10px;
-      font-size: .78rem;
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.82rem;
     }
     .mip-pkt-legend-item {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #c0d8ff;
+      color: #334155;
+      font-weight: 600;
     }
     .mip-pkt-legend-swatch {
       width: 14px;
       height: 14px;
       border-radius: 3px;
-      border: 2px solid;
     }
-
-    /* ===== BINARY BIT CARDS ===== */
-    .mip-bit { background:rgba(255,255,255,0.07); border:1px solid rgba(148,120,232,0.4); border-radius:8px; padding:3px 8px; text-align:center; font-family:Consolas,monospace; font-size:.78rem; line-height:1.3; color:#c0d8ff; }
-    .mip-bit b { display:block; font-family:var(--lab-font-body,Outfit,sans-serif); color:#9478e8; font-size:.93rem; }
-    .mip-bit small { color: rgba(255,255,255,0.4); }
-    .mip-bit.mip-hot { background: rgba(0,240,255,0.2); border-color: #00f0ff; color: #fff; }
-
-    /* ===== BINARY OUTPUT ===== */
-    #mip-binary-out {
-      font-family: monospace;
-      letter-spacing: 0.1em;
-      color: #00f0ff;
-      word-break: break-all;
-      background: rgba(0,0,0,0.4);
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(0,240,255,0.2);
-      font-size: .82rem;
-      min-height: 2em;
+    .mip-layer {
+      border: 2px solid #94a3b8;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 8px 0;
+      background: #f8fafc;
     }
-
-    /* ===== RF CANVAS ===== */
-    .mip-rf-label {
-      font-size: .78rem;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: rgba(0,240,255,0.6);
-      margin: 16px 0 4px;
+    .mip-layer h4 {
+      margin: 0 0 6px;
+      font-size: 0.88rem;
+      color: #0f172a;
     }
-    #mip-rf-canvas {
+    .mip-layer.mip-inner {
+      border-color: #38bdf8;
+      background: #f0f9ff;
+    }
+    .mip-layer.mip-payload {
+      border-color: #22c55e;
+      background: #f0fdf4;
+    }
+    .mip-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 3px 12px;
+      font-family: Consolas, monospace;
+      font-size: 0.8rem;
+    }
+    .mip-fields span:nth-child(odd) { color: #64748b; }
+    .mip-fields span:nth-child(even) { color: #0f172a; font-weight: 600; }
+
+    /* Waveform and Modulations */
+    #mip-wave, #mip-rf-canvas {
       width: 100%;
-      height: 80px;
       display: block;
       border-radius: 8px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(0,240,255,0.15);
+      background: #0f172a;
+      border: 1px solid #cbd5e1;
+      margin-top: 6px;
+    }
+    #mip-binary-out {
+      font-family: Consolas, monospace;
+      letter-spacing: 0.08em;
+      color: #0284c7;
+      word-break: break-all;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.88rem;
+      min-height: 2em;
+      margin-top: 6px;
+      font-weight: 600;
     }
 
-    /* ===== CONTROLS ===== */
-    .lab-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-    #mip-start, #mip-pause, #mip-resume, #mip-reset {
-      background: rgba(10,10,30,0.82);
-      border: 2px solid rgba(0,240,255,0.75);
-      color: #fff;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 0 20px rgba(0,240,255,0.25);
-      padding: 10px 24px;
-      border-radius: 50px;
+    /* Modulation selector buttons */
+    .mod-btn-group {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+    .mod-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
       font-weight: 700;
-      font-size: .9rem;
-      letter-spacing: .1em;
       cursor: pointer;
-      transition: all .2s;
+      transition: all 0.2s;
     }
-    #mip-start:hover:not(:disabled), #mip-pause:hover:not(:disabled),
-    #mip-resume:hover:not(:disabled), #mip-reset:hover:not(:disabled) {
-      background: rgba(0,240,255,0.15);
-      box-shadow: 0 0 32px rgba(0,240,255,0.5);
+    .mod-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #1d4ed8;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
     }
-    #mip-start:disabled, #mip-pause:disabled, #mip-resume:disabled, #mip-reset:disabled {
-      opacity: .35;
-      cursor: not-allowed;
-      box-shadow: none;
+    .mod-desc-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #1e3a8a;
+      line-height: 1.55;
     }
-
-    /* ===== GENERAL PANEL OVERRIDES ===== */
-    .lab-panel {
-      background: rgba(10,10,30,0.6) !important;
-      border: 1px solid rgba(0,240,255,0.2) !important;
-      border-radius: 16px !important;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .lab-panel h2 {
-      color: #00f0ff !important;
-      font-weight: 700;
-      letter-spacing: .05em;
-    }
-
-    /* selector & input styles */
-    .lab-panel select, .lab-panel input[type="text"] {
-      background: rgba(0,0,0,0.5) !important;
-      border: 1px solid rgba(0,240,255,0.35) !important;
-      color: #e0f4ff !important;
-      border-radius: 8px !important;
-    }
-    .lab-panel select option { background: #0a0a1e; color: #e0f4ff; }
-
-    /* step info */
-    .mip-info p { margin:4px 0; font-size:.9rem; color: #c0d8ff; }
-    .mip-info p b { color: #00f0ff; }
   </style>
 </head>
 <body class="lab-page">
 
-  <div class="lab-bg lab-bg-simulation" aria-hidden="true"></div>
+  <!-- Background Video: Pink Dreamcore video -->
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-simulation-poster.jpg" aria-hidden="true">
+    <source src="../assets/videos/video-simulation.mp4" type="video/mp4">
+  </video>
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
+  <!-- Navigation -->
   <nav id="lab-nav" data-active="simulation"></nav>
 
   <main class="lab-wrap">
 
     <header class="lab-hero">
       <h1 class="lab-page-title">SIMULATION</h1>
+      <p class="lab-page-sub">Interactive Mobile IP Laboratory: Configuration, Geographical Packet Flow &amp; Waveform Analysis</p>
       <div class="lab-page-bar"></div>
-      <!-- subtitle hidden via CSS -->
-      <p class="lab-page-sub"></p>
     </header>
 
-    <!-- Step 1: Locations -->
-    <section class="lab-panel" aria-labelledby="sim-loc-h">
-      <h2 id="sim-loc-h">Step 1 &mdash; Choose Locations in Tamil Nadu</h2>
-      <div class="lab-row">
-        <label class="lab-field">
-          HOME AGENT (HA)
-          <select id="mip-sel-ha"><option value="">Select location</option></select>
-        </label>
+    <!-- ================================================================
+         SECTION 1: CONFIGURATION
+         ================================================================ -->
+    <section class="lab-panel" aria-labelledby="sec1-config-h">
+      <h2 id="sec1-config-h">SECTION 1 &mdash; Network Configuration &amp; Message Encoding</h2>
+      <p style="margin-bottom:16px;">Select the geographical locations across Tamil Nadu for the Correspondent Node, Home Agent, and Foreign Agent, then enter your transmission message.</p>
+
+      <!-- Row 1: Location Selectors -->
+      <div class="lab-row" style="margin-bottom:16px;">
         <label class="lab-field">
           CORRESPONDENT NODE (CN)
-          <select id="mip-sel-cn"><option value="">Select location</option></select>
+          <select id="mip-sel-cn"><option value="">Select CN location</option></select>
+        </label>
+        <label class="lab-field">
+          HOME AGENT (HA)
+          <select id="mip-sel-ha"><option value="">Select HA location</option></select>
         </label>
         <label class="lab-field">
           FOREIGN AGENT (FA)
-          <select id="mip-sel-fa"><option value="">Select location</option></select>
+          <select id="mip-sel-fa"><option value="">Select FA location</option></select>
         </label>
-        <button class="lab-btn" id="mip-loc-ok" type="button">OK</button>
+        <button class="lab-btn" id="mip-loc-ok" type="button">Confirm Locations</button>
       </div>
-      <p class="lab-msg" id="mip-loc-msg" role="status"></p>
-    </section>
+      <p class="lab-msg" id="mip-loc-msg" role="status" style="margin-bottom:16px;"></p>
 
-    <!-- Leaflet Map -->
-    <section class="lab-panel" aria-labelledby="sim-map-h">
-      <h2 id="sim-map-h">Tamil Nadu — Live Map</h2>
-      <div id="mip-leaflet-map"></div>
-      <!-- Hidden SVG kept for simulation.js compatibility -->
-      <svg id="mip-map" viewBox="0 0 520 640" role="img" aria-hidden="true" aria-label="Tamil Nadu map" style="display:none;"></svg>
-      <p class="mip-note" style="margin-top:8px;">Real map powered by OpenStreetMap &amp; Leaflet. Select CN, HA and FA locations above and press OK to update markers and route.</p>
-    </section>
-
-    <!-- Step 2: Message -->
-    <section class="lab-panel" aria-labelledby="sim-msg-h">
-      <h2 id="sim-msg-h">Step 2 &mdash; Enter the Message to Transmit</h2>
+      <!-- Row 2: Message Input & Encoding -->
       <div class="lab-row">
-        <label class="lab-field" style="flex:5 1 320px">
-          Message (ASCII, up to 40 characters)
-          <input id="mip-input" type="text" maxlength="40" autocomplete="off" placeholder="Type your message, e.g. Hello Mobile IP">
+        <label class="lab-field" style="flex:5 1 340px">
+          Transmission Message (ASCII, up to 40 characters)
+          <input id="mip-input" type="text" maxlength="40" autocomplete="off" placeholder="e.g., Mobile IP Lab 2026">
         </label>
-        <button class="lab-btn" id="mip-msg-ok" type="button">OK</button>
+        <button class="lab-btn" id="mip-msg-ok" type="button">Convert to 8-Bit ASCII</button>
       </div>
       <p class="lab-msg" id="mip-text-msg" role="status"></p>
-      <div id="mip-bits" class="lab-bits" aria-label="ASCII binary of each character"></div>
+
+      <!-- 8-Bit ASCII Binary Display -->
+      <div id="mip-bits" class="lab-bits" aria-label="ASCII binary representation"></div>
     </section>
 
-    <!-- Map + stages grid -->
-    <section class="lab-sim-grid">
-      <!-- Stages panel -->
-      <div class="lab-panel">
-        <h2>Simulation Stages</h2>
-        <ol class="mip-stages" id="mip-stages">
-          <li>Packet Generation at CN</li>
-          <li>Packet Interception at HA</li>
-          <li>Encapsulation at HA</li>
-          <li>Forward Tunneling to FA</li>
-          <li>Decapsulation at FA</li>
-          <li>Final Delivery to Mobile Node</li>
-        </ol>
+    <!-- ================================================================
+         SECTION 2: LIVE PACKET SIMULATION (Two-Column Layout)
+         ================================================================ -->
+    <section class="lab-panel" aria-labelledby="sec2-sim-h">
+      <h2 id="sec2-sim-h">SECTION 2 &mdash; Live Packet Simulation &amp; Stage Flow</h2>
+      <p style="margin-bottom:16px;">Observe live packet traversal across real Tamil Nadu coordinates. When you press START, the right panel dynamically updates stage-by-stage without requiring scrolling.</p>
 
-        <!-- Dynamic Info Panel -->
-        <div id="mip-info-panel">
-          <h3>&#9654; Stage Details</h3>
-          <div id="mip-info-stage-name">Waiting to start&hellip;</div>
-          <div id="mip-info-desc">Configure locations and message, then press START.</div>
-          <div class="mip-info-row">
-            <div class="mip-info-badge">Source: <span id="mip-info-src-dst">—</span></div>
-            <div class="mip-info-badge">Destination: <span id="mip-info-dst-val">—</span></div>
+      <div class="sim-sec2-grid">
+        <!-- Left Side: Leaflet Geographical Map -->
+        <div>
+          <h3 style="margin-top:0;">Tamil Nadu Geographical Map</h3>
+          <div id="mip-leaflet-map"></div>
+          <!-- Hidden SVG kept for simulation.js compatibility -->
+          <svg id="mip-map" viewBox="0 0 520 640" role="img" aria-hidden="true" style="display:none;"></svg>
+          <p class="mip-note" style="margin-top:8px;font-size:0.84rem;color:#64748b;">Interactive OpenStreetMap view. Markers: <b>CN (Blue)</b>, <b>HA (Amber)</b>, <b>FA (Purple)</b>. The neon packet animates along the confirmed route.</p>
+        </div>
+
+        <!-- Right Side: Stages + Dynamic Info Panel + Controls -->
+        <div>
+          <h3 style="margin-top:0;">Simulation Stages &amp; Controls</h3>
+          <ol class="mip-stages" id="mip-stages">
+            <li>Packet Generation at CN</li>
+            <li>Packet Interception at HA</li>
+            <li>Encapsulation at HA</li>
+            <li>Forward Tunneling to FA</li>
+            <li>Decapsulation at FA</li>
+            <li>Final Delivery to Mobile Node</li>
+          </ol>
+
+          <!-- Dynamic Info Panel (Updates live, no scroll needed) -->
+          <div id="mip-info-panel">
+            <div id="mip-info-stage-name">Waiting to Start&hellip;</div>
+            <div id="mip-info-desc">Confirm locations and message above, then click START.</div>
+            <div class="mip-info-row">
+              <div class="mip-info-badge">Source: <span id="mip-info-src-dst">&mdash;</span></div>
+              <div class="mip-info-badge">Destination: <span id="mip-info-dst-val">&mdash;</span></div>
+            </div>
+            <div id="mip-info-status">Status: Idle</div>
           </div>
-          <div id="mip-info-status">Idle</div>
+
+          <!-- Controls -->
+          <div class="lab-controls">
+            <button id="mip-start" type="button">START</button>
+            <button id="mip-pause" type="button">PAUSE</button>
+            <button id="mip-resume" type="button">RESUME</button>
+            <button id="mip-reset" type="button">RESET</button>
+          </div>
+          <p class="lab-msg" id="mip-run-msg" role="status" style="margin-top:8px;font-size:0.88rem;"></p>
+
+          <!-- Hidden binding containers for simulation.js -->
+          <div id="mip-step-info" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 3: SIGNAL AND PACKET VISUALIZATION
+         ================================================================ -->
+    <section class="lab-panel" aria-labelledby="sec3-vis-h">
+      <h2 id="sec3-vis-h">SECTION 3 &mdash; Signal and Packet Visualization</h2>
+
+      <!-- Subsection A: Packet Structure -->
+      <div style="margin-bottom:24px;">
+        <h3 style="margin-top:0;">A. IP Packet Structure &amp; Header Transformation</h3>
+        <p style="font-size:0.92rem;color:#475569;">Inspect how IP-in-IP encapsulation adds an outer header (20 bytes) at the Home Agent and decapsulation strips it at the Foreign Agent.</p>
+
+        <div class="mip-pkt-legend">
+          <div class="mip-pkt-legend-item">
+            <div class="mip-pkt-legend-swatch" style="background:#cbd5e1;border:1px solid #64748b;"></div>
+            Outer IP Header (HA &rarr; CoA)
+          </div>
+          <div class="mip-pkt-legend-item">
+            <div class="mip-pkt-legend-swatch" style="background:#38bdf8;border:1px solid #0284c7;"></div>
+            Original Inner IP Header (CN &rarr; HoA)
+          </div>
+          <div class="mip-pkt-legend-item">
+            <div class="mip-pkt-legend-swatch" style="background:#4ade80;border:1px solid #16a34a;"></div>
+            Message Payload
+          </div>
         </div>
 
-        <div class="lab-controls">
-          <button class="lab-btn" id="mip-start" type="button">START</button>
-          <button class="lab-btn lab-btn-alt" id="mip-pause" type="button">PAUSE</button>
-          <button class="lab-btn lab-btn-alt" id="mip-resume" type="button">RESUME</button>
-          <button class="lab-btn lab-btn-alt" id="mip-reset" type="button">RESET</button>
-        </div>
-        <p class="lab-msg" id="mip-run-msg" role="status"></p>
+        <div id="mip-packet"><p class="mip-empty" style="color:#64748b;font-style:italic;">No packet generated yet. Confirm locations and message above.</p></div>
       </div>
 
-      <!-- Step info + packet -->
+      <!-- Subsection B: Digital Bitstream -->
+      <div style="margin-bottom:24px;">
+        <h3>B. Digital Bitstream (NRZ-L Encoding)</h3>
+        <p style="font-size:0.92rem;color:#475569;">NRZ-L (Non-Return-to-Zero Level) maps bit '1' to high voltage and bit '0' to low voltage. The vertical dashed cursor tracks real-time transmission.</p>
+        <canvas id="mip-wave" height="140" aria-label="NRZ-L bitstream canvas"></canvas>
+        <p class="mip-note" id="mip-wave-note" style="font-size:0.84rem;color:#64748b;margin-top:4px;">Bitstream appears once a message is confirmed.</p>
+        <div style="margin-top:8px;">
+          <label style="font-weight:700;font-size:0.84rem;color:#475569;">Complete Encoded Binary Stream:</label>
+          <div id="mip-binary-out">&mdash;</div>
+        </div>
+      </div>
+
+      <!-- Subsection C & D: RF Signal & Modulation Selection -->
       <div>
-        <div class="lab-panel mip-info" style="margin-bottom:16px;">
-          <h2>Current Step</h2>
-          <div id="mip-step-info"><p class="mip-empty">Confirm locations and a message, then press START.</p></div>
-        </div>
-        <div class="lab-panel">
-          <h2>Packet Structure</h2>
-          <!-- Visual legend -->
-          <div class="mip-pkt-legend">
-            <div class="mip-pkt-legend-item">
-              <div class="mip-pkt-legend-swatch" style="border-color:rgba(148,120,232,0.8);background:rgba(148,120,232,0.2);"></div>
-              Outer IP Header
-            </div>
-            <div class="mip-pkt-legend-item">
-              <div class="mip-pkt-legend-swatch" style="border-color:rgba(86,184,232,0.8);background:rgba(86,184,232,0.15);"></div>
-              Inner IP Header
-            </div>
-            <div class="mip-pkt-legend-item">
-              <div class="mip-pkt-legend-swatch" style="border-color:rgba(0,240,255,0.7);background:rgba(0,240,255,0.1);"></div>
-              Payload
-            </div>
-          </div>
-          <div id="mip-packet"><p class="mip-empty">No packet yet.</p></div>
-        </div>
-      </div>
-    </section>
+        <h3>C &amp; D. Conceptual Radio-Frequency Transmission &amp; Modulation</h3>
+        <p style="font-size:0.92rem;color:#475569;">Select a digital modulation scheme below to observe how binary data is translated onto a continuous RF carrier wave for wireless channel propagation:</p>
 
-    <!-- Waveform -->
-    <section class="lab-panel">
-      <h2>Bitstream Waveform (NRZ-L encoding of the message payload)</h2>
-      <canvas id="mip-wave" height="150" aria-label="Waveform of message bits" style="width:100%;display:block;"></canvas>
-      <p class="mip-note" id="mip-wave-note">Waveform appears after a message is confirmed.</p>
-      <!-- RF Carrier -->
-      <p class="mip-rf-label">RF Carrier Visualization</p>
-      <canvas id="mip-rf-canvas" height="80" aria-label="RF carrier sine wave"></canvas>
-      <!-- Binary output -->
-      <p class="mip-rf-label" style="margin-top:14px;">Binary Output</p>
-      <div id="mip-binary-out"></div>
+        <!-- Modulation Selector -->
+        <div class="mod-btn-group">
+          <button class="mod-btn active" id="btn-bpsk" type="button" onclick="setModulation('BPSK')">BPSK</button>
+          <button class="mod-btn" id="btn-qpsk" type="button" onclick="setModulation('QPSK')">QPSK</button>
+          <button class="mod-btn" id="btn-fsk" type="button" onclick="setModulation('FSK')">FSK</button>
+        </div>
+
+        <!-- RF Canvas -->
+        <canvas id="mip-rf-canvas" height="90" aria-label="Educational RF modulation waveform"></canvas>
+
+        <!-- Educational Note -->
+        <div class="mod-desc-box" id="mod-desc">
+          <b>BPSK (Binary Phase Shift Keying):</b> Shifts the RF carrier phase by 180° between binary '0' and binary '1'. It provides excellent noise immunity for low-power wireless links.
+        </div>
+        <p style="font-size:0.82rem;color:#64748b;margin-top:8px;font-style:italic;">*Note: This is an educational visualization demonstrating how bitstreams map to carrier waveforms across physical wireless channels (e.g., between Mobile Node and Foreign Agent). IP encapsulation operates at the network software layer and does not physically distort radio frequencies.</p>
+      </div>
+
     </section>
 
   </main>
@@ -411,10 +545,9 @@
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- ===== LEAFLET MAP INIT & MARKER LOGIC ===== -->
+  <!-- LEAFLET TAMIL NADU MAP LOGIC -->
   <script>
   (function(){
-    // City coordinates for Tamil Nadu
     var CITY_COORDS = {
       'Chennai':     [13.0827, 80.2707],
       'Coimbatore':  [11.0168, 76.9558],
@@ -434,57 +567,32 @@
     };
     var cityNames = Object.keys(CITY_COORDS);
 
-    // Expose city names globally so simulation.js can use them
-    window._MIP_CITY_COORDS = CITY_COORDS;
-    window._MIP_CITY_NAMES  = cityNames;
-
-    // Populate selectors if empty
-    function populateSelectors() {
-      ['mip-sel-ha','mip-sel-cn','mip-sel-fa'].forEach(function(id) {
-        var sel = document.getElementById(id);
-        if (!sel) return;
-        // Only populate if no city options (simulation.js may already have done it via MIP_MAP)
-        var hasOptions = false;
-        for (var i = 0; i < sel.options.length; i++) {
-          if (sel.options[i].value !== '') { hasOptions = true; break; }
-        }
-        if (!hasOptions) {
-          cityNames.forEach(function(name, idx) {
-            var opt = document.createElement('option');
-            opt.value = idx;
-            opt.textContent = name;
-            sel.appendChild(opt);
-          });
-        }
-      });
-    }
-
-    // Initialize Leaflet map
+    // Initialize Leaflet map centered on Tamil Nadu
     var leafletMap = L.map('mip-leaflet-map').setView([11.1271, 78.6569], 7);
+    window._mipLeafletMap = leafletMap;
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 18
     }).addTo(leafletMap);
 
-    // Custom colored icons
-    function coloredIcon(color) {
+    function coloredIcon(color, label) {
       return L.divIcon({
         className: '',
-        html: '<div style="width:28px;height:28px;border-radius:50%;background:' + color + ';border:3px solid #fff;box-shadow:0 0 12px ' + color + ';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;"></div>',
-        iconSize:   [28, 28],
-        iconAnchor: [14, 14],
-        popupAnchor:[0, -16]
+        html: '<div style="width:30px;height:30px;border-radius:50%;background:' + color + ';border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;">' + label + '</div>',
+        iconSize:   [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor:[0, -18]
       });
     }
-    var NODE_COLORS = { CN: '#2563eb', HA: '#f59e0b', FA: '#7c3aed' };
 
+    var NODE_COLORS = { CN: '#2563eb', HA: '#f59e0b', FA: '#7c3aed' };
     var markers  = { CN: null, HA: null, FA: null };
     var routeLine = null;
+    var packetMarker = null;
 
-    // updateMipMap: exposed globally
     window.updateMipMap = function(cnCity, haCity, faCity) {
       var cities = { CN: cnCity, HA: haCity, FA: faCity };
-      // Remove old markers
       ['CN','HA','FA'].forEach(function(role) {
         if (markers[role]) { leafletMap.removeLayer(markers[role]); markers[role] = null; }
       });
@@ -498,7 +606,7 @@
         var coords = CITY_COORDS[city];
         if (!coords) { validAll = false; return; }
         var marker = L.marker(coords, {
-          icon: coloredIcon(NODE_COLORS[role]),
+          icon: coloredIcon(NODE_COLORS[role], role),
           title: role + ': ' + city
         }).addTo(leafletMap);
         marker.bindPopup('<b>' + role + '</b><br>' + city);
@@ -507,11 +615,10 @@
       });
 
       if (validAll && latlngs.length === 3) {
-        // Route: CN → HA → FA (MN is at FA location)
         var routeCoords = [latlngs[0], latlngs[1], latlngs[2]];
         routeLine = L.polyline(routeCoords, {
-          color: '#00f0ff',
-          weight: 3,
+          color: '#2563eb',
+          weight: 4,
           opacity: 0.85,
           dashArray: '8 6'
         }).addTo(leafletMap);
@@ -519,8 +626,6 @@
       }
     };
 
-    // Live animated packet marker on Leaflet map
-    var packetMarker = null;
     function updateLeafletPacket() {
       if (!window.MIP_SIM || !window.MIP_SIM.state) return;
       var S = window.MIP_SIM.state;
@@ -552,7 +657,7 @@
         if (!packetMarker) {
           var pIcon = L.divIcon({
             className: 'mip-leaflet-packet',
-            html: '<div style="width:26px;height:26px;background:linear-gradient(135deg,#00f0ff,#9478e8);border:2px solid #ffffff;border-radius:50%;box-shadow:0 0 16px #00f0ff,0 0 32px rgba(0,240,255,0.7);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">&#9993;</div>',
+            html: '<div style="width:26px;height:26px;background:#2563eb;border:2px solid #fff;border-radius:50%;box-shadow:0 0 12px #2563eb;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">&#9993;</div>',
             iconSize: [26, 26],
             iconAnchor: [13, 13]
           });
@@ -568,89 +673,78 @@
     }
     packetLoop();
 
-    // Listen to selector changes
     function getSelectorCity(id) {
       var sel = document.getElementById(id);
       if (!sel) return null;
       var val = sel.value;
-      // val might be index (from simulation.js population) or city name
       if (!isNaN(val) && val !== '') return cityNames[parseInt(val, 10)] || null;
       return CITY_COORDS[val] ? val : null;
     }
-
     function onSelectorsChange() {
       var cn = getSelectorCity('mip-sel-cn');
       var ha = getSelectorCity('mip-sel-ha');
       var fa = getSelectorCity('mip-sel-fa');
       if (cn && ha && fa) window.updateMipMap(cn, ha, fa);
     }
-
     ['mip-sel-cn','mip-sel-ha','mip-sel-fa'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', onSelectorsChange);
     });
-
-    // Also update map when OK is pressed
     var okBtn = document.getElementById('mip-loc-ok');
     if (okBtn) {
       okBtn.addEventListener('click', function() {
         setTimeout(onSelectorsChange, 50);
       });
     }
-
-    // Populate selectors after a tick (allow simulation.js to run first)
-    setTimeout(populateSelectors, 200);
-
-    // Invalidate size after potential layout shift
     setTimeout(function(){ leafletMap.invalidateSize(); }, 400);
   })();
   </script>
 
-  <!-- ===== INFO PANEL via MutationObserver ===== -->
+  <!-- STAGE INFO OBSERVER -->
   <script>
   (function(){
     var STAGE_INFO = [
       {
         name: 'Stage 1 — Packet Generation at CN',
-        desc: "A data packet is created at the Correspondent Node (CN) addressed to the Mobile Node's home IP address.",
-        src:  'CN',
-        dst:  'Home Network (HA)',
-        status: 'Packet created, awaiting routing.'
+        desc: "A data packet is created at the Correspondent Node (CN) addressed to the Mobile Node's home IP address (192.0.2.50).",
+        src:  'CN (203.0.113.10)',
+        dst:  'Mobile Node Home IP (192.0.2.50)',
+        status: 'Status: Packet generated at sender.'
       },
       {
         name: 'Stage 2 — Packet Interception at HA',
-        desc: 'The Home Agent intercepts the packet using proxy ARP. It looks up the Mobile Node\'s binding and prepares to tunnel.',
-        src:  'CN → HA',
-        dst:  'HA',
-        status: 'HA intercepted packet, preparing encapsulation.'
+        desc: 'The Home Agent intercepts the packet using proxy ARP on the home network and inspects its mobility binding table.',
+        src:  'CN &rarr; HA (Home Link)',
+        dst:  'HA (192.0.2.1)',
+        status: 'Status: HA intercepted packet via Proxy ARP.'
       },
       {
         name: 'Stage 3 — Encapsulation at HA',
-        desc: 'HA wraps the original IP packet inside a new outer IP header (IP-in-IP, Protocol 4). Outer header: Src=HA, Dst=CoA(FA).',
-        src:  'HA',
-        dst:  'CoA (FA address)',
-        status: 'Packet encapsulated — IP-in-IP tunnel formed.'
+        desc: 'HA prepends an outer IP header (IP-in-IP, Protocol 4) addressed to the Foreign Agent Care-of Address (198.51.100.1).',
+        src:  'HA (192.0.2.1)',
+        dst:  'Care-of Address (198.51.100.1)',
+        status: 'Status: Encapsulation complete (Outer IP Header added).'
       },
       {
-        name: 'Stage 4 — Forward Tunneling',
-        desc: "The encapsulated packet travels through the IP tunnel from the Home Agent to the Foreign Agent's care-of address.",
-        src:  'HA (tunnel src)',
-        dst:  'FA (care-of address)',
-        status: 'Tunneling in progress&hellip;'
+        name: 'Stage 4 — Forward Tunneling to FA',
+        desc: 'The encapsulated datagram travels through intermediate routers across the Internet tunnel toward the Foreign Agent.',
+        src:  'HA (Tunnel Source)',
+        dst:  'FA (Tunnel Endpoint)',
+        status: 'Status: Tunnel transmission in progress.'
       },
       {
         name: 'Stage 5 — Decapsulation at FA',
-        desc: 'The Foreign Agent strips the outer IP header, recovering the original packet. Delivers it to the MN on the local link.',
-        src:  'FA',
-        dst:  'Mobile Node (MN)',
-        status: 'Outer header removed, original packet recovered.'
+        desc: 'The Foreign Agent strips the outer IP header, restoring the pristine original packet with its original source and destination.',
+        src:  'FA (198.51.100.1)',
+        dst:  'Mobile Node Link',
+        status: 'Status: Outer header stripped; original datagram recovered.'
       },
       {
-        name: 'Stage 6 — Final Delivery',
-        desc: 'The Mobile Node receives the original packet with its original source (CN) and destination (MN home address) intact.',
-        src:  'FA → MN',
-        dst:  'Mobile Node ✓',
-        status: 'Packet delivered successfully to Mobile Node!'
+        name: 'Stage 6 — Final Delivery to Mobile Node',
+        desc: 'The Foreign Agent transmits the original packet over the visited local wireless link to the Mobile Node.',
+        src:  'Local Link (FA)',
+        dst:  'Mobile Node (192.0.2.50)',
+        status: 'Status: Packet delivered successfully to destination!'
       }
     ];
 
@@ -659,20 +753,19 @@
       if (!info) return;
       document.getElementById('mip-info-stage-name').textContent = info.name;
       document.getElementById('mip-info-desc').textContent       = info.desc;
-      document.getElementById('mip-info-src-dst').textContent    = info.src;
-      document.getElementById('mip-info-dst-val').textContent    = info.dst;
+      document.getElementById('mip-info-src-dst').innerHTML    = info.src;
+      document.getElementById('mip-info-dst-val').innerHTML    = info.dst;
       document.getElementById('mip-info-status').innerHTML       = info.status;
     }
 
     function resetInfoPanel() {
-      document.getElementById('mip-info-stage-name').textContent = 'Waiting to start\u2026';
-      document.getElementById('mip-info-desc').textContent       = 'Configure locations and message, then press START.';
+      document.getElementById('mip-info-stage-name').textContent = 'Waiting to Start\u2026';
+      document.getElementById('mip-info-desc').textContent       = 'Confirm locations and message above, then click START.';
       document.getElementById('mip-info-src-dst').textContent    = '\u2014';
       document.getElementById('mip-info-dst-val').textContent    = '\u2014';
-      document.getElementById('mip-info-status').textContent     = 'Idle';
+      document.getElementById('mip-info-status').textContent     = 'Status: Idle';
     }
 
-    // Observe #mip-stages for class changes on children
     var stagesEl = document.getElementById('mip-stages');
     if (stagesEl) {
       var observer = new MutationObserver(function() {
@@ -684,7 +777,6 @@
         if (activeIdx >= 0) {
           setInfoPanel(activeIdx);
         } else {
-          // Check if all done
           var anyDone = false;
           for (var j = 0; j < items.length; j++) {
             if (items[j].classList.contains('mip-done')) { anyDone = true; break; }
@@ -695,102 +787,128 @@
       observer.observe(stagesEl, { attributes: true, subtree: true, attributeFilter: ['class'] });
     }
 
-    // Binary output: mirror bits from mip-bits into mip-binary-out
+    // Mirror binary output
     var bitsEl = document.getElementById('mip-bits');
-    var binOut  = document.getElementById('mip-binary-out');
+    var binOut = document.getElementById('mip-binary-out');
     if (bitsEl && binOut) {
       var bitsObserver = new MutationObserver(function() {
         var bits = '';
         var nodes = bitsEl.children;
         for (var i = 0; i < nodes.length; i++) {
-          var binSpan = nodes[i].textContent;
-          // extract 8-bit binary from the text content
-          var match = binSpan.match(/[01]{8}/);
+          var match = nodes[i].textContent.match(/[01]{8}/);
           if (match) bits += match[0] + ' ';
         }
-        binOut.textContent = bits.trim() || '';
+        binOut.textContent = bits.trim() || '\u2014';
       });
       bitsObserver.observe(bitsEl, { childList: true, subtree: true, characterData: true });
     }
   })();
   </script>
 
-  <!-- ===== RF CARRIER WAVE ANIMATION ===== -->
+  <!-- MODULATION & RF VISUALIZATION SCRIPT -->
   <script>
-  (function(){
-    var canvas = document.getElementById('mip-rf-canvas');
-    if (!canvas) return;
-    var ctx    = canvas.getContext('2d');
-    var phase  = 0;
-    window.mipRfRunning = false;
+    var currentModulation = 'BPSK';
+    var modDescriptions = {
+      'BPSK': '<b>BPSK (Binary Phase Shift Keying):</b> Shifts the RF carrier phase by 180° between binary \'0\' and binary \'1\'. Highly robust against noise in low-power wireless links.',
+      'QPSK': '<b>QPSK (Quadrature Phase Shift Keying):</b> Encodes 2 bits per symbol into 4 discrete phase states (45°, 135°, 225°, 315°), doubling spectral efficiency across the channel.',
+      'FSK':  '<b>FSK (Frequency Shift Keying):</b> Shifts the carrier between two distinct frequencies (lower frequency for \'0\', higher frequency for \'1\'). Common in legacy wireless systems.'
+    };
 
-    function resizeRf() {
-      var dpr = window.devicePixelRatio || 1;
-      var w   = canvas.clientWidth || 600;
-      canvas.width  = w * dpr;
-      canvas.height = 80 * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    function setModulation(mod) {
+      currentModulation = mod;
+      ['btn-bpsk', 'btn-qpsk', 'btn-fsk'].forEach(function(id) {
+        var btn = document.getElementById(id);
+        if (btn) btn.classList.remove('active');
+      });
+      var activeBtn = document.getElementById('btn-' + mod.toLowerCase());
+      if (activeBtn) activeBtn.classList.add('active');
+      var descEl = document.getElementById('mod-desc');
+      if (descEl) descEl.innerHTML = modDescriptions[mod];
     }
-    resizeRf();
-    window.addEventListener('resize', resizeRf);
 
-    function drawRf() {
-      var dpr = window.devicePixelRatio || 1;
-      var w   = canvas.width  / dpr;
-      var h   = canvas.height / dpr;
-      ctx.clearRect(0, 0, w, h);
+    (function(){
+      var canvas = document.getElementById('mip-rf-canvas');
+      if (!canvas) return;
+      var ctx   = canvas.getContext('2d');
+      var phase = 0;
 
-      if (!window.mipRfRunning) {
-        // Static flat line when idle
-        ctx.strokeStyle = 'rgba(0,240,255,0.2)';
-        ctx.lineWidth   = 1.5;
+      function resizeRf() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = canvas.clientWidth || 600;
+        canvas.width  = w * dpr;
+        canvas.height = 90 * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resizeRf();
+      window.addEventListener('resize', resizeRf);
+
+      function drawRfWave() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = canvas.width  / dpr;
+        var h = canvas.height / dpr;
+        ctx.clearRect(0, 0, w, h);
+
+        var isRunning = window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.running;
+        var cy = h / 2;
+        var amp = h * 0.36;
+
+        ctx.lineWidth = 2.2;
+        ctx.strokeStyle = '#38bdf8';
         ctx.beginPath();
-        ctx.moveTo(0, h / 2);
-        ctx.lineTo(w, h / 2);
-        ctx.stroke();
-      } else {
-        // Animated sine wave
-        var amp   = h * 0.36;
-        var freq  = 0.04;
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(0,240,255,0.7)';
-        ctx.lineWidth   = 2;
-        ctx.shadowColor = 'rgba(0,240,255,0.5)';
-        ctx.shadowBlur  = 8;
+
+        var bitIndex = 0;
+        var bits = '';
+        if (window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.chars) {
+          bits = window.MIP_SIM.state.chars.map(function(c){ return c.bin; }).join('');
+        }
+        if (!bits) bits = '101011001101';
+
         for (var x = 0; x <= w; x++) {
-          var y = h / 2 + amp * Math.sin(freq * x + phase);
+          var segment = Math.floor((x / w) * 12);
+          var bit = bits[segment % bits.length] || '1';
+          var y = cy;
+
+          if (currentModulation === 'BPSK') {
+            // 180° phase inversion for bit 0
+            var pOffset = (bit === '0') ? Math.PI : 0;
+            y = cy + amp * Math.sin(0.045 * x + phase + pOffset);
+          } else if (currentModulation === 'QPSK') {
+            // 4 phase offsets (0, pi/2, pi, 3pi/2)
+            var dibit = bits.substr(Math.floor((x / w) * 6) * 2, 2);
+            var qOffset = (dibit === '00') ? 0 : (dibit === '01' ? Math.PI*0.5 : (dibit === '11' ? Math.PI : Math.PI*1.5));
+            y = cy + amp * Math.sin(0.045 * x + phase + qOffset);
+          } else if (currentModulation === 'FSK') {
+            // Lower vs higher frequency
+            var freq = (bit === '1') ? 0.08 : 0.03;
+            y = cy + amp * Math.sin(freq * x + phase);
+          }
+
           if (x === 0) ctx.moveTo(x, y);
-          else         ctx.lineTo(x, y);
+          else ctx.lineTo(x, y);
         }
         ctx.stroke();
-        ctx.shadowBlur = 0;
-        phase += 0.08;
-      }
-      requestAnimationFrame(drawRf);
-    }
-    drawRf();
 
-    // Hook into simulation state to toggle mipRfRunning
-    // Poll MIP_SIM.state every 200ms (lightweight)
-    setInterval(function() {
-      if (window.MIP_SIM && window.MIP_SIM.state) {
-        window.mipRfRunning = window.MIP_SIM.state.running === true;
+        // Baseline reference line
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, cy);
+        ctx.lineTo(w, cy);
+        ctx.stroke();
+
+        if (isRunning) {
+          phase += 0.09;
+        } else {
+          phase += 0.02; // subtle continuous idle motion
+        }
+        requestAnimationFrame(drawRfWave);
       }
-    }, 200);
-  })();
+      drawRfWave();
+    })();
   </script>
 
   <script src="../scripts/global-nav.js"></script>
   <script src="../scripts/map-data.js"></script>
   <script src="../scripts/simulation.js"></script>
-
-  <!-- Post-load: invalidate Leaflet size after all scripts have run -->
-  <script>
-  window.addEventListener('load', function(){
-    setTimeout(function(){
-      if (window._mipLeafletMap) window._mipLeafletMap.invalidateSize();
-    }, 300);
-  });
-  </script>
 </body>
 </html>

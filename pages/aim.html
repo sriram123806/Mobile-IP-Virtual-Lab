@@ -23,10 +23,20 @@
 
     <!-- Hero -->
     <section class="lab-hero">
-      <h1 class="lab-page-title" style="font-weight:900;text-shadow:0 0 18px rgba(0,240,255,0.7),0 0 36px rgba(0,240,255,0.4);">AIM</h1>
-      <p style="font-size:1.05rem;font-weight:600;color:#c77dff;letter-spacing:0.04em;margin:8px 0 16px;">Objective: Seamless Mobility &amp; Packet Tunneling in Mobile IP</p>
+      <h1 class="lab-page-title">AIM</h1>
+      <p class="lab-page-sub">Home Agent &amp; Foreign Agent Tunneling in Mobile IP</p>
       <div class="lab-page-bar"></div>
-      <p style="max-width:860px;margin:0 auto;line-height:1.8;font-size:1rem;color:rgba(220,235,255,0.92);">This project aims to demonstrate the fundamental concepts of Mobile IP, specifically the roles of the Home Agent (HA) and Foreign Agent (FA) in enabling seamless mobility across IP networks. It illustrates how packets are encapsulated at the Home Agent and tunneled through the network to reach a Mobile Node located in a foreign network. The project also demonstrates the decapsulation process at the Foreign Agent, which recovers the original IP packet and delivers it to the Mobile Node. Through an interactive simulation, students can observe the complete packet delivery process — from the Correspondent Node through the tunnel to the final destination.</p>
+    </section>
+
+    <!-- 1. Project Objective -->
+    <section class="lab-panel" aria-labelledby="aim-obj-h">
+      <h2 id="aim-obj-h">Project Objective</h2>
+      <p style="font-size:1.02rem;line-height:1.85;color:#18233B;margin:0;">
+        This virtual laboratory project aims to demonstrate the fundamental operations of Mobile IP, specifically how the Home Agent (HA) and Foreign Agent (FA) cooperate to maintain continuous connectivity for mobile devices.<br>
+        It illustrates how datagrams addressed to a Mobile Node's permanent home address are intercepted and encapsulated at the Home Agent using IP-in-IP tunneling.<br>
+        It visualizes the tunnel transmission path across the network and demonstrates decapsulation at the Foreign Agent, which strips the outer header and recovers the original packet.<br>
+        Through an interactive simulation with real geographical nodes and binary signal conversion, students can observe the complete packet delivery workflow from Correspondent Node to Mobile Node.
+      </p>
     </section>
 
     <!-- What is this project? -->

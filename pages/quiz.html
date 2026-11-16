@@ -1,190 +1,202 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Quiz | Mobile IP Virtual Lab</title>
-  <meta name='description' content='Test your knowledge of Mobile IP with 5 random questions from a bank of 10.'>
-  <link rel='icon' href='../assets/icons/favicon.svg' type='image/svg+xml'>
-  <link rel='preconnect' href='https://fonts.googleapis.com'>
-  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-  <link href='https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
-  <link rel='stylesheet' href='../styles/global.css'>
+  <meta name="description" content="Test your knowledge of Mobile IP with 5 random questions from a bank of 10.">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
   <style>
-    /* ── Quiz heading: neon glow ── */
+    /* Clean white page title */
     .lab-page-title {
-      font-weight: 900;
-      color: #00f0ff;
-      text-shadow: 0 0 18px rgba(0,240,255,0.8), 0 0 40px rgba(0,240,255,0.5), 2px 2px 8px rgba(0,0,0,0.9);
+      font-family: var(--lab-font-title);
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.85);
+      letter-spacing: 0.08em;
     }
 
-    /* ── Quiz container: glassmorphism ── */
-    #mip-quiz-box {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(0,240,255,0.2);
+    /* Light glass panels with dark text */
+    .lab-panel {
+      background: rgba(255, 255, 255, 0.94) !important;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-radius: 18px;
-      padding: 28px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
+      color: #18233B !important;
+      margin-bottom: 24px;
+    }
+    .lab-panel h2 {
+      color: #101A35 !important;
+      border-bottom: 2px solid #56B8E8;
+      padding-bottom: 6px;
+      display: inline-block;
+      margin-bottom: 16px;
+      font-weight: 700;
     }
 
-    /* ── Question text ── */
-    .mip-q {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #ffffff;
-      line-height: 1.6;
-      margin-bottom: 4px;
+    /* Quiz Option Buttons */
+    .mip-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 18px 0;
     }
 
-    /* ── Option buttons: glassmorphism ── */
     .mip-opt {
+      display: flex;
+      align-items: center;
+      gap: 14px;
       text-align: left;
-      padding: 13px 16px;
+      padding: 14px 18px;
       border-radius: 12px;
-      border: 1.5px solid rgba(0,240,255,0.3);
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
       font: inherit;
-      color: #e8f4ff;
+      color: #1e293b;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
       width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
     .mip-opt:hover {
-      border-color: rgba(0,240,255,0.7);
-      background: rgba(0,240,255,0.1);
-      color: #fff;
+      border-color: #3b82f6;
+      background: #f0f7ff;
+      transform: translateY(-1px);
     }
+
+    /* Distinct Selected Highlight */
     .mip-opt.mip-sel {
-      border-color: #c7b8f5;
-      background: rgba(199,184,245,0.2);
+      border: 2px solid #2563eb !important;
+      background: #eff6ff !important;
+      color: #1e3a8a !important;
       font-weight: 600;
-      color: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18), 0 4px 12px rgba(37, 99, 235, 0.12) !important;
     }
 
-    /* ── Score display: large neon ── */
-    .mip-score {
-      font-size: 2.6rem;
-      font-weight: 900;
-      color: #00f0ff;
-      text-shadow: 0 0 16px rgba(0,240,255,0.7), 0 0 32px rgba(0,240,255,0.4);
-      margin: 0;
-      display: block;
-    }
-
-    /* ── Buttons ── */
-    .mip-btn {
-      display: inline-flex;
+    .opt-badge {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #e2e8f0;
+      color: #334155;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 22px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      font: 600 .88rem/1 var(--lab-font-body);
-      letter-spacing: .06em;
-      color: #fff;
-      background: linear-gradient(90deg, var(--lab-blue), var(--lab-violet));
-      transition: transform .15s, box-shadow .2s;
+      transition: all 0.2s;
     }
-    .mip-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(148,120,232,.55); }
-    .mip-btn:disabled { opacity: .4; cursor: not-allowed; }
-    .mip-btn-alt {
-      background: rgba(255,255,255,0.1);
-      color: #e8f4ff;
-      border: 1.5px solid rgba(0,240,255,0.5);
+    .mip-opt.mip-sel .opt-badge {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .opt-text {
+      flex: 1;
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+    .opt-check {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #2563eb;
+      background: #dbeafe;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
     }
 
-    /* ── Progress bar ── */
+    /* Progress bar */
     .mip-progress {
-      height: 10px;
-      background: rgba(255,255,255,0.1);
+      height: 8px;
+      background: #e2e8f0;
       border-radius: 99px;
       overflow: hidden;
-      margin: 6px 0 14px;
+      margin: 8px 0 16px;
     }
     .mip-progress i {
       display: block;
       height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, #00f0ff, var(--lab-violet));
-      transition: width .3s;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      transition: width 0.3s ease;
     }
 
-    /* ── Options container ── */
-    .mip-opts {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 14px 0;
-    }
-
-    /* ── Review/feedback ── */
+    /* Review cards */
     .mip-rev {
-      border-left: 6px solid var(--lab-bad);
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 10px;
+      border-left: 5px solid #ef4444;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: 8px;
       margin: 10px 0;
-      color: #e8f4ff;
+      color: #1e293b;
+      border-top: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
     }
-    .mip-rev.mip-right { border-color: var(--lab-ok); }
+    .mip-rev.mip-right {
+      border-left-color: #10b981;
+      background: #f0fdf4;
+    }
 
-    /* ── History table ── */
+    /* History table */
     table.mip-hist {
       width: 100%;
       border-collapse: collapse;
-      font-size: .9rem;
-      color: #e8f4ff;
+      font-size: 0.92rem;
+      color: #1e293b;
+      margin-top: 8px;
     }
-    .mip-hist th, .mip-hist td {
-      padding: 6px 8px;
-      border-bottom: 1px solid rgba(0,240,255,0.15);
+    table.mip-hist th, table.mip-hist td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
       text-align: left;
     }
-    .mip-hist th { color: #00f0ff; font-weight: 700; }
-
-    /* ── Attempt History panel ── */
-    section.lab-panel:has(#mip-history) {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(0,240,255,0.15);
-      backdrop-filter: blur(12px);
+    table.mip-hist th {
+      color: #0f172a;
+      font-weight: 700;
+      background: #f8fafc;
     }
-    section.lab-panel:has(#mip-history) h2 {
-      color: #00f0ff;
-    }
-
-    .mip-empty { color: rgba(200,220,255,0.6); font-style: italic; font-size: .84rem; }
-    .mip-note { font-size: .8rem; color: rgba(200,220,255,0.6); margin: 4px 0 0; }
   </style>
 </head>
-<body class='lab-page'>
-  <div class='lab-bg lab-bg-quiz' aria-hidden='true'></div>
-  <nav id='lab-nav' data-active='quiz'></nav>
+<body class="lab-page">
 
-  <main class='lab-wrap'>
-    <section class='lab-hero'>
-      <h1 class='lab-page-title'>QUIZ</h1>
-      <div class='lab-page-bar'></div>
+  <!-- Background -->
+  <div class="lab-bg lab-bg-quiz" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav id="lab-nav" data-active="quiz"></nav>
+
+  <main class="lab-wrap">
+    <section class="lab-hero">
+      <h1 class="lab-page-title">QUIZ</h1>
+      <p class="lab-page-sub">Interactive Knowledge Assessment &mdash; 5 Random Questions from the Mobile IP Bank</p>
+      <div class="lab-page-bar"></div>
     </section>
 
-    <div style='max-width:820px;margin:0 auto;'>
-      <section class='lab-panel' id='mip-quiz-box' aria-live='polite'>
-        <!-- Quiz renders here via quiz.js -->
+    <div style="max-width:860px;margin:0 auto;">
+      <!-- Active Quiz Card -->
+      <section class="lab-panel" id="mip-quiz-box" aria-live="polite">
+        <!-- Renders dynamically via scripts/quiz.js -->
       </section>
 
-      <section class='lab-panel'>
+      <!-- Attempt History Panel -->
+      <section class="lab-panel">
         <h2>Attempt History</h2>
-        <div id='mip-history'></div>
+        <p style="font-size:0.88rem;color:#475569;margin-bottom:12px;">Your recent assessment scores stored locally in your browser session:</p>
+        <div id="mip-history"></div>
       </section>
     </div>
   </main>
 
-  <footer class='lab-foot'>Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
+  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
 
-  <script src='../scripts/global-nav.js'></script>
-  <script src='../scripts/quiz.js'></script>
+  <script src="../scripts/global-nav.js"></script>
+  <script src="../scripts/quiz.js"></script>
 </body>
 </html>

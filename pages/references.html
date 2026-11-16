@@ -1,154 +1,176 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>References | Mobile IP Virtual Lab</title>
-  <meta name='description' content='Official RFC standards, textbooks, and educational resources for Mobile IPv4 and packet tunneling.'>
-  <link rel='icon' href='../assets/icons/favicon.svg' type='image/svg+xml'>
-  <link rel='preconnect' href='https://fonts.googleapis.com'>
-  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-  <link href='https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
-  <link rel='stylesheet' href='../styles/global.css'>
+  <meta name="description" content="Official RFC standards, textbooks, and educational resources for Mobile IPv4 and packet tunneling.">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
   <style>
-    /* ── Neon heading glow ─────────────────────────────── */
+    /* Clean white page title */
     .lab-page-title {
-      font-weight: 900;
-      text-shadow:
-        0 0 8px rgba(100, 180, 255, 0.9),
-        0 0 20px rgba(100, 180, 255, 0.6),
-        0 0 40px rgba(100, 180, 255, 0.35);
+      font-family: var(--lab-font-title);
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.85);
+      letter-spacing: 0.08em;
     }
 
-    /* ── Reference card list ───────────────────────────── */
+    /* Light glass panels with dark text */
+    .lab-panel {
+      background: rgba(255, 255, 255, 0.94) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
+      color: #18233B !important;
+      margin-bottom: 24px;
+    }
+    .lab-panel h2 {
+      color: #101A35 !important;
+      border-bottom: 2px solid #56B8E8;
+      padding-bottom: 6px;
+      display: inline-block;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    /* Reference card list */
     .mip-ref-list {
       display: grid;
       gap: 12px;
     }
 
     .mip-ref {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
-      padding: 14px 16px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 18px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
     .mip-ref:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(100, 180, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      border-color: #cbd5e1;
     }
 
     .mip-ref a {
-      color: #7ec8f7;
+      color: #1d4ed8;
       font-weight: 700;
+      font-size: 1rem;
       word-break: break-word;
       text-decoration: none;
+      display: inline-block;
+      margin-bottom: 4px;
     }
-
     .mip-ref a:hover {
       text-decoration: underline;
-      color: #aedeff;
+      color: #2563eb;
     }
 
     .mip-ref b {
-      color: #e8f0ff;
+      color: #0f172a;
       font-weight: 700;
+      font-size: 1rem;
+      display: inline-block;
+      margin-bottom: 4px;
     }
 
     .mip-ref p {
-      margin: 6px 0 0;
-      font-size: 0.88rem;
-      color: rgba(200, 220, 255, 0.7);
-      line-height: 1.5;
+      margin: 4px 0 0;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.6;
     }
   </style>
 </head>
-<body class='lab-page'>
-  <div class='lab-bg lab-bg-references' aria-hidden='true'></div>
-  <nav id='lab-nav' data-active='references'></nav>
+<body class="lab-page">
+  <!-- Background -->
+  <div class="lab-bg lab-bg-references" aria-hidden="true"></div>
 
-  <main class='lab-wrap'>
-    <section class='lab-hero'>
-      <h1 class='lab-page-title' style="font-weight:900;text-shadow:0 0 18px rgba(0,240,255,0.7),0 0 36px rgba(0,240,255,0.4);text-transform:uppercase;">REFERENCES</h1>
-      <div class='lab-page-bar'></div>
+  <!-- Navigation -->
+  <nav id="lab-nav" data-active="references"></nav>
+
+  <main class="lab-wrap">
+    <section class="lab-hero">
+      <h1 class="lab-page-title">REFERENCES</h1>
+      <p class="lab-page-sub">Official Standards, Authoritative Textbooks &amp; Academic Learning Resources</p>
+      <div class="lab-page-bar"></div>
     </section>
 
-    <!-- RFC Standards -->
-    <section class='lab-panel' aria-labelledby='ref-rfc-h'>
-      <h2 id='ref-rfc-h'>Official RFC Standards</h2>
-      <div class='mip-ref-list'>
-        <div class='mip-ref'>
-          <a href='https://tools.ietf.org/html/rfc5944' target='_blank' rel='noopener noreferrer'>RFC 5944 &mdash; IP Mobility Support for IPv4, Revised</a>
-          <p>The updated Mobile IPv4 standard defining agents, registration, care-of addresses and tunneling. Obsoletes RFC 3344.</p>
+    <!-- 1. Official RFC Standards -->
+    <section class="lab-panel" aria-labelledby="ref-rfc-h">
+      <h2 id="ref-rfc-h">1. Official RFC Standards</h2>
+      <div class="mip-ref-list">
+        <div class="mip-ref">
+          <a href="https://tools.ietf.org/html/rfc5944" target="_blank" rel="noopener noreferrer">RFC 5944 &mdash; IP Mobility Support for IPv4, Revised</a>
+          <p>The core IETF standard specifying Mobile IPv4 entity operations, agent discovery, registration handshake, care-of addresses, and packet tunneling mechanisms. (Obsoletes RFC 3344 &amp; RFC 3220)</p>
         </div>
-        <div class='mip-ref'>
-          <a href='https://tools.ietf.org/html/rfc2003' target='_blank' rel='noopener noreferrer'>RFC 2003 &mdash; IP Encapsulation within IP</a>
-          <p>Defines IP-in-IP (protocol number 4) encapsulation and decapsulation, used by the HA-to-FA tunnel.</p>
+        <div class="mip-ref">
+          <a href="https://tools.ietf.org/html/rfc2003" target="_blank" rel="noopener noreferrer">RFC 2003 &mdash; IP Encapsulation within IP</a>
+          <p>Defines the IP-in-IP encapsulation protocol (IP Protocol 4), specifying how outer IP headers are constructed by the Home Agent and decapsulated by the Foreign Agent.</p>
         </div>
-        <div class='mip-ref'>
-          <a href='https://tools.ietf.org/html/rfc3024' target='_blank' rel='noopener noreferrer'>RFC 3024 &mdash; Reverse Tunneling for Mobile IP, Revised</a>
-          <p>Describes reverse tunneling from the care-of address back through the Home Agent toward the Correspondent Node.</p>
+        <div class="mip-ref">
+          <a href="https://tools.ietf.org/html/rfc3024" target="_blank" rel="noopener noreferrer">RFC 3024 &mdash; Reverse Tunneling for Mobile IP, Revised</a>
+          <p>Specifies reverse tunneling from the visited network back through the Home Agent toward Correspondent Nodes, preventing packet drops by edge router ingress filtering.</p>
         </div>
-        <div class='mip-ref'>
-          <a href='https://tools.ietf.org/html/rfc3220' target='_blank' rel='noopener noreferrer'>RFC 3220 &mdash; IP Mobility Support for IPv4</a>
-          <p>Earlier revision of the Mobile IPv4 standard; predecessor to RFC 5944. Covers agent discovery, registration and tunneling fundamentals.</p>
+        <div class="mip-ref">
+          <a href="https://tools.ietf.org/html/rfc3220" target="_blank" rel="noopener noreferrer">RFC 3220 &mdash; IP Mobility Support for IPv4</a>
+          <p>Foundational predecessor specification defining agent advertisement extensions, authentication extensions, and mobility binding maintenance.</p>
         </div>
       </div>
     </section>
 
-    <!-- Textbooks -->
-    <section class='lab-panel' aria-labelledby='ref-books-h'>
-      <h2 id='ref-books-h'>Networking Textbooks</h2>
-      <div class='mip-ref-list'>
-        <div class='mip-ref'>
-          <b>Computer Networks</b> &mdash; Andrew S. Tanenbaum &amp; David J. Wetherall
-          <p>Covers network-layer mobility concepts including Mobile IP, tunneling and address management. (5th edition, Pearson)</p>
+    <!-- 2. Networking Textbooks -->
+    <section class="lab-panel" aria-labelledby="ref-books-h">
+      <h2 id="ref-books-h">2. Networking Textbooks</h2>
+      <div class="mip-ref-list">
+        <div class="mip-ref">
+          <b>Computer Networks (5th Edition)</b> &mdash; Andrew S. Tanenbaum &amp; David J. Wetherall (Pearson)
+          <p>Chapter 5 (The Network Layer): Provides comprehensive architectural analysis of network-layer mobility, routing for mobile hosts, and home agent binding tables.</p>
         </div>
-        <div class='mip-ref'>
-          <b>Data Communications and Networking</b> &mdash; Behrouz A. Forouzan
-          <p>Introductory text covering IP routing, mobile IP architecture and care-of address registration. (5th edition, McGraw-Hill)</p>
+        <div class="mip-ref">
+          <b>Data Communications and Networking (5th Edition)</b> &mdash; Behrouz A. Forouzan (McGraw-Hill)
+          <p>Chapters 19 &amp; 22: Covers network addressing, agent discovery, registration request/reply handshakes, and forward tunneling packet transformations.</p>
         </div>
-        <div class='mip-ref'>
-          <b>Computer Networking: A Top-Down Approach</b> &mdash; James Kurose &amp; Keith Ross
-          <p>Explains mobility at the network layer, agent discovery, registration and tunneling in the context of modern networking.</p>
+        <div class="mip-ref">
+          <b>Computer Networking: A Top-Down Approach (8th Edition)</b> &mdash; James Kurose &amp; Keith Ross (Pearson)
+          <p>Chapter 6 (Wireless and Mobile Networks): Explains mobility principles, addressing and routing to mobile nodes, triangle routing overhead, and direct routing comparisons.</p>
         </div>
       </div>
     </section>
 
-    <!-- Educational Resources -->
-    <section class='lab-panel' aria-labelledby='ref-edu-h'>
-      <h2 id='ref-edu-h'>Educational Resources</h2>
-      <div class='mip-ref-list'>
-        <div class='mip-ref'>
-          <a href='https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/mob_ipv4/configuration/xe-16/mob-ipv4-xe-16-book.html' target='_blank' rel='noopener noreferrer'>Cisco &mdash; Mobile IP Configuration Guide</a>
-          <p>Official Cisco documentation covering Mobile IP configuration, agent setup, care-of addresses and tunneling on IOS devices.</p>
+    <!-- 3. Educational Resources -->
+    <section class="lab-panel" aria-labelledby="ref-edu-h">
+      <h2 id="ref-edu-h">3. Educational Resources</h2>
+      <div class="mip-ref-list">
+        <div class="mip-ref">
+          <a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/mob_ipv4/configuration/xe-16/mob-ipv4-xe-16-book.html" target="_blank" rel="noopener noreferrer">Cisco Systems &mdash; IP Mobility: Mobile IPv4 Configuration Guide</a>
+          <p>Technical deployment guide documenting Home Agent configuration, Foreign Agent services, and mobility binding verification on production routers.</p>
         </div>
-        <div class='mip-ref'>
-          <a href='https://datatracker.ietf.org/wg/mip4/about/' target='_blank' rel='noopener noreferrer'>IETF &mdash; Mobile IP Working Group (mip4)</a>
-          <p>The IETF working group responsible for Mobile IPv4 standards. Includes charter, documents, and mailing list archives.</p>
+        <div class="mip-ref">
+          <a href="https://datatracker.ietf.org/wg/mip4/about/" target="_blank" rel="noopener noreferrer">IETF &mdash; Mobility for IPv4 (mip4) Working Group</a>
+          <p>Official IETF archive containing charter documents, draft revisions, security considerations, and errata for IPv4 mobility standards.</p>
         </div>
-        <div class='mip-ref'>
-          <a href='https://en.wikipedia.org/wiki/Mobile_IP' target='_blank' rel='noopener noreferrer'>Wikipedia &mdash; Mobile IP</a>
-          <p>Overview article covering Mobile IP terminology, registration summary and comparison with Mobile IPv6.</p>
+        <div class="mip-ref">
+          <a href="https://en.wikipedia.org/wiki/Mobile_IP" target="_blank" rel="noopener noreferrer">Wikipedia &mdash; Mobile IP Architecture &amp; Taxonomy</a>
+          <p>Collaborative reference summarizing agent roles, registration flow diagrams, care-of address classification, and evolution to Mobile IPv6.</p>
         </div>
-        <div class='mip-ref'>
-          <a href='https://datatracker.ietf.org/doc/rfc5944/' target='_blank' rel='noopener noreferrer'>IETF Datatracker &mdash; RFC 5944</a>
-          <p>RFC status history, related documents, and errata for the Mobile IPv4 standard.</p>
-        </div>
-        <div class='mip-ref'>
-          <a href='https://www.rfc-editor.org/' target='_blank' rel='noopener noreferrer'>RFC Editor &mdash; rfc-editor.org</a>
-          <p>Official index and archive of all IETF RFC documents. Search for RFC 2003, 3024, 3220 or 5944.</p>
+        <div class="mip-ref">
+          <a href="https://www.rfc-editor.org/" target="_blank" rel="noopener noreferrer">RFC Editor &mdash; Official Internet Standards Repository</a>
+          <p>Official searchable index for all published Requests for Comments defining core protocols of the Internet Protocol suite.</p>
         </div>
       </div>
     </section>
 
   </main>
 
-  <footer class='lab-foot'>Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
+  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
 
-  <script src='../scripts/global-nav.js'></script>
+  <script src="../scripts/global-nav.js"></script>
 </body>
 </html>
