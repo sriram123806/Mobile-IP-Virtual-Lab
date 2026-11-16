@@ -23,23 +23,8 @@
     }
 
     /* Light glass panels with dark text */
-    .lab-panel {
-      background: rgba(255, 255, 255, 0.94) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.8) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
-      color: #18233B !important;
-      margin-bottom: 24px;
-    }
-    .lab-panel h2 {
-      color: #101A35 !important;
-      border-bottom: 2px solid #56B8E8;
-      padding-bottom: 6px;
-      display: inline-block;
-      margin-bottom: 16px;
-      font-weight: 700;
-    }
+    
+    
 
     /* Session 3 - Cosmic Dark Blue Reference Theme */
     .session3-panel {
@@ -758,7 +743,7 @@
     <!-- ================================================================
          SECTION 1: CONFIGURATION
          ================================================================ -->
-    <section class="lab-panel" aria-labelledby="sec1-config-h">
+    <section class="lab-panel-white" aria-labelledby="sec1-config-h">
       <h2 id="sec1-config-h">SECTION 1 &mdash; Network Configuration &amp; Message Encoding</h2>
       <p style="margin-bottom:16px;">Select the geographical locations across Tamil Nadu for the Correspondent Node, Home Agent, and Foreign Agent, then enter your transmission message.</p>
 
@@ -797,7 +782,7 @@
     <!-- ================================================================
          SECTION 2: LIVE PACKET SIMULATION (Two-Column Layout)
          ================================================================ -->
-    <section class="lab-panel" aria-labelledby="sec2-sim-h">
+    <section class="lab-panel-dark" aria-labelledby="sec2-sim-h">
       <h2 id="sec2-sim-h">SECTION 2 &mdash; Live Packet Simulation &amp; Stage Flow</h2>
       <p style="margin-bottom:16px;">Observe live packet traversal across real Tamil Nadu coordinates. When you press START, the right panel dynamically updates stage-by-stage without requiring scrolling.</p>
 
@@ -1341,6 +1326,9 @@
         }
         if (activeIdx >= 0) {
           setInfoPanel(activeIdx);
+          if (typeof syncSession3Cards === 'function') {
+            syncSession3Cards(activeIdx);
+          }
         } else {
           var anyDone = false;
           for (var j = 0; j < items.length; j++) {

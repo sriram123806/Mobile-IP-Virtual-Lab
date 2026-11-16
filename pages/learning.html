@@ -12,12 +12,7 @@
   <link rel="stylesheet" href="../styles/global.css">
   <style>
     /* Background override with user's new background */
-    .lab-bg-learning {
-      background-image: url('../assets/backgrounds/bg-learning-new.png') !important;
-      background-size: cover !important;
-      background-position: center !important;
-      background-attachment: fixed !important;
-    }
+    
 
     /* Clean white page title */
     .lab-page-title {
@@ -29,23 +24,8 @@
     }
 
     /* Light glass panels with dark text */
-    .lab-panel {
-      background: rgba(255, 255, 255, 0.94) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.8) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
-      color: #18233B !important;
-      margin-bottom: 24px;
-    }
-    .lab-panel h2 {
-      color: #101A35 !important;
-      border-bottom: 2px solid #56B8E8;
-      padding-bottom: 6px;
-      display: inline-block;
-      margin-bottom: 16px;
-      font-weight: 700;
-    }
+    
+    
 
     /* Library image banner */
     .learning-library-img {
@@ -354,7 +334,7 @@
 <body class="lab-page">
 
   <!-- Background -->
-  <div class="lab-bg lab-bg-learning" aria-hidden="true"></div>
+  
 
   <!-- Navigation -->
   <nav id="lab-nav" data-active="learning"></nav>
@@ -367,14 +347,14 @@
   <main class="lab-wrap">
 
     <!-- Hero Section -->
-    <section class="lab-hero">
+    <header class="lab-hero"><div class="lab-hero-content">
       <h1 class="lab-page-title">LEARNING</h1>
       <p class="lab-page-sub">Comprehensive Study Cases, Decision Flowcharts &amp; Mobility Fundamentals</p>
       <div class="lab-page-bar"></div>
     </section>
 
     <!-- Summary Section -->
-    <section class="lab-panel" aria-labelledby="learning-summary-h">
+    <section class="lab-panel-white" aria-labelledby="learning-summary-h">
       <h2 id="learning-summary-h">Summary</h2>
       <p>Mobile IP (RFC 5944) enables transparent mobility across heterogeneous networks by separating a host's permanent network identity (Home Address) from its physical point of attachment (Care-of Address). This ensures continuous transport-layer sessions, active socket states, and TCP throughput without disconnection during handoffs.</p>
       <p>The standard packet workflow follows a clear sequence: Correspondent Node (CN) &rarr; Home Agent (HA intercepts via Proxy ARP and encapsulates) &rarr; IP-in-IP Tunnel (Protocol 4) &rarr; Foreign Agent (FA decapsulates) &rarr; Mobile Node (MN receives original datagram). For outbound traffic, Reverse Tunneling routes packets back through the HA to satisfy network edge ingress filtering.</p>
@@ -417,7 +397,7 @@
     </section>
 
     <!-- Study Cases Section -->
-    <section class="lab-panel" aria-labelledby="study-cases-h" id="study-cases">
+    <section class="lab-panel-dark" aria-labelledby="study-cases-h" id="study-cases">
       <h2 id="study-cases-h">Troubleshooting Study Cases</h2>
       <p style="margin-bottom:14px;color:#475569;">Click <b>VIEW</b> on any study case below to open its dedicated full-screen diagnostic flowchart, troubleshooting checklist, and resolution guide:</p>
 
