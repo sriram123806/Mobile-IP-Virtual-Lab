@@ -58,107 +58,106 @@
       font-size: 1rem;
     }
 
-    /* Carousel */
-    .gallery-wrap {
+    /* Netflix Shelf Gallery */
+    .netflix-shelf-wrapper {
       position: relative;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-    .carousel-stage {
-      position: relative;
-      background: #f8fafc;
-      border: 1px solid rgba(0,0,0,0.1);
-      border-radius: 14px;
-      overflow: hidden;
-      min-height: 440px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.04);
-    }
-    .carousel-slide {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       width: 100%;
-      padding: 24px 20px 16px;
-      box-sizing: border-box;
+      margin: 10px 0 6px;
     }
-    .carousel-slide.active { display: flex; }
-    .carousel-slide img {
-      max-height: 380px;
-      max-width: 100%;
-      object-fit: contain;
-      border-radius: 8px;
-      cursor: zoom-in;
-      transition: transform 0.2s, opacity 0.2s;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    .netflix-shelf {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px 4px 16px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 120, 232, 0.45) transparent;
+    }
+    .netflix-shelf::-webkit-scrollbar {
+      height: 7px;
+    }
+    .netflix-shelf::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.04);
+      border-radius: 4px;
+    }
+    .netflix-shelf::-webkit-scrollbar-thumb {
+      background: rgba(148, 120, 232, 0.45);
+      border-radius: 4px;
+    }
+    .netflix-shelf::-webkit-scrollbar-thumb:hover {
+      background: #56B8E8;
+    }
+    .shelf-card {
+      flex: 0 0 240px;
+      width: 240px;
+      height: 165px;
+      scroll-snap-align: start;
       background: #ffffff;
-    }
-    .carousel-slide img:hover {
-      transform: scale(1.01);
-      opacity: 0.95;
-    }
-    .carousel-caption {
-      margin-top: 12px;
-      font-size: 0.88rem;
-      color: #475569;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      text-align: center;
-    }
-
-    /* Carousel Controls */
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(16, 26, 53, 0.85);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #ffffff;
-      font-size: 1.4rem;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      border: 1px solid rgba(148, 120, 232, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(10, 15, 36, 0.08);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10;
-      transition: all 0.2s;
+      padding: 8px;
+      user-select: none;
     }
-    .carousel-btn:hover {
-      background: #2563eb;
-      transform: translateY(-50%) scale(1.08);
+    .shelf-card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 10px 24px rgba(10, 15, 36, 0.16), 0 0 0 2px #56B8E8;
+      border-color: #56B8E8;
+      z-index: 2;
     }
-    .carousel-btn.prev { left: 12px; }
-    .carousel-btn.next { right: 12px; }
-
-    .carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-      padding: 0 10px;
+    .shelf-card img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      pointer-events: none;
     }
-    .carousel-dot {
-      width: 8px;
-      height: 8px;
+    .shelf-card-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 8px;
+      background: rgba(16, 26, 53, 0.85);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.03em;
+      pointer-events: none;
+    }
+    .shelf-arrow-btn {
+      background: #ffffff;
+      border: 1px solid rgba(148, 120, 232, 0.35);
+      color: #18233B;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: #cbd5e1;
-      border: 1px solid #94a3b8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: all 0.2s;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(10, 15, 36, 0.1);
+      transition: all 0.2s ease;
     }
-    .carousel-dot.active {
-      background: #2563eb;
-      transform: scale(1.3);
-      border-color: #1d4ed8;
+    .shelf-arrow-btn:hover {
+      background: #56B8E8;
+      color: #ffffff;
+      border-color: #56B8E8;
+      transform: scale(1.08);
     }
 
-    /* Lightbox Modal */
+    /* Lightbox Modal *//* Lightbox Modal */
     #lightbox-overlay {
       display: none;
       position: fixed;
@@ -409,51 +408,48 @@
       </div>
     </section>
 
-    <!-- 3. CONCEPTUAL GALLERY SECTION -->
+        <!-- 3. CONCEPTUAL GALLERY SECTION -->
     <section class="lab-panel" aria-labelledby="th-gal-h">
-      <h2 id="th-gal-h">3. Conceptual Gallery</h2>
-      <p style="margin-bottom:16px;">Browse all 22 conceptual images and architecture diagrams illustrating Mobile IP principles. The carousel auto-rotates every 3 seconds. Click any image to open the full-screen interactive preview with zoom controls.</p>
-
-      <div class="gallery-wrap" id="gallery-container">
-        <div class="carousel-stage" id="carousel-stage">
-          <button class="carousel-btn prev" id="car-prev" aria-label="Previous image">&#9664;</button>
-          <button class="carousel-btn next" id="car-next" aria-label="Next image">&#9654;</button>
-
-          <!-- doc-images image1–image22 -->
-          <div class="carousel-slide active" data-idx="0"><img src="../assets/doc-images/image1.png" alt="Concept Image 1"><div class="carousel-caption">1 / 29 — Mobile IP Concepts &amp; Architecture (Image 1)</div></div>
-          <div class="carousel-slide" data-idx="1"><img src="../assets/doc-images/image2.png" alt="Concept Image 2"><div class="carousel-caption">2 / 29 — Mobile IPv4 Agent Discovery (Image 2)</div></div>
-          <div class="carousel-slide" data-idx="2"><img src="../assets/doc-images/image3.png" alt="Concept Image 3"><div class="carousel-caption">3 / 29 — Registration Handshake Flow (Image 3)</div></div>
-          <div class="carousel-slide" data-idx="3"><img src="../assets/doc-images/image4.png" alt="Concept Image 4"><div class="carousel-caption">4 / 29 — Home Agent Interception &amp; Binding (Image 4)</div></div>
-          <div class="carousel-slide" data-idx="4"><img src="../assets/doc-images/image5.png" alt="Concept Image 5"><div class="carousel-caption">5 / 29 — Care-of Address Allocation (Image 5)</div></div>
-          <div class="carousel-slide" data-idx="5"><img src="../assets/doc-images/image6.png" alt="Concept Image 6"><div class="carousel-caption">6 / 29 — IP-in-IP Encapsulation Header (Image 6)</div></div>
-          <div class="carousel-slide" data-idx="6"><img src="../assets/doc-images/image7.png" alt="Concept Image 7"><div class="carousel-caption">7 / 29 — Forward Tunneling Mechanism (Image 7)</div></div>
-          <div class="carousel-slide" data-idx="7"><img src="../assets/doc-images/image8.png" alt="Concept Image 8"><div class="carousel-caption">8 / 29 — Foreign Agent Decapsulation (Image 8)</div></div>
-          <div class="carousel-slide" data-idx="8"><img src="../assets/doc-images/image9.png" alt="Concept Image 9"><div class="carousel-caption">9 / 29 — Final Delivery to Mobile Node (Image 9)</div></div>
-          <div class="carousel-slide" data-idx="9"><img src="../assets/doc-images/image10.png" alt="Concept Image 10"><div class="carousel-caption">10 / 29 — Triangle Routing Topology (Image 10)</div></div>
-          <div class="carousel-slide" data-idx="10"><img src="../assets/doc-images/image11.png" alt="Concept Image 11"><div class="carousel-caption">11 / 29 — Reverse Tunneling Protocol (Image 11)</div></div>
-          <div class="carousel-slide" data-idx="11"><img src="../assets/doc-images/image12.png" alt="Concept Image 12"><div class="carousel-caption">12 / 29 — Agent Advertisement Message Format (Image 12)</div></div>
-          <div class="carousel-slide" data-idx="12"><img src="../assets/doc-images/image13.png" alt="Concept Image 13"><div class="carousel-caption">13 / 29 — Agent Solicitation Request (Image 13)</div></div>
-          <div class="carousel-slide" data-idx="13"><img src="../assets/doc-images/image14.png" alt="Concept Image 14"><div class="carousel-caption">14 / 29 — Mobility Binding Table (Image 14)</div></div>
-          <div class="carousel-slide" data-idx="14"><img src="../assets/doc-images/image15.png" alt="Concept Image 15"><div class="carousel-caption">15 / 29 — Minimal Encapsulation Format (Image 15)</div></div>
-          <div class="carousel-slide" data-idx="15"><img src="../assets/doc-images/image16.png" alt="Concept Image 16"><div class="carousel-caption">16 / 29 — GRE Tunneling in Mobile IP (Image 16)</div></div>
-          <div class="carousel-slide" data-idx="16"><img src="../assets/doc-images/image17.png" alt="Concept Image 17"><div class="carousel-caption">17 / 29 — Smooth Handoff Between Foreign Agents (Image 17)</div></div>
-          <div class="carousel-slide" data-idx="17"><img src="../assets/doc-images/image18.png" alt="Concept Image 18"><div class="carousel-caption">18 / 29 — Proxy ARP Operation (Image 18)</div></div>
-          <div class="carousel-slide" data-idx="18"><img src="../assets/doc-images/image19.png" alt="Concept Image 19"><div class="carousel-caption">19 / 29 — Gratuitous ARP on Home Return (Image 19)</div></div>
-          <div class="carousel-slide" data-idx="19"><img src="../assets/doc-images/image20.png" alt="Concept Image 20"><div class="carousel-caption">20 / 29 — Mobile IP Security Association (Image 20)</div></div>
-          <div class="carousel-slide" data-idx="20"><img src="../assets/doc-images/image21.png" alt="Concept Image 21"><div class="carousel-caption">21 / 29 — Authentication Extension Header (Image 21)</div></div>
-          <div class="carousel-slide" data-idx="21"><img src="../assets/doc-images/image22.png" alt="Concept Image 22"><div class="carousel-caption">22 / 29 — Replay Protection &amp; Timestamping (Image 22)</div></div>
-
-          <!-- Architecture SVG Diagrams -->
-          <div class="carousel-slide" data-idx="22"><img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP Architecture Diagram"><div class="carousel-caption">23 / 29 — Mobile IP System Architecture (SVG)</div></div>
-          <div class="carousel-slide" data-idx="23"><img src="../assets/diagrams/home-agent-foreign-agent.svg" alt="Home Agent and Foreign Agent"><div class="carousel-caption">24 / 29 — HA and FA Interaction (SVG)</div></div>
-          <div class="carousel-slide" data-idx="24"><img src="../assets/diagrams/encapsulation-decapsulation.svg" alt="Encapsulation and Decapsulation"><div class="carousel-caption">25 / 29 — IP-in-IP Encapsulation &amp; Decapsulation (SVG)</div></div>
-          <div class="carousel-slide" data-idx="25"><img src="../assets/diagrams/forward-tunneling.svg" alt="Forward Tunneling Flow"><div class="carousel-caption">26 / 29 — Forward Tunneling Path (SVG)</div></div>
-          <div class="carousel-slide" data-idx="26"><img src="../assets/diagrams/reverse-tunneling.svg" alt="Reverse Tunneling Flow"><div class="carousel-caption">27 / 29 — Reverse Tunneling Path (SVG)</div></div>
-          <div class="carousel-slide" data-idx="27"><img src="../assets/diagrams/packet-delivery.svg" alt="End-to-End Packet Delivery"><div class="carousel-caption">28 / 29 — Complete Packet Delivery Sequence (SVG)</div></div>
-          <div class="carousel-slide" data-idx="28"><img src="../assets/diagrams/mobile-ip-overview.svg" alt="Mobile IP Protocol Overview"><div class="carousel-caption">29 / 29 — Protocol State Overview (SVG)</div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <h2 id="th-gal-h" style="margin:0;">Conceptual Gallery</h2>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="shelf-arrow-btn" id="shelf-prev" aria-label="Scroll gallery left" type="button">&#9664;</button>
+          <button class="shelf-arrow-btn" id="shelf-next" aria-label="Scroll gallery right" type="button">&#9654;</button>
         </div>
+      </div>
 
-        <div class="carousel-dots" id="carousel-dots"></div>
+      <div class="netflix-shelf-wrapper">
+        <div class="netflix-shelf" id="netflix-shelf" role="region" aria-label="Conceptual Images Shelf">
+          <div class="shelf-card" data-idx="0" tabindex="0" role="button" aria-label="Concept Image 1"><img src="../assets/doc-images/image1.png" alt="Concept Image 1" loading="lazy"><div class="shelf-card-badge">Concept 01</div></div>
+          <div class="shelf-card" data-idx="1" tabindex="0" role="button" aria-label="Concept Image 2"><img src="../assets/doc-images/image2.png" alt="Concept Image 2" loading="lazy"><div class="shelf-card-badge">Concept 02</div></div>
+          <div class="shelf-card" data-idx="2" tabindex="0" role="button" aria-label="Concept Image 3"><img src="../assets/doc-images/image3.png" alt="Concept Image 3" loading="lazy"><div class="shelf-card-badge">Concept 03</div></div>
+          <div class="shelf-card" data-idx="3" tabindex="0" role="button" aria-label="Concept Image 4"><img src="../assets/doc-images/image4.png" alt="Concept Image 4" loading="lazy"><div class="shelf-card-badge">Concept 04</div></div>
+          <div class="shelf-card" data-idx="4" tabindex="0" role="button" aria-label="Concept Image 5"><img src="../assets/doc-images/image5.png" alt="Concept Image 5" loading="lazy"><div class="shelf-card-badge">Concept 05</div></div>
+          <div class="shelf-card" data-idx="5" tabindex="0" role="button" aria-label="Concept Image 6"><img src="../assets/doc-images/image6.png" alt="Concept Image 6" loading="lazy"><div class="shelf-card-badge">Concept 06</div></div>
+          <div class="shelf-card" data-idx="6" tabindex="0" role="button" aria-label="Concept Image 7"><img src="../assets/doc-images/image7.png" alt="Concept Image 7" loading="lazy"><div class="shelf-card-badge">Concept 07</div></div>
+          <div class="shelf-card" data-idx="7" tabindex="0" role="button" aria-label="Concept Image 8"><img src="../assets/doc-images/image8.png" alt="Concept Image 8" loading="lazy"><div class="shelf-card-badge">Concept 08</div></div>
+          <div class="shelf-card" data-idx="8" tabindex="0" role="button" aria-label="Concept Image 9"><img src="../assets/doc-images/image9.png" alt="Concept Image 9" loading="lazy"><div class="shelf-card-badge">Concept 09</div></div>
+          <div class="shelf-card" data-idx="9" tabindex="0" role="button" aria-label="Concept Image 10"><img src="../assets/doc-images/image10.png" alt="Concept Image 10" loading="lazy"><div class="shelf-card-badge">Concept 10</div></div>
+          <div class="shelf-card" data-idx="10" tabindex="0" role="button" aria-label="Concept Image 11"><img src="../assets/doc-images/image11.png" alt="Concept Image 11" loading="lazy"><div class="shelf-card-badge">Concept 11</div></div>
+          <div class="shelf-card" data-idx="11" tabindex="0" role="button" aria-label="Concept Image 12"><img src="../assets/doc-images/image12.png" alt="Concept Image 12" loading="lazy"><div class="shelf-card-badge">Concept 12</div></div>
+          <div class="shelf-card" data-idx="12" tabindex="0" role="button" aria-label="Concept Image 13"><img src="../assets/doc-images/image13.png" alt="Concept Image 13" loading="lazy"><div class="shelf-card-badge">Concept 13</div></div>
+          <div class="shelf-card" data-idx="13" tabindex="0" role="button" aria-label="Concept Image 14"><img src="../assets/doc-images/image14.png" alt="Concept Image 14" loading="lazy"><div class="shelf-card-badge">Concept 14</div></div>
+          <div class="shelf-card" data-idx="14" tabindex="0" role="button" aria-label="Concept Image 15"><img src="../assets/doc-images/image15.png" alt="Concept Image 15" loading="lazy"><div class="shelf-card-badge">Concept 15</div></div>
+          <div class="shelf-card" data-idx="15" tabindex="0" role="button" aria-label="Concept Image 16"><img src="../assets/doc-images/image16.png" alt="Concept Image 16" loading="lazy"><div class="shelf-card-badge">Concept 16</div></div>
+          <div class="shelf-card" data-idx="16" tabindex="0" role="button" aria-label="Concept Image 17"><img src="../assets/doc-images/image17.png" alt="Concept Image 17" loading="lazy"><div class="shelf-card-badge">Concept 17</div></div>
+          <div class="shelf-card" data-idx="17" tabindex="0" role="button" aria-label="Concept Image 18"><img src="../assets/doc-images/image18.png" alt="Concept Image 18" loading="lazy"><div class="shelf-card-badge">Concept 18</div></div>
+          <div class="shelf-card" data-idx="18" tabindex="0" role="button" aria-label="Concept Image 19"><img src="../assets/doc-images/image19.png" alt="Concept Image 19" loading="lazy"><div class="shelf-card-badge">Concept 19</div></div>
+          <div class="shelf-card" data-idx="19" tabindex="0" role="button" aria-label="Concept Image 20"><img src="../assets/doc-images/image20.png" alt="Concept Image 20" loading="lazy"><div class="shelf-card-badge">Concept 20</div></div>
+          <div class="shelf-card" data-idx="20" tabindex="0" role="button" aria-label="Concept Image 21"><img src="../assets/doc-images/image21.png" alt="Concept Image 21" loading="lazy"><div class="shelf-card-badge">Concept 21</div></div>
+          <div class="shelf-card" data-idx="21" tabindex="0" role="button" aria-label="Concept Image 22"><img src="../assets/doc-images/image22.png" alt="Concept Image 22" loading="lazy"><div class="shelf-card-badge">Concept 22</div></div>
+          <div class="shelf-card" data-idx="22" tabindex="0" role="button" aria-label="Mobile IP System Architecture"><img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP System Architecture" loading="lazy"><div class="shelf-card-badge">Architecture</div></div>
+          <div class="shelf-card" data-idx="23" tabindex="0" role="button" aria-label="HA and FA Interaction"><img src="../assets/diagrams/home-agent-foreign-agent.svg" alt="HA and FA Interaction" loading="lazy"><div class="shelf-card-badge">HA & FA</div></div>
+          <div class="shelf-card" data-idx="24" tabindex="0" role="button" aria-label="IP-in-IP Encapsulation"><img src="../assets/diagrams/encapsulation-decapsulation.svg" alt="IP-in-IP Encapsulation" loading="lazy"><div class="shelf-card-badge">Encapsulation</div></div>
+          <div class="shelf-card" data-idx="25" tabindex="0" role="button" aria-label="Forward Tunneling Path"><img src="../assets/diagrams/forward-tunneling.svg" alt="Forward Tunneling Path" loading="lazy"><div class="shelf-card-badge">Tunneling</div></div>
+          <div class="shelf-card" data-idx="26" tabindex="0" role="button" aria-label="Reverse Tunneling Path"><img src="../assets/diagrams/reverse-tunneling.svg" alt="Reverse Tunneling Path" loading="lazy"><div class="shelf-card-badge">Rev Tunnel</div></div>
+          <div class="shelf-card" data-idx="27" tabindex="0" role="button" aria-label="Complete Packet Delivery"><img src="../assets/diagrams/packet-delivery.svg" alt="Complete Packet Delivery" loading="lazy"><div class="shelf-card-badge">Delivery</div></div>
+          <div class="shelf-card" data-idx="28" tabindex="0" role="button" aria-label="Protocol State Overview"><img src="../assets/diagrams/mobile-ip-overview.svg" alt="Protocol State Overview" loading="lazy"><div class="shelf-card-badge">Overview</div></div>
+        </div>
       </div>
     </section>
 
@@ -558,64 +554,54 @@
 
   <!-- Carousel & Lightbox Script -->
   <script>
+    // Conceptual Gallery Netflix-Shelf & Lightbox Functionality
     (function () {
       'use strict';
 
-      var stage = document.getElementById('carousel-stage');
-      var slides = Array.from(document.querySelectorAll('.carousel-slide'));
-      var prevBtn = document.getElementById('car-prev');
-      var nextBtn = document.getElementById('car-next');
-      var dotsWrap = document.getElementById('carousel-dots');
-      var total = slides.length;
-      var curIdx = 0;
-      var autoTimer = null;
+      var shelf = document.getElementById('netflix-shelf');
+      var shelfPrev = document.getElementById('shelf-prev');
+      var shelfNext = document.getElementById('shelf-next');
+      var cards = Array.from(document.querySelectorAll('.shelf-card'));
+      var total = cards.length;
 
-      // Build dots
-      slides.forEach(function (_, i) {
-        var dot = document.createElement('div');
-        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-        dot.addEventListener('click', function () {
-          goTo(i);
-          resetAuto();
+      // Arrow navigation
+      if (shelfPrev && shelf && shelfNext) {
+        shelfPrev.addEventListener('click', function () {
+          shelf.scrollBy({ left: -450, behavior: 'smooth' });
         });
-        dotsWrap.appendChild(dot);
-      });
-      var dots = Array.from(document.querySelectorAll('.carousel-dot'));
-
-      function goTo(idx) {
-        slides[curIdx].classList.remove('active');
-        dots[curIdx].classList.remove('active');
-        curIdx = (idx + total) % total;
-        slides[curIdx].classList.add('active');
-        dots[curIdx].classList.add('active');
+        shelfNext.addEventListener('click', function () {
+          shelf.scrollBy({ left: 450, behavior: 'smooth' });
+        });
       }
 
-      function nextSlide() { goTo(curIdx + 1); }
-      function prevSlide() { goTo(curIdx - 1); }
-
-      prevBtn.addEventListener('click', function () { prevSlide(); resetAuto(); });
-      nextBtn.addEventListener('click', function () { nextSlide(); resetAuto(); });
-
-      // Auto rotation every 3 seconds
-      function startAuto() {
-        autoTimer = setInterval(nextSlide, 3000);
+      // Mouse drag-to-scroll support
+      var isDown = false;
+      var startX, scrollLeft;
+      if (shelf) {
+        shelf.addEventListener('mousedown', function (e) {
+          isDown = true;
+          shelf.style.cursor = 'grabbing';
+          startX = e.pageX - shelf.offsetLeft;
+          scrollLeft = shelf.scrollLeft;
+        });
+        shelf.addEventListener('mouseleave', function () {
+          isDown = false;
+          if (shelf) shelf.style.cursor = '';
+        });
+        shelf.addEventListener('mouseup', function () {
+          isDown = false;
+          if (shelf) shelf.style.cursor = '';
+        });
+        shelf.addEventListener('mousemove', function (e) {
+          if (!isDown) return;
+          e.preventDefault();
+          var x = e.pageX - shelf.offsetLeft;
+          var walk = (x - startX) * 1.5;
+          shelf.scrollLeft = scrollLeft - walk;
+        });
       }
-      function stopAuto() {
-        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-      }
-      function resetAuto() {
-        stopAuto();
-        startAuto();
-      }
-      startAuto();
 
-      // Pause on hover
-      var container = document.getElementById('gallery-container');
-      container.addEventListener('mouseenter', stopAuto);
-      container.addEventListener('mouseleave', startAuto);
-
-      // Lightbox functionality with zoom
+      // Lightbox Modal
       var overlay = document.getElementById('lightbox-overlay');
       var lbImg = document.getElementById('lightbox-img');
       var lbCaption = document.getElementById('lightbox-caption');
@@ -629,69 +615,84 @@
       var zoomScale = 1.0;
 
       function updateZoom() {
-        lbImg.style.transform = 'scale(' + zoomScale + ')';
+        if (lbImg) lbImg.style.transform = 'scale(' + zoomScale + ')';
       }
 
       function openLightbox(idx) {
-        stopAuto();
         lbIndex = (idx + total) % total;
-        var slide = slides[lbIndex];
-        var img = slide.querySelector('img');
-        var cap = slide.querySelector('.carousel-caption');
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCaption.textContent = cap ? cap.textContent : '';
+        var card = cards[lbIndex];
+        var img = card.querySelector('img');
+        var badge = card.querySelector('.shelf-card-badge');
+        if (lbImg && img) {
+          lbImg.src = img.src;
+          lbImg.alt = img.alt;
+        }
+        if (lbCaption) {
+          lbCaption.textContent = (badge ? badge.textContent + ' — ' : '') + (img ? img.alt : '');
+        }
         zoomScale = 1.0;
         updateZoom();
-        overlay.classList.add('open');
+        if (overlay) overlay.classList.add('open');
       }
 
       function closeLightbox() {
-        overlay.classList.remove('open');
-        lbImg.src = '';
+        if (overlay) overlay.classList.remove('open');
+        if (lbImg) lbImg.src = '';
         zoomScale = 1.0;
         updateZoom();
-        startAuto();
       }
 
       function lbNav(step) {
         lbIndex = (lbIndex + step + total) % total;
-        var slide = slides[lbIndex];
-        var img = slide.querySelector('img');
-        var cap = slide.querySelector('.carousel-caption');
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCaption.textContent = cap ? cap.textContent : '';
+        var card = cards[lbIndex];
+        var img = card.querySelector('img');
+        var badge = card.querySelector('.shelf-card-badge');
+        if (lbImg && img) {
+          lbImg.src = img.src;
+          lbImg.alt = img.alt;
+        }
+        if (lbCaption) {
+          lbCaption.textContent = (badge ? badge.textContent + ' — ' : '') + (img ? img.alt : '');
+        }
         zoomScale = 1.0;
         updateZoom();
       }
 
-      slides.forEach(function (slide, idx) {
-        var img = slide.querySelector('img');
-        img.addEventListener('click', function () { openLightbox(idx); });
+      cards.forEach(function (card, idx) {
+        card.addEventListener('click', function () {
+          openLightbox(idx);
+        });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightbox(idx);
+          }
+        });
       });
 
-      lbClose.addEventListener('click', closeLightbox);
-      lbPrev.addEventListener('click', function () { lbNav(-1); });
-      lbNext.addEventListener('click', function () { lbNav(1); });
+      if (lbClose) lbClose.addEventListener('click', closeLightbox);
+      if (lbPrev) lbPrev.addEventListener('click', function () { lbNav(-1); });
+      if (lbNext) lbNext.addEventListener('click', function () { lbNav(1); });
 
-      lbZoomIn.addEventListener('click', function () {
+      if (lbZoomIn) lbZoomIn.addEventListener('click', function () {
         if (zoomScale < 3.0) { zoomScale += 0.25; updateZoom(); }
       });
-      lbZoomOut.addEventListener('click', function () {
+      if (lbZoomOut) lbZoomOut.addEventListener('click', function () {
         if (zoomScale > 0.5) { zoomScale -= 0.25; updateZoom(); }
       });
-      lbZoomReset.addEventListener('click', function () {
+      if (lbZoomReset) lbZoomReset.addEventListener('click', function () {
         zoomScale = 1.0;
         updateZoom();
       });
 
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) closeLightbox();
-      });
+      if (overlay) {
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLightbox();
+        });
+      }
 
       document.addEventListener('keydown', function (e) {
-        if (!overlay.classList.contains('open')) return;
+        if (!overlay || !overlay.classList.contains('open')) return;
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowLeft') lbNav(-1);
         if (e.key === 'ArrowRight') lbNav(1);

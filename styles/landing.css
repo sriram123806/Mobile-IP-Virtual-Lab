@@ -27,24 +27,13 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(10,15,36,.55) 0%, rgba(10,15,36,.35) 50%, rgba(10,15,36,.7) 100%),
-    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(148,120,232,.12) 0%, transparent 70%);
+  background: linear-gradient(180deg, rgba(5, 8, 22, 0.22) 0%, rgba(5, 8, 22, 0.08) 50%, rgba(5, 8, 22, 0.4) 100%);
+  pointer-events: none;
 }
 
-/* Dreamcore floating particles */
+/* Disabled artificial blur overlays to preserve video sharpness */
 .overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle 300px at 15% 25%, rgba(104,224,224,.07) 0%, transparent 70%),
-    radial-gradient(circle 250px at 85% 70%, rgba(148,120,232,.09) 0%, transparent 70%);
-  animation: particleDrift 15s ease-in-out infinite alternate;
-}
-@keyframes particleDrift {
-  0%   { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-24px) scale(1.04); }
+  display: none !important;
 }
 
 /* ---------- Main centered content ---------- */

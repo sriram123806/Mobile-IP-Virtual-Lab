@@ -31,12 +31,32 @@
     <!-- 1. Project Objective -->
     <section class="lab-panel" aria-labelledby="aim-obj-h">
       <h2 id="aim-obj-h">Project Objective</h2>
-      <p style="font-size:1.02rem;line-height:1.85;color:#18233B;margin:0;">
-        This virtual laboratory project aims to demonstrate the fundamental operations of Mobile IP, specifically how the Home Agent (HA) and Foreign Agent (FA) cooperate to maintain continuous connectivity for mobile devices.<br>
-        It illustrates how datagrams addressed to a Mobile Node's permanent home address are intercepted and encapsulated at the Home Agent using IP-in-IP tunneling.<br>
-        It visualizes the tunnel transmission path across the network and demonstrates decapsulation at the Foreign Agent, which strips the outer header and recovers the original packet.<br>
-        Through an interactive simulation with real geographical nodes and binary signal conversion, students can observe the complete packet delivery workflow from Correspondent Node to Mobile Node.
-      </p>
+      <div class="lab-objective-list" style="display:flex;flex-direction:column;gap:18px;margin-top:14px;">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#56B8E8,#9478E8);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(148,120,232,0.35);">1</div>
+          <div style="font-size:1rem;line-height:1.65;color:#18233B;padding-top:4px;">
+            <b>Demonstrate Mobile IP Mobility:</b> Explain how the Home Agent (HA) and Foreign Agent (FA) cooperate to maintain transparent, uninterrupted connectivity when a Mobile Node roams away from its home network.
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#56B8E8,#9478E8);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(148,120,232,0.35);">2</div>
+          <div style="font-size:1rem;line-height:1.65;color:#18233B;padding-top:4px;">
+            <b>Illustrate Packet Interception &amp; Encapsulation:</b> Show how packets sent to a Mobile Node's permanent home address are intercepted by the Home Agent and wrapped in an outer IP header using IP-in-IP tunneling (RFC 2003).
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#56B8E8,#9478E8);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(148,120,232,0.35);">3</div>
+          <div style="font-size:1rem;line-height:1.65;color:#18233B;padding-top:4px;">
+            <b>Visualize Tunneling &amp; Decapsulation:</b> Track the encapsulated datagram across intermediate network routers to the Foreign Agent, which strips the outer header and delivers the original packet to the Mobile Node.
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#56B8E8,#9478E8);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(148,120,232,0.35);">4</div>
+          <div style="font-size:1rem;line-height:1.65;color:#18233B;padding-top:4px;">
+            <b>Provide Hands-On Interactive Simulation:</b> Enable engineering students to configure real geographical nodes across Tamil Nadu, examine real-time 8-bit ASCII binary encoding, and inspect physical RF signal modulation (BPSK/QPSK/FSK).
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- What is this project? -->

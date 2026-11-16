@@ -58,76 +58,150 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     }
 
-    /* Key Concepts 2-col compact grid */
-    .concepts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .concept-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 16px;
-    }
-    .concept-card strong {
-      color: #1d4ed8;
-      display: block;
-      margin-bottom: 4px;
-      font-size: 0.95rem;
-    }
-    .concept-card p {
-      margin: 0;
-      color: #334155 !important;
-      font-size: 0.88rem;
-      line-height: 1.55;
-    }
-
-    /* Case study cards */
-    .lab-cases {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .lab-case-card {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 18px;
+    /* Key Concepts Vertical List */
+    .concepts-vertical-list {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .concept-row {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #2563eb;
+      border-radius: 8px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: baseline;
       gap: 12px;
-      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
-    .lab-case-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      border-color: #94a3b8;
+    .concept-row strong {
+      color: #1d4ed8;
+      font-size: 0.95rem;
+      min-width: 210px;
+      flex-shrink: 0;
     }
-    .lab-case-card h3 {
+    .concept-row span {
+      color: #334155 !important;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+    @media (max-width: 768px) {
+      .concept-row {
+        flex-direction: column;
+        gap: 4px;
+      }
+      .concept-row strong {
+        min-width: auto;
+      }
+    }
+
+    /* Troubleshooting Study Cases - Stacked Book-like Panels */
+    .cases-stacked-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .case-book-panel {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      box-shadow: 0 3px 10px rgba(10,15,36,0.06);
+      transition: all 0.22s ease;
+    }
+    .case-book-panel:hover {
+      transform: translateX(4px);
+      border-color: #56B8E8;
+      box-shadow: 0 6px 18px rgba(10,15,36,0.12);
+    }
+    .case-book-badge {
+      flex-shrink: 0;
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #101a35, #1e293b);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(16,26,53,0.22);
+    }
+    .case-book-badge .badge-num {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #38bdf8;
+      font-family: 'Cinzel', Georgia, serif;
+    }
+    .case-book-badge .badge-lbl {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .case-book-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .case-book-content h3 {
       margin: 0 0 6px;
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: #0f172a !important;
+      font-weight: 700;
     }
-    .lab-case-card p {
+    .case-book-content p {
       margin: 0;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       color: #475569 !important;
       line-height: 1.5;
     }
-    .lab-case-card .case-tag {
-      font-weight: 800;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #2563eb;
-      margin-bottom: 4px;
+    .case-book-action {
+      flex-shrink: 0;
+    }
+    .case-view-btn {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff !important;
+      border: none;
+      padding: 11px 24px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(37,99,235,0.3);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .case-view-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37,99,235,0.4);
+    }
+    @media (max-width: 768px) {
+      .case-book-panel {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px;
+      }
+      .case-book-action {
+        width: 100%;
+      }
+      .case-view-btn {
+        width: 100%;
+        text-align: center;
+      }
     }
 
-    /* Full-screen overlay for case details */
+    /* Full-screen overlay for case details *//* Full-screen overlay for case details */
     #mip-case-overlay {
       display: none;
       position: fixed;
@@ -310,35 +384,35 @@
       <img src="../assets/doc-images/image-library-mip.png" alt="Mobile IP Library Reference" class="learning-library-img">
 
       <h3>Key Concepts</h3>
-      <p style="margin-bottom:10px;color:#475569;">Core terminology and definitions required for Mobile IP evaluation:</p>
-      <div class="concepts-grid">
-        <div class="concept-card">
-          <strong>Mobile Node (MN)</strong>
-          <p>A host or router that can change its point of attachment from one network to another while preserving its permanent Home Address.</p>
+      <p style="margin-bottom:12px;color:#475569;">Core terminology and definitions required for Mobile IP evaluation:</p>
+      <div class="concepts-vertical-list">
+        <div class="concept-row">
+          <strong>1. Mobile Node (MN)</strong>
+          <span>A host or router that can change its point of attachment from one network to another while preserving its permanent Home Address.</span>
         </div>
-        <div class="concept-card">
-          <strong>Correspondent Node (CN)</strong>
-          <p>A peer device or server that communicates with the Mobile Node, sending standard IP datagrams to the MN's permanent Home Address.</p>
+        <div class="concept-row">
+          <strong>2. Correspondent Node (CN)</strong>
+          <span>A peer device or server communicating with the Mobile Node by sending standard IP datagrams to the MN's permanent Home Address.</span>
         </div>
-        <div class="concept-card">
-          <strong>Home Agent (HA)</strong>
-          <p>A router situated on the Mobile Node's home network that intercepts incoming packets when the MN is roaming and tunnels them to the CoA.</p>
+        <div class="concept-row">
+          <strong>3. Home Agent (HA)</strong>
+          <span>A router on the Mobile Node's home network that intercepts incoming packets via Proxy ARP when the MN is roaming and tunnels them to the CoA.</span>
         </div>
-        <div class="concept-card">
-          <strong>Foreign Agent (FA)</strong>
-          <p>A router on the visited network that advertises mobility services, provides a Care-of Address, and decapsulates tunneled packets for the MN.</p>
+        <div class="concept-row">
+          <strong>4. Foreign Agent (FA)</strong>
+          <span>A router on the visited foreign network that provides Care-of Address services and decapsulates tunneled packets for local delivery to the MN.</span>
         </div>
-        <div class="concept-card">
-          <strong>Care-of Address (CoA)</strong>
-          <p>The temporary IP address assigned to the MN on a foreign network (typically the FA's address) serving as the tunnel exit point.</p>
+        <div class="concept-row">
+          <strong>5. Care-of Address (CoA)</strong>
+          <span>The temporary IP address assigned to the MN on a foreign visited network serving as the egress endpoint of the IP-in-IP tunnel.</span>
         </div>
-        <div class="concept-card">
-          <strong>Encapsulation</strong>
-          <p>The process performed by the HA of wrapping the original IP datagram inside a new 20-byte outer IP header (IP-in-IP, Protocol 4).</p>
+        <div class="concept-row">
+          <strong>6. Encapsulation</strong>
+          <span>The mechanism performed by the Home Agent of prepending a new 20-byte outer IP header (IP-in-IP, Protocol 4) to route the datagram across intermediate networks.</span>
         </div>
-        <div class="concept-card">
-          <strong>Decapsulation</strong>
-          <p>The process performed by the FA of stripping off the outer IP header to recover and deliver the original datagram to the Mobile Node.</p>
+        <div class="concept-row">
+          <strong>7. Decapsulation</strong>
+          <span>The mechanism performed by the Foreign Agent of stripping the outer IP header to recover and forward the original datagram directly to the Mobile Node.</span>
         </div>
       </div>
     </section>
@@ -348,56 +422,81 @@
       <h2 id="study-cases-h">Troubleshooting Study Cases</h2>
       <p style="margin-bottom:14px;color:#475569;">Click <b>VIEW</b> on any study case below to open its dedicated full-screen diagnostic flowchart, troubleshooting checklist, and resolution guide:</p>
 
-      <div class="lab-cases">
+      <div class="cases-stacked-list">
 
         <!-- Case 1 -->
-        <article class="lab-case-card" id="case-card-1">
-          <div>
-            <div class="case-tag">Case 1</div>
-            <h3>Home Agent Cannot Find Mobile Node</h3>
-            <p>Packets reach the home network, but the HA has no valid mobility binding for the MN, causing datagrams to be dropped or misrouted.</p>
+        <article class="case-book-panel" id="case-card-1">
+          <div class="case-book-badge">
+            <span class="badge-num">01</span>
+            <span class="badge-lbl">CASE</span>
           </div>
-          <button class="lab-btn" type="button" onclick="openCase(1)" aria-label="View case 1 details">VIEW CASE 1</button>
+          <div class="case-book-content">
+            <h3>Home Agent Cannot Find Mobile Node</h3>
+            <p>Packets reach the home network, but the Home Agent has no valid mobility binding for the Mobile Node, causing datagrams to be dropped or misrouted.</p>
+          </div>
+          <div class="case-book-action">
+            <button class="case-view-btn" type="button" onclick="openCase(1)" aria-label="View case 1 details">VIEW CASE 1 &rarr;</button>
+          </div>
         </article>
 
         <!-- Case 2 -->
-        <article class="lab-case-card" id="case-card-2">
-          <div>
-            <div class="case-tag">Case 2</div>
-            <h3>Foreign Agent Registration Failure</h3>
-            <p>The MN attempts attachment in a foreign network, but the FA refuses or fails to relay registration, preventing Care-of Address binding.</p>
+        <article class="case-book-panel" id="case-card-2">
+          <div class="case-book-badge">
+            <span class="badge-num">02</span>
+            <span class="badge-lbl">CASE</span>
           </div>
-          <button class="lab-btn" type="button" onclick="openCase(2)" aria-label="View case 2 details">VIEW CASE 2</button>
+          <div class="case-book-content">
+            <h3>Foreign Agent Registration Failure</h3>
+            <p>The Mobile Node attempts attachment in a foreign network, but the Foreign Agent refuses or fails to relay registration, preventing Care-of Address binding.</p>
+          </div>
+          <div class="case-book-action">
+            <button class="case-view-btn" type="button" onclick="openCase(2)" aria-label="View case 2 details">VIEW CASE 2 &rarr;</button>
+          </div>
         </article>
 
         <!-- Case 3 -->
-        <article class="lab-case-card" id="case-card-3">
-          <div>
-            <div class="case-tag">Case 3</div>
-            <h3>Encapsulation Failure at Home Agent</h3>
-            <p>The HA successfully intercepts the datagram but fails to construct or transmit the outer IP-in-IP tunnel packet toward the CoA.</p>
+        <article class="case-book-panel" id="case-card-3">
+          <div class="case-book-badge">
+            <span class="badge-num">03</span>
+            <span class="badge-lbl">CASE</span>
           </div>
-          <button class="lab-btn" type="button" onclick="openCase(3)" aria-label="View case 3 details">VIEW CASE 3</button>
+          <div class="case-book-content">
+            <h3>Encapsulation Failure at Home Agent</h3>
+            <p>The Home Agent successfully intercepts the datagram but fails to construct or transmit the outer IP-in-IP tunnel packet toward the Care-of Address.</p>
+          </div>
+          <div class="case-book-action">
+            <button class="case-view-btn" type="button" onclick="openCase(3)" aria-label="View case 3 details">VIEW CASE 3 &rarr;</button>
+          </div>
         </article>
 
         <!-- Case 4 -->
-        <article class="lab-case-card" id="case-card-4">
-          <div>
-            <div class="case-tag">Case 4</div>
-            <h3>Decapsulation Failure at Foreign Agent</h3>
-            <p>Tunneled packets arrive at the FA, but the outer header cannot be stripped or visitor list validation fails, dropping the inner datagram.</p>
+        <article class="case-book-panel" id="case-card-4">
+          <div class="case-book-badge">
+            <span class="badge-num">04</span>
+            <span class="badge-lbl">CASE</span>
           </div>
-          <button class="lab-btn" type="button" onclick="openCase(4)" aria-label="View case 4 details">VIEW CASE 4</button>
+          <div class="case-book-content">
+            <h3>Decapsulation Failure at Foreign Agent</h3>
+            <p>Tunneled packets arrive at the Foreign Agent, but the outer header cannot be stripped or visitor list validation fails, dropping the inner datagram.</p>
+          </div>
+          <div class="case-book-action">
+            <button class="case-view-btn" type="button" onclick="openCase(4)" aria-label="View case 4 details">VIEW CASE 4 &rarr;</button>
+          </div>
         </article>
 
         <!-- Case 5 -->
-        <article class="lab-case-card" id="case-card-5">
-          <div>
-            <div class="case-tag">Case 5</div>
-            <h3>Mobile Node Moves During Transmission</h3>
-            <p>The MN transitions between foreign links mid-transfer while packets are in flight, causing packets sent to the old CoA to be lost.</p>
+        <article class="case-book-panel" id="case-card-5">
+          <div class="case-book-badge">
+            <span class="badge-num">05</span>
+            <span class="badge-lbl">CASE</span>
           </div>
-          <button class="lab-btn" type="button" onclick="openCase(5)" aria-label="View case 5 details">VIEW CASE 5</button>
+          <div class="case-book-content">
+            <h3>Mobile Node Moves During Transmission</h3>
+            <p>The Mobile Node transitions between foreign links mid-transfer while packets are in flight, causing datagrams sent to the old Care-of Address to be lost.</p>
+          </div>
+          <div class="case-book-action">
+            <button class="case-view-btn" type="button" onclick="openCase(5)" aria-label="View case 5 details">VIEW CASE 5 &rarr;</button>
+          </div>
         </article>
 
       </div>
