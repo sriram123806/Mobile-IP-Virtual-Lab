@@ -37,10 +37,10 @@
       margin-bottom: 16px;
     }
 
-    /* Step cards with high contrast and readable text */
+    /* Step cards with selective pastel coordination */
     .proc-steps-grid {
       display: grid;
-      gap: 12px;
+      gap: 14px;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -50,16 +50,35 @@
       display: flex;
       align-items: flex-start;
       gap: 16px;
-      background: #f8fafc;
+      background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
-      padding: 16px 18px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 16px 20px;
+      box-shadow: 0 2px 8px rgba(10, 15, 36, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
     .proc-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      border-color: #cbd5e1;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      border-color: #56B8E8;
+    }
+
+    /* Selected Pastel Accents */
+    .proc-card.tint-blue {
+      background: #f0f7ff;
+      border-color: #bfdbfe;
+    }
+    .proc-card.tint-mint {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+    .proc-card.tint-pink {
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+    .proc-card.tint-lavender {
+      background: #f5f3ff;
+      border-color: #ddd6fe;
     }
 
     .proc-badge {
@@ -84,10 +103,10 @@
       margin: 0 0 4px;
       font-size: 1.02rem;
       font-weight: 700;
-      color: #0f172a;
+      color: #0f172a !important;
       line-height: 1.35;
     }
-    .proc-body p {
+    .proc-body p {.proc-body p {
       margin: 0;
       font-size: 0.92rem;
       color: #334155;
@@ -194,7 +213,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-blue">
           <div class="proc-badge" aria-hidden="true">4</div>
           <div class="proc-body">
             <h3>Select Foreign Agent Location</h3>
@@ -210,7 +229,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-mint">
           <div class="proc-badge" aria-hidden="true">6</div>
           <div class="proc-body">
             <h3>Enter a Transmission Message</h3>
@@ -226,7 +245,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-lavender">
           <div class="proc-badge" aria-hidden="true">8</div>
           <div class="proc-body">
             <h3>Check Binary Representation</h3>
@@ -250,7 +269,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-pink">
           <div class="proc-badge" aria-hidden="true">11</div>
           <div class="proc-body">
             <h3>Observe Packet Interception at HA</h3>
@@ -258,7 +277,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-blue">
           <div class="proc-badge" aria-hidden="true">12</div>
           <div class="proc-body">
             <h3>Observe Forward Tunnel Transmission</h3>
@@ -266,7 +285,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-lavender">
           <div class="proc-badge" aria-hidden="true">13</div>
           <div class="proc-body">
             <h3>Observe Decapsulation at FA</h3>
@@ -274,7 +293,7 @@
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-card tint-mint">
           <div class="proc-badge" aria-hidden="true">14</div>
           <div class="proc-body">
             <h3>Observe Final Delivery to Mobile Node</h3>

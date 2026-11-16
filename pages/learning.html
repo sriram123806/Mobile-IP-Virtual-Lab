@@ -361,7 +361,6 @@
 
   <!-- Full-screen case detail overlay (Uses Image 8 background) -->
   <div id="mip-case-overlay" role="dialog" aria-modal="true" aria-label="Case Study Diagnostic View">
-    <button class="overlay-close" onclick="closeCaseOverlay()" aria-label="Close case detail">✕ Close Case</button>
     <div id="overlay-case-content"></div>
   </div>
 
@@ -583,8 +582,13 @@
     }
 
     function closeCaseOverlay() {
-      document.getElementById('mip-case-overlay').style.display = 'none';
+      var ov = document.getElementById('mip-case-overlay');
+      if (ov) ov.style.display = 'none';
       document.body.style.overflow = '';
+      var studySec = document.getElementById('study-cases');
+      if (studySec) {
+        studySec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     document.addEventListener('keydown', function(e) {

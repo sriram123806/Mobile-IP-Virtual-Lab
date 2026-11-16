@@ -41,6 +41,384 @@
       font-weight: 700;
     }
 
+    /* Session 3 - Cosmic Dark Blue Reference Theme */
+    .session3-panel {
+      background: linear-gradient(135deg, rgba(14, 20, 48, 0.96) 0%, rgba(20, 28, 68, 0.96) 100%) !important;
+      border: 1.5px solid rgba(0, 240, 255, 0.45) !important;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), inset 0 0 24px rgba(0, 240, 255, 0.08) !important;
+      border-radius: 24px !important;
+      padding: 26px 28px !important;
+      color: #ffffff !important;
+      margin-bottom: 24px;
+    }
+    .session3-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .session3-badge {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 4px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 0 14px rgba(168,85,247,0.5);
+      letter-spacing: 0.02em;
+    }
+    .session3-title {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffffff !important;
+      letter-spacing: 0.02em;
+    }
+    .session3-subtitle {
+      color: rgba(220, 235, 255, 0.85);
+      font-size: 0.95rem;
+      margin: 0 0 22px;
+      line-height: 1.5;
+    }
+
+    .session3-box {
+      background: rgba(10, 15, 38, 0.75);
+      border: 1px solid rgba(86, 184, 232, 0.35);
+      border-radius: 18px;
+      padding: 18px 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .session3-pill {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 5px 18px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 12px rgba(124, 58, 237, 0.35);
+      letter-spacing: 0.03em;
+    }
+
+    /* A. Packet Transformation Cards */
+    .pkt-transform-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 6px 2px 14px;
+      scrollbar-width: thin;
+    }
+    .pkt-step-card {
+      flex: 1;
+      min-width: 175px;
+      max-width: 220px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1.5px solid rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .pkt-step-card.is-active-step {
+      border-color: #00f0ff;
+      box-shadow: 0 0 24px rgba(0, 240, 255, 0.6), inset 0 0 12px rgba(0, 240, 255, 0.2);
+      transform: translateY(-4px) scale(1.03);
+      background: rgba(15, 23, 56, 0.95);
+    }
+    .pkt-step-title {
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .pkt-step-title .pkt-sub {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+      display: block;
+    }
+    .pkt-blocks-wrap {
+      display: flex;
+      gap: 4px;
+      align-items: stretch;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .pkt-block {
+      border-radius: 8px;
+      padding: 6px 4px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .block-ip {
+      background: #38bdf8;
+      color: #082f49;
+      border: 1px solid #7dd3fc;
+      flex: 1.1;
+    }
+    .block-data {
+      background: #fde047;
+      color: #713f12;
+      border: 1px solid #fef08a;
+      flex: 0.9;
+    }
+    .block-outer {
+      background: #f472b6;
+      color: #831843;
+      border: 1px solid #fbcfe8;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+    .block-inner-combined {
+      background: #38bdf8;
+      color: #082f49;
+      border: 1px solid #7dd3fc;
+      width: 100%;
+    }
+    .pkt-blocks-stacked {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .pkt-tunnel-cylinder {
+      width: 100%;
+      height: 68px;
+      background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.45) 100%);
+      border: 2px solid #10b981;
+      border-radius: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4), inset 0 0 10px rgba(16, 185, 129, 0.3);
+      margin-bottom: 10px;
+      padding: 4px 8px;
+      position: relative;
+    }
+    .tunnel-inner-pkt {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      gap: 2px;
+    }
+    .block-outer-mini {
+      background: #f472b6;
+      color: #831843;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 4px;
+      line-height: 1.15;
+    }
+    .block-inner-mini {
+      background: #38bdf8;
+      color: #082f49;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 4px;
+      line-height: 1.15;
+    }
+    .pkt-laptop-icon {
+      width: 100%;
+      height: 68px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .laptop-screen {
+      width: 72px;
+      height: 46px;
+      background: #0f172a;
+      border: 2px solid #38bdf8;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+    .laptop-check {
+      font-size: 1.3rem;
+      color: #10b981;
+      filter: drop-shadow(0 0 6px #10b981);
+      font-weight: 900;
+    }
+    .laptop-base {
+      width: 88px;
+      height: 6px;
+      background: #38bdf8;
+      border-radius: 0 0 6px 6px;
+      margin-top: 2px;
+    }
+    .pkt-step-desc {
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      line-height: 1.35;
+    }
+    .pkt-arrow {
+      font-size: 1.4rem;
+      color: #38bdf8;
+      font-weight: 900;
+      flex-shrink: 0;
+      padding: 0 2px;
+      text-shadow: 0 0 8px rgba(56,189,248,0.7);
+    }
+
+    /* B. Digital Bitstream Badges & Legend */
+    .session3-info-badge {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.82rem;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .bit-legend {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: rgba(10, 15, 30, 0.85);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      color: #e2e8f0;
+      pointer-events: none;
+    }
+    .leg-item { display: flex; align-items: center; }
+    .leg-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 3px;
+      margin-right: 6px;
+      border-radius: 2px;
+    }
+    .leg-tx { background: #00f0ff; box-shadow: 0 0 6px #00f0ff; }
+    .leg-up { background: #c084fc; box-shadow: 0 0 6px #c084fc; }
+
+    /* C. RF Two-Column Layout */
+    .rf-two-col-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 18px;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .rf-two-col-layout { grid-template-columns: 1fr; }
+    }
+    .rf-canvas-wrap {
+      background: rgba(5, 10, 25, 0.75);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 14px;
+      padding: 12px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .rf-info-card {
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(49, 46, 129, 0.6));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .rf-pill-title {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.84rem;
+      padding: 4px 12px;
+      border-radius: 14px;
+      display: inline-block;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+    }
+    .rf-bullets {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.78rem;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+    .rf-bullets li { margin-bottom: 4px; }
+    .rf-tower-graphic {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Map Packet Transformation Badges */
+    .map-pkt-badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 12px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    .map-pkt-orig {
+      background: #0284c7;
+      border: 2px solid #ffffff;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(2,132,199,0.85);
+    }
+    .map-pkt-encap {
+      background: linear-gradient(135deg, #db2777, #7c3aed);
+      border: 2px solid #f472b6;
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(219,39,119,0.9);
+      flex-direction: column;
+      gap: 2px;
+    }
+    .map-pkt-tunnel {
+      background: linear-gradient(135deg, #059669, #10b981);
+      border: 2px solid #34d399;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(16,185,129,0.95);
+      flex-direction: column;
+      gap: 2px;
+    }
+    .map-pkt-decap {
+      background: linear-gradient(135deg, #7c3aed, #0284c7);
+      border: 2px solid #a855f7;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(124,58,237,0.85);
+      flex-direction: column;
+      gap: 2px;
+    }
+    .map-pkt-delivered {
+      background: #059669;
+      border: 2px solid #ffffff;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(5,150,105,0.9);
+    }
+
     /* Leaflet Map */
     #mip-leaflet-map {
       height: 480px;
@@ -476,64 +854,151 @@
     <!-- ================================================================
          SECTION 3: SIGNAL AND PACKET VISUALIZATION
          ================================================================ -->
-    <section class="lab-panel" aria-labelledby="sec3-vis-h">
-      <h2 id="sec3-vis-h">SECTION 3 &mdash; Signal and Packet Visualization</h2>
+    <!-- ================================================================
+         SECTION 3: PACKET, BITSTREAM & MODULATION (SESSION 3)
+         ================================================================ -->
+    <section class="session3-panel" aria-labelledby="sec3-vis-h">
+      <div class="session3-header">
+        <span class="session3-badge">Session 3</span>
+        <h2 class="session3-title" id="sec3-vis-h">Packet, Bitstream &amp; Modulation</h2>
+      </div>
+      <p class="session3-subtitle">See how the packet changes, how data becomes bits and how it is transmitted using modulation.</p>
 
-      <!-- Subsection A: Packet Structure -->
-      <div style="margin-bottom:24px;">
-        <h3 style="margin-top:0;">A. IP Packet Structure &amp; Header Transformation</h3>
-        <p style="font-size:0.92rem;color:#475569;">Inspect how IP-in-IP encapsulation adds an outer header (20 bytes) at the Home Agent and decapsulation strips it at the Foreign Agent.</p>
+      <!-- Subsection A: Packet Transformation -->
+      <div class="session3-box">
+        <div class="session3-pill">A. Packet Transformation (Encapsulation &amp; Decapsulation)</div>
 
-        <div class="mip-pkt-legend">
-          <div class="mip-pkt-legend-item">
-            <div class="mip-pkt-legend-swatch" style="background:#cbd5e1;border:1px solid #64748b;"></div>
-            Outer IP Header (HA &rarr; CoA)
+        <div class="pkt-transform-row" id="pkt-transform-flow">
+          <!-- Card 1: Original Packet (from CN) -->
+          <div class="pkt-step-card is-active-step" id="pkt-card-1">
+            <div class="pkt-step-title">Original Packet <span class="pkt-sub">(from CN)</span></div>
+            <div class="pkt-blocks-wrap">
+              <div class="pkt-block block-ip" id="blk-orig-ip">IP Header<br><small>(CN &rarr; MN)</small></div>
+              <div class="pkt-block block-data" id="blk-orig-data">Data<br><b id="blk-data-text">"HELLO"</b></div>
+            </div>
+            <div class="pkt-step-desc">Data created at Correspondent Node</div>
           </div>
-          <div class="mip-pkt-legend-item">
-            <div class="mip-pkt-legend-swatch" style="background:#38bdf8;border:1px solid #0284c7;"></div>
-            Original Inner IP Header (CN &rarr; HoA)
+
+          <div class="pkt-arrow">&rarr;</div>
+
+          <!-- Card 2: Encapsulation at HA -->
+          <div class="pkt-step-card" id="pkt-card-2">
+            <div class="pkt-step-title">Encapsulation at HA</div>
+            <div class="pkt-blocks-stacked">
+              <div class="pkt-block block-outer" id="blk-encap-outer">Outer IP Header<br><small>(HA &rarr; CoA)</small></div>
+              <div class="pkt-block block-inner-combined" id="blk-encap-inner">
+                Original Packet<br><small>(CN &rarr; MN) + Data</small>
+              </div>
+            </div>
+            <div class="pkt-step-desc">Home Agent adds a new outer IP header (tunneling).</div>
           </div>
-          <div class="mip-pkt-legend-item">
-            <div class="mip-pkt-legend-swatch" style="background:#4ade80;border:1px solid #16a34a;"></div>
-            Message Payload
+
+          <div class="pkt-arrow">&rarr;</div>
+
+          <!-- Card 3: Tunneling (HA -> FA) -->
+          <div class="pkt-step-card" id="pkt-card-3">
+            <div class="pkt-step-title">Tunneling (HA &rarr; FA)</div>
+            <div class="pkt-tunnel-cylinder">
+              <div class="tunnel-inner-pkt">
+                <div class="pkt-block block-outer-mini" id="blk-tunnel-outer">Outer IP Header<br><small>(HA &rarr; CoA)</small></div>
+                <div class="pkt-block block-inner-mini">Original Packet + Data</div>
+              </div>
+            </div>
+            <div class="pkt-step-desc">Encapsulated packet travels through the tunnel.</div>
+          </div>
+
+          <div class="pkt-arrow">&rarr;</div>
+
+          <!-- Card 4: Decapsulation at FA -->
+          <div class="pkt-step-card" id="pkt-card-4">
+            <div class="pkt-step-title">Decapsulation at FA</div>
+            <div class="pkt-blocks-wrap">
+              <div class="pkt-block block-ip" id="blk-decap-ip">IP Header<br><small>(CN &rarr; MN)</small></div>
+              <div class="pkt-block block-data" id="blk-decap-data">Data<br><b id="blk-data-text2">"HELLO"</b></div>
+            </div>
+            <div class="pkt-step-desc">Foreign Agent removes the outer header.</div>
+          </div>
+
+          <div class="pkt-arrow">&rarr;</div>
+
+          <!-- Card 5: Delivery to MN -->
+          <div class="pkt-step-card" id="pkt-card-5">
+            <div class="pkt-step-title">Delivery to MN</div>
+            <div class="pkt-laptop-icon">
+              <div class="laptop-screen">
+                <span class="laptop-check">&#10004;</span>
+              </div>
+              <div class="laptop-base"></div>
+            </div>
+            <div class="pkt-step-desc">Original packet delivered to the Mobile Node.</div>
           </div>
         </div>
-
-        <div id="mip-packet"><p class="mip-empty" style="color:#64748b;font-style:italic;">No packet generated yet. Confirm locations and message above.</p></div>
       </div>
 
       <!-- Subsection B: Digital Bitstream -->
-      <div style="margin-bottom:24px;">
-        <h3>B. Digital Bitstream (NRZ-L Encoding)</h3>
-        <p style="font-size:0.92rem;color:#475569;">NRZ-L (Non-Return-to-Zero Level) maps bit '1' to high voltage and bit '0' to low voltage. The vertical dashed cursor tracks real-time transmission.</p>
-        <canvas id="mip-wave" height="140" aria-label="NRZ-L bitstream canvas"></canvas>
-        <p class="mip-note" id="mip-wave-note" style="font-size:0.84rem;color:#64748b;margin-top:4px;">Bitstream appears once a message is confirmed.</p>
-        <div style="margin-top:8px;">
-          <label style="font-weight:700;font-size:0.84rem;color:#475569;">Complete Encoded Binary Stream:</label>
-          <div id="mip-binary-out">&mdash;</div>
+      <div class="session3-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+          <div class="session3-pill" style="margin:0;">B. Digital Bitstream (NRZ-L Encoding)</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <div class="session3-info-badge" id="bit-msg-badge">Message: <b id="bit-msg-val">HELLO</b></div>
+            <div class="session3-info-badge" id="bit-ascii-badge">ASCII (8-bit): <span id="bit-ascii-val">01001000 01000101 01001100 01001100 01001111</span></div>
+          </div>
         </div>
+
+        <div style="position:relative;width:100%;background:rgba(5,10,25,0.75);border:1px solid rgba(0,240,255,0.25);border-radius:14px;overflow:hidden;padding:12px 16px;">
+          <canvas id="mip-wave" height="130" style="width:100%;display:block;"></canvas>
+          <div class="bit-legend">
+            <span class="leg-item"><span class="leg-swatch leg-tx"></span> Transmitted Bits</span>
+            <span class="leg-item"><span class="leg-swatch leg-up"></span> Upcoming Bits</span>
+          </div>
+        </div>
+        <div id="mip-binary-out" style="display:none;"></div>
+        <div id="mip-packet" style="display:none;"></div>
       </div>
 
-      <!-- Subsection C & D: RF Signal & Modulation Selection -->
-      <div>
-        <h3>C &amp; D. Conceptual Radio-Frequency Transmission &amp; Modulation</h3>
-        <p style="font-size:0.92rem;color:#475569;">Select a digital modulation scheme below to observe how binary data is translated onto a continuous RF carrier wave for wireless channel propagation:</p>
-
-        <!-- Modulation Selector -->
-        <div class="mod-btn-group">
-          <button class="mod-btn active" id="btn-bpsk" type="button" onclick="setModulation('BPSK')">BPSK</button>
-          <button class="mod-btn" id="btn-qpsk" type="button" onclick="setModulation('QPSK')">QPSK</button>
-          <button class="mod-btn" id="btn-fsk" type="button" onclick="setModulation('FSK')">FSK</button>
+      <!-- Subsection C: RF Transmission & Modulation -->
+      <div class="session3-box" style="margin-bottom:0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+          <div class="session3-pill" style="margin:0;">C. Radio-Frequency Transmission &amp; Modulation</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:0.88rem;color:#cbd5e1;font-weight:600;">Select Modulation:</span>
+            <div class="mod-btn-group" style="display:inline-flex;gap:8px;">
+              <button class="mod-btn active" id="btn-bpsk" type="button" onclick="setModulation('BPSK')">BPSK</button>
+              <button class="mod-btn" id="btn-qpsk" type="button" onclick="setModulation('QPSK')">QPSK</button>
+              <button class="mod-btn" id="btn-fsk" type="button" onclick="setModulation('FSK')">FSK</button>
+            </div>
+          </div>
         </div>
 
-        <!-- RF Canvas -->
-        <canvas id="mip-rf-canvas" height="90" aria-label="Educational RF modulation waveform"></canvas>
+        <div class="rf-two-col-layout">
+          <!-- Left: Waveform canvas with +1, 0, -1, Time -> -->
+          <div class="rf-canvas-wrap">
+            <canvas id="mip-rf-canvas" height="120" style="width:100%;display:block;"></canvas>
+          </div>
 
-        <!-- Educational Note -->
-        <div class="mod-desc-box" id="mod-desc">
-          <b>BPSK (Binary Phase Shift Keying):</b> Shifts the RF carrier phase by 180° between binary '0' and binary '1'. It provides excellent noise immunity for low-power wireless links.
+          <!-- Right: Sleek Info Card with Title, Bullets & Antenna Tower -->
+          <div class="rf-info-card">
+            <div style="flex:1;">
+              <div class="rf-pill-title" id="rf-card-title">BPSK (Binary Phase Shift Keying)</div>
+              <ul class="rf-bullets" id="rf-bullets">
+                <li>Represents bit '1' and bit '0' using two phase values (0° and 180°).</li>
+                <li>Simple and robust, suitable for low-power and noisy links.</li>
+              </ul>
+            </div>
+            <div class="rf-tower-graphic">
+              <svg width="56" height="70" viewBox="0 0 60 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 18L18 70H42L30 18Z" stroke="#8b5cf6" stroke-width="2.5" fill="rgba(139,92,246,0.15)"/>
+                <line x1="22" y1="36" x2="38" y2="36" stroke="#8b5cf6" stroke-width="2"/>
+                <line x1="20" y1="52" x2="40" y2="52" stroke="#8b5cf6" stroke-width="2"/>
+                <circle cx="30" cy="14" r="5" fill="#00f0ff" stroke="#fff" stroke-width="1.5"/>
+                <path d="M20 10C16 13 16 18 20 21" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
+                <path d="M14 6C8 11 8 20 14 25" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
+                <path d="M40 10C44 13 44 18 40 21" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
+                <path d="M46 6C52 11 52 20 46 25" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
         </div>
-        <p style="font-size:0.82rem;color:#64748b;margin-top:8px;font-style:italic;">*Note: This is an educational visualization demonstrating how bitstreams map to carrier waveforms across physical wireless channels (e.g., between Mobile Node and Foreign Agent). IP encapsulation operates at the network software layer and does not physically distort radio frequencies.</p>
       </div>
 
     </section>
@@ -589,7 +1054,9 @@
     var NODE_COLORS = { CN: '#2563eb', HA: '#f59e0b', FA: '#7c3aed' };
     var markers  = { CN: null, HA: null, FA: null };
     var routeLine = null;
+    var tunnelLine = null;
     var packetMarker = null;
+    var lastPacketStage = -99;
 
     window.updateMipMap = function(cnCity, haCity, faCity) {
       var cities = { CN: cnCity, HA: haCity, FA: faCity };
@@ -597,6 +1064,7 @@
         if (markers[role]) { leafletMap.removeLayer(markers[role]); markers[role] = null; }
       });
       if (routeLine) { leafletMap.removeLayer(routeLine); routeLine = null; }
+      if (tunnelLine) { leafletMap.removeLayer(tunnelLine); tunnelLine = null; }
 
       var latlngs = [];
       var validAll = true;
@@ -615,22 +1083,79 @@
       });
 
       if (validAll && latlngs.length === 3) {
-        var routeCoords = [latlngs[0], latlngs[1], latlngs[2]];
-        routeLine = L.polyline(routeCoords, {
+        // CN to HA Normal route
+        routeLine = L.polyline([latlngs[0], latlngs[1]], {
           color: '#2563eb',
           weight: 4,
           opacity: 0.85,
           dashArray: '8 6'
         }).addTo(leafletMap);
-        leafletMap.fitBounds(routeLine.getBounds(), { padding: [40, 40] });
+
+        // HA to FA Vibrant Tunnel
+        tunnelLine = L.polyline([latlngs[1], latlngs[2]], {
+          color: '#10b981',
+          weight: 7,
+          opacity: 0.95,
+          dashArray: '10 6',
+          lineCap: 'round',
+          className: 'leaflet-tunnel-line'
+        }).addTo(leafletMap);
+
+        leafletMap.fitBounds(L.latLngBounds(latlngs), { padding: [40, 40] });
       }
     };
+
+    function getPacketHtmlForStage(st, msg) {
+      var displayMsg = msg || 'DATA';
+      if (displayMsg.length > 8) displayMsg = displayMsg.substring(0, 8) + '...';
+
+      if (st <= 1) {
+        // Stage 0 & 1: Original Packet moving CN -> HA
+        return '<div class="map-pkt-badge map-pkt-orig">' +
+                 '<span style="background:#38bdf8;color:#082f49;padding:1px 4px;border-radius:4px;margin-right:4px;font-size:8px;">IP</span>' +
+                 '<span>' + displayMsg + '</span>' +
+               '</div>';
+      } else if (st === 2) {
+        // Stage 2: Encapsulation at HA (adding outer header)
+        return '<div class="map-pkt-badge map-pkt-encap">' +
+                 '<div style="background:#f43f5e;padding:1px 5px;border-radius:4px;font-size:7.5px;line-height:1.2;">+ Outer IP (Tunnel)</div>' +
+                 '<div style="display:flex;align-items:center;gap:3px;margin-top:1px;">' +
+                   '<span style="background:#38bdf8;color:#082f49;padding:0 3px;border-radius:3px;font-size:7.5px;">IP</span>' +
+                   '<span style="font-size:8px;">' + displayMsg + '</span>' +
+                 '</div>' +
+               '</div>';
+      } else if (st === 3) {
+        // Stage 3: Encapsulated packet inside vibrant tunnel
+        return '<div class="map-pkt-badge map-pkt-tunnel">' +
+                 '<div style="background:#059669;padding:1px 5px;border-radius:4px;font-size:7.5px;line-height:1.2;">TUNNEL IP &rarr; FA</div>' +
+                 '<div style="display:flex;align-items:center;gap:3px;margin-top:1px;">' +
+                   '<span style="background:#38bdf8;color:#082f49;padding:0 3px;border-radius:3px;font-size:7.5px;">[Inner Pkt]</span>' +
+                 '</div>' +
+               '</div>';
+      } else if (st === 4) {
+        // Stage 4: Decapsulation at FA (removing outer header)
+        return '<div class="map-pkt-badge map-pkt-decap">' +
+                 '<div style="background:#7c3aed;padding:1px 5px;border-radius:4px;font-size:7.5px;line-height:1.2;">- Stripping Outer IP</div>' +
+                 '<div style="display:flex;align-items:center;gap:3px;margin-top:1px;">' +
+                   '<span style="background:#38bdf8;color:#082f49;padding:0 3px;border-radius:3px;font-size:7.5px;">Original IP</span>' +
+                   '<span style="font-size:8px;">' + displayMsg + '</span>' +
+                 '</div>' +
+               '</div>';
+      } else {
+        // Stage 5: Final Delivery to Mobile Node
+        return '<div class="map-pkt-badge map-pkt-delivered">' +
+                 '<span style="background:#10b981;color:#fff;padding:1px 4px;border-radius:4px;margin-right:4px;font-size:8px;">&#10004; MN</span>' +
+                 '<span>' + displayMsg + '</span>' +
+               '</div>';
+      }
+    }
 
     function updateLeafletPacket() {
       if (!window.MIP_SIM || !window.MIP_SIM.state) return;
       var S = window.MIP_SIM.state;
       if (!S.running && !S.done && S.stage < 0) {
         if (packetMarker) { leafletMap.removeLayer(packetMarker); packetMarker = null; }
+        lastPacketStage = -99;
         return;
       }
       if (!markers.CN || !markers.HA || !markers.FA) return;
@@ -639,29 +1164,35 @@
       var pFA = markers.FA.getLatLng();
       var lat, lng;
       var t = Math.min(Math.max(S.t || 0, 0), 1);
-      if (S.stage === 0) {
+      var st = S.stage;
+
+      if (st === 0) {
         lat = pCN.lat; lng = pCN.lng;
-      } else if (S.stage === 1) {
+      } else if (st === 1) {
         lat = pCN.lat + (pHA.lat - pCN.lat) * t;
         lng = pCN.lng + (pHA.lng - pCN.lng) * t;
-      } else if (S.stage === 2) {
+      } else if (st === 2) {
         lat = pHA.lat; lng = pHA.lng;
-      } else if (S.stage === 3) {
+      } else if (st === 3) {
         lat = pHA.lat + (pFA.lat - pHA.lat) * t;
         lng = pHA.lng + (pFA.lng - pHA.lng) * t;
-      } else if (S.stage === 4 || S.stage === 5) {
+      } else if (st >= 4) {
         lat = pFA.lat; lng = pFA.lng;
       }
+
       if (lat != null && lng != null) {
         var pos = [lat, lng];
-        if (!packetMarker) {
+        if (!packetMarker || lastPacketStage !== st) {
+          if (packetMarker) leafletMap.removeLayer(packetMarker);
+          var html = getPacketHtmlForStage(st, S.msg);
           var pIcon = L.divIcon({
             className: 'mip-leaflet-packet',
-            html: '<div style="width:26px;height:26px;background:#2563eb;border:2px solid #fff;border-radius:50%;box-shadow:0 0 12px #2563eb;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">&#9993;</div>',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
+            html: html,
+            iconSize: [80, 32],
+            iconAnchor: [40, 16]
           });
-          packetMarker = L.marker(pos, { icon: pIcon, zIndexOffset: 2000 }).addTo(leafletMap);
+          packetMarker = L.marker(pos, { icon: pIcon, zIndexOffset: 2500 }).addTo(leafletMap);
+          lastPacketStage = st;
         } else {
           packetMarker.setLatLng(pos);
         }
@@ -684,7 +1215,7 @@
       var cn = getSelectorCity('mip-sel-cn');
       var ha = getSelectorCity('mip-sel-ha');
       var fa = getSelectorCity('mip-sel-fa');
-      if (cn && ha && fa) window.updateMipMap(cn, ha, fa);
+      if (cn && ha && fa) { window.updateMipMap(cn, ha, fa); updateSession3NodeLabels(cn, ha, fa); }
     }
     ['mip-sel-cn','mip-sel-ha','mip-sel-fa'].forEach(function(id) {
       var el = document.getElementById(id);
@@ -701,6 +1232,39 @@
   </script>
 
   <!-- STAGE INFO OBSERVER -->
+    // Synchronize Session 3 Packet Cards with Current Stage
+    function syncSession3Cards(stage) {
+      // 5 cards: 1 (orig), 2 (encap), 3 (tunnel), 4 (decap), 5 (delivered)
+      var activeCardNum = 1;
+      if (stage === 0 || stage === 1) activeCardNum = 1;
+      else if (stage === 2) activeCardNum = 2;
+      else if (stage === 3) activeCardNum = 3;
+      else if (stage === 4) activeCardNum = 4;
+      else if (stage === 5) activeCardNum = 5;
+
+      for (var c = 1; c <= 5; c++) {
+        var cardEl = document.getElementById('pkt-card-' + c);
+        if (cardEl) {
+          if (c === activeCardNum) cardEl.classList.add('is-active-step');
+          else cardEl.classList.remove('is-active-step');
+        }
+      }
+
+      // Update message text in Session 3
+      var msgVal = (window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.msg) || 'HELLO';
+      var d1 = document.getElementById('blk-data-text');
+      var d2 = document.getElementById('blk-data-text2');
+      var bMsg = document.getElementById('bit-msg-val');
+      var bAscii = document.getElementById('bit-ascii-val');
+      if (d1) d1.textContent = '"' + msgVal + '"';
+      if (d2) d2.textContent = '"' + msgVal + '"';
+      if (bMsg) bMsg.textContent = msgVal;
+
+      if (window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.chars && bAscii) {
+        bAscii.textContent = window.MIP_SIM.state.chars.map(function(c){ return c.bin; }).join(' ');
+      }
+    }
+
   <script>
   (function(){
     var STAGE_INFO = [
@@ -787,10 +1351,27 @@
       observer.observe(stagesEl, { attributes: true, subtree: true, attributeFilter: ['class'] });
     }
 
-    // Mirror binary output
+    // Mirror binary output & sync Session 3 real-time data
     var bitsEl = document.getElementById('mip-bits');
     var binOut = document.getElementById('mip-binary-out');
-    if (bitsEl && binOut) {
+    var inpEl  = document.getElementById('mip-input');
+
+    function syncMessageData() {
+      var mVal = (inpEl && inpEl.value.trim()) || ((window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.msg) || 'HELLO');
+      var bMsg = document.getElementById('bit-msg-val');
+      var d1 = document.getElementById('blk-data-text');
+      var d2 = document.getElementById('blk-data-text2');
+      if (bMsg) bMsg.textContent = mVal;
+      if (d1) d1.textContent = '"' + mVal + '"';
+      if (d2) d2.textContent = '"' + mVal + '"';
+    }
+
+    if (inpEl) {
+      inpEl.addEventListener('input', syncMessageData);
+      inpEl.addEventListener('change', syncMessageData);
+    }
+
+    if (bitsEl) {
       var bitsObserver = new MutationObserver(function() {
         var bits = '';
         var nodes = bitsEl.children;
@@ -798,9 +1379,28 @@
           var match = nodes[i].textContent.match(/[01]{8}/);
           if (match) bits += match[0] + ' ';
         }
-        binOut.textContent = bits.trim() || '\u2014';
+        var cleanBits = bits.trim() || '01001000 01000101 01001100 01001100 01001111';
+        if (binOut) binOut.textContent = cleanBits;
+        var bAscii = document.getElementById('bit-ascii-val');
+        if (bAscii) bAscii.textContent = cleanBits;
+        syncMessageData();
       });
       bitsObserver.observe(bitsEl, { childList: true, subtree: true, characterData: true });
+    }
+
+    // Update Section 3 IP labels on location selection
+    function updateSession3NodeLabels(cn, ha, fa) {
+      var blkOrigIp = document.getElementById('blk-orig-ip');
+      var blkEncapOuter = document.getElementById('blk-encap-outer');
+      var blkTunnelOuter = document.getElementById('blk-tunnel-outer');
+      var blkEncapInner = document.getElementById('blk-encap-inner');
+      var blkDecapIp = document.getElementById('blk-decap-ip');
+      if (blkOrigIp) blkOrigIp.innerHTML = 'IP Header<br><small>(' + (cn||'CN') + ' &rarr; MN)</small>';
+      if (blkEncapOuter) blkEncapOuter.innerHTML = 'Outer IP Header<br><small>(' + (ha||'HA') + ' &rarr; CoA)</small>';
+      if (blkTunnelOuter) blkTunnelOuter.innerHTML = 'Outer IP Header<br><small>(' + (ha||'HA') + ' &rarr; CoA)</small>';
+      if (blkEncapInner) blkEncapInner.innerHTML = 'Original Packet<br><small>(' + (cn||'CN') + ' &rarr; MN) + Data</small>';
+      if (blkDecapIp) blkDecapIp.innerHTML = 'IP Header<br><small>(' + (cn||'CN') + ' &rarr; MN)</small>';
+    }
     }
   })();
   </script>
@@ -808,10 +1408,28 @@
   <!-- MODULATION & RF VISUALIZATION SCRIPT -->
   <script>
     var currentModulation = 'BPSK';
-    var modDescriptions = {
-      'BPSK': '<b>BPSK (Binary Phase Shift Keying):</b> Shifts the RF carrier phase by 180° between binary \'0\' and binary \'1\'. Highly robust against noise in low-power wireless links.',
-      'QPSK': '<b>QPSK (Quadrature Phase Shift Keying):</b> Encodes 2 bits per symbol into 4 discrete phase states (45°, 135°, 225°, 315°), doubling spectral efficiency across the channel.',
-      'FSK':  '<b>FSK (Frequency Shift Keying):</b> Shifts the carrier between two distinct frequencies (lower frequency for \'0\', higher frequency for \'1\'). Common in legacy wireless systems.'
+    var modData = {
+      'BPSK': {
+        title: 'BPSK (Binary Phase Shift Keying)',
+        bullets: [
+          "Represents bit '1' and bit '0' using two phase values (0° and 180°).",
+          "Simple and robust, suitable for low-power and noisy links."
+        ]
+      },
+      'QPSK': {
+        title: 'QPSK (Quadrature Phase Shift Keying)',
+        bullets: [
+          "Encodes 2 bits per symbol into 4 discrete phase states (45°, 135°, 225°, 315°).",
+          "Doubles spectral bandwidth efficiency while maintaining high noise resistance."
+        ]
+      },
+      'FSK': {
+        title: 'FSK (Frequency Shift Keying)',
+        bullets: [
+          "Shifts carrier between two distinct frequencies (lower for '0', higher for '1').",
+          "Widely deployed in legacy wireless systems and resilient against amplitude fading."
+        ]
+      }
     };
 
     function setModulation(mod) {
@@ -820,6 +1438,17 @@
         var btn = document.getElementById(id);
         if (btn) btn.classList.remove('active');
       });
+      var activeBtn = document.getElementById('btn-' + mod.toLowerCase());
+      if (activeBtn) activeBtn.classList.add('active');
+
+      var data = modData[mod] || modData['BPSK'];
+      var titleEl = document.getElementById('rf-card-title');
+      var bulletsEl = document.getElementById('rf-bullets');
+      if (titleEl) titleEl.textContent = data.title;
+      if (bulletsEl) {
+        bulletsEl.innerHTML = data.bullets.map(function(b){ return '<li>' + b + '</li>'; }).join('');
+      }
+    });
       var activeBtn = document.getElementById('btn-' + mod.toLowerCase());
       if (activeBtn) activeBtn.classList.add('active');
       var descEl = document.getElementById('mod-desc');

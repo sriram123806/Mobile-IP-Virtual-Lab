@@ -464,23 +464,71 @@
     <!-- 2. DETAILED THEORY SECTION -->
     <section class="lab-panel" aria-labelledby="th-det-h">
       <h2 id="th-det-h">2. Detailed Theory</h2>
-      <div class="theory-detail-section">
-        <p><b>Mobile IP Architecture &amp; Nodes:</b> Mobile IP establishes an elegant division of responsibilities across specialized entities. The <b>Mobile Node (MN)</b> is the roaming device that changes its point of attachment from one network to another while preserving its permanent IP address. The <b>Correspondent Node (CN)</b> is any standard host or server on the Internet communicating with the Mobile Node. The CN remains completely unaware of the MN's physical movement, sending normal datagrams to the MN's permanent Home Address.</p>
+      <div class="theory-detail-section" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;">
+        
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #2563eb;border-radius:10px;padding:14px 18px;">
+          <h3 style="margin:0 0 6px;color:#1e3a8a;font-size:1.05rem;">• Mobile IP Architecture &amp; Specialized Nodes</h3>
+          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
+            Mobile IP establishes an elegant division of responsibilities across specialized network entities:
+          </p>
+          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
+            <li><b>Mobile Node (MN):</b> The roaming host or router that changes its point of attachment from one network to another while preserving its permanent IP address.</li>
+            <li><b>Correspondent Node (CN):</b> Any standard peer device or server communicating with the Mobile Node; it remains unaware of physical mobility and routes packets to the permanent Home Address.</li>
+          </ul>
+        </div>
 
-        <p><b>Home Agent &amp; Foreign Agent Functions:</b> The <b>Home Agent (HA)</b> is a router situated on the Mobile Node's home link. When the MN leaves its home network, the HA intercepts incoming datagrams on its behalf using proxy ARP. The <b>Foreign Agent (FA)</b> is a router located in the visited foreign network. It periodically advertises mobility services, assigns a <b>Care-of Address (CoA)</b> to visiting Mobile Nodes, relays registration requests to the Home Agent, and acts as the tunnel endpoint for inbound traffic.</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #3b82f6;border-radius:10px;padding:14px 18px;">
+          <h3 style="margin:0 0 6px;color:#1e3a8a;font-size:1.05rem;">• Home Agent &amp; Foreign Agent Functions</h3>
+          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
+            Mobility routing relies on coordinated agent discovery and interception:
+          </p>
+          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
+            <li><b>Home Agent (HA):</b> A router situated on the Mobile Node's home network that intercepts datagrams using Proxy ARP and constructs the encapsulation tunnel when the MN roams.</li>
+            <li><b>Foreign Agent (FA):</b> A router located in the visited foreign network that advertises mobility services, assigns the Care-of Address (CoA), and acts as the tunnel egress endpoint.</li>
+          </ul>
+        </div>
 
-        <p><b>Care-of Address &amp; Registration:</b> When an MN attaches to a foreign link, it discovers the FA via ICMP Agent Advertisements. The MN receives a Care-of Address (the FA's IP address) and initiates a registration handshake through UDP port 434. The FA forwards this registration to the HA, creating a temporary mobility binding. This binding maps the MN's permanent Home Address to the current Care-of Address for a negotiated lifetime.</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #0284c7;border-radius:10px;padding:14px 18px;">
+          <h3 style="margin:0 0 6px;color:#1e3a8a;font-size:1.05rem;">• Care-of Address (CoA) &amp; Registration Handshake</h3>
+          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
+            When attaching to a visited link, the MN acquires a Care-of Address and establishes binding:
+          </p>
+          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
+            <li><b>Agent Discovery:</b> The MN discovers the visited network through periodic ICMP Agent Advertisements or sends an active Agent Solicitation request.</li>
+            <li><b>Registration Handshake:</b> The MN transmits a registration request over UDP port 434 through the FA to the HA, establishing a valid mobility binding table entry for a negotiated lifetime.</li>
+          </ul>
+        </div>
 
-        <p><b>Encapsulation &amp; Forward Tunneling:</b> To deliver packets across the intervening Internet without modifying the original payload, the Home Agent performs <b>IP-in-IP encapsulation (RFC 2003, Protocol 4)</b>. The HA prepends a new 20-byte outer IP header where the Source IP is the HA and the Destination IP is the Care-of Address (FA). The entire original IP datagram becomes the payload of the outer packet. Routers along the path inspect only the outer header, safely tunneling the datagram across intermediate networks.</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #059669;border-radius:10px;padding:14px 18px;">
+          <h3 style="margin:0 0 6px;color:#065f46;font-size:1.05rem;">• IP-in-IP Encapsulation &amp; Forward Tunneling</h3>
+          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
+            Packets traverse intermediate Internet routers without modifying the original payload:
+          </p>
+          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
+            <li><b>Encapsulation (RFC 2003, Protocol 4):</b> The Home Agent wraps the original IP packet inside a new 20-byte outer IP header where Source IP is HA and Destination IP is the CoA (FA).</li>
+            <li><b>Tunnel Transit:</b> Intermediate routers examine only the outer header, safely routing the datagram across arbitrary topological networks to the visited location.</li>
+          </ul>
+        </div>
 
-        <p><b>Decapsulation &amp; Packet Delivery:</b> Upon arrival at the tunnel endpoint, the Foreign Agent strips the outer IP header (a process called <b>decapsulation</b>). The FA inspects the recovered inner IP header, finds the Mobile Node's home address, and transmits the original datagram directly onto the local link using link-layer frames. For the return path, <b>reverse tunneling (RFC 3024)</b> ensures that outbound packets from the MN can be tunneled back through the HA, avoiding ingress filtering on perimeter routers.</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #7c3aed;border-radius:10px;padding:14px 18px;">
+          <h3 style="margin:0 0 6px;color:#5b21b6;font-size:1.05rem;">• Decapsulation, Local Delivery &amp; Reverse Tunneling</h3>
+          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
+            The Foreign Agent processes the arrival and delivers the original datagram:
+          </p>
+          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
+            <li><b>Decapsulation:</b> The Foreign Agent strips the outer IP header, validates the visitor table, and extracts the original inner IP datagram intact.</li>
+            <li><b>Local Link Delivery:</b> The FA forwards the recovered packet directly to the Mobile Node's MAC address over the local wireless or wired link.</li>
+            <li><b>Reverse Tunneling (RFC 3024):</b> Outbound packets from the MN can be tunneled back to the HA to avoid packet rejection caused by ingress filtering on edge firewalls.</li>
+          </ul>
+        </div>
+
       </div>
     </section>
 
             <!-- 3. CONCEPTUAL GALLERY SECTION - 3D COVER-FLOW -->
-    <section class="lab-panel" aria-labelledby="th-gal-h">
+    <section class="lab-panel lab-gallery-dark-panel" aria-labelledby="th-gal-h" style="background:linear-gradient(145deg, rgba(12, 18, 42, 0.95), rgba(16, 26, 60, 0.92));border:1px solid rgba(86, 184, 232, 0.35);box-shadow:0 16px 40px rgba(5, 8, 22, 0.45);border-radius:20px;padding:28px 24px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-        <h2 id="th-gal-h" style="margin:0;">Conceptual Gallery</h2>
+        <h2 id="th-gal-h" style="margin:0;color:#ffffff !important;border-bottom:2px solid #56B8E8;display:inline-block;padding-bottom:4px;">Conceptual Gallery</h2>
         <div class="cf-controls" style="display:flex;gap:10px;align-items:center;">
           <button class="cf-nav-btn" id="cf-prev" aria-label="Previous image" type="button">&#9664;</button>
           <button class="cf-nav-btn" id="cf-next" aria-label="Next image" type="button">&#9654;</button>
