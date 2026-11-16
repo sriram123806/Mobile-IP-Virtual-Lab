@@ -741,10 +741,8 @@
 <body class="lab-page">
 
   <!-- Background Video: Pink Dreamcore video -->
-  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-simulation-poster.jpg" aria-hidden="true">
-    <source src="../assets/videos/video-simulation.mp4" type="video/mp4">
-  </video>
-  <div class="bg-video-overlay" aria-hidden="true"></div>
+  
+  
 
   <!-- Navigation -->
   <nav id="lab-nav" data-active="simulation"></nav>
@@ -858,9 +856,12 @@
          SECTION 3: PACKET, BITSTREAM & MODULATION (SESSION 3)
          ================================================================ -->
     <section class="session3-panel" aria-labelledby="sec3-vis-h">
-      <div class="session3-header">
-        <span class="session3-badge">Session 3</span>
-        <h2 class="session3-title" id="sec3-vis-h">Packet, Bitstream &amp; Modulation</h2>
+      <div class="session3-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="session3-badge">Session 3</span>
+          <h2 class="session3-title" id="sec3-vis-h" style="margin:0;">Packet, Bitstream &amp; Modulation</h2>
+        </div>
+        <button class="session3-run-btn" id="btn-run-session3" type="button" onclick="runSession3Solo()">▶ RUN SESSION 3</button>
       </div>
       <p class="session3-subtitle">See how the packet changes, how data becomes bits and how it is transmitted using modulation.</p>
 
@@ -1401,7 +1402,6 @@
       if (blkEncapInner) blkEncapInner.innerHTML = 'Original Packet<br><small>(' + (cn||'CN') + ' &rarr; MN) + Data</small>';
       if (blkDecapIp) blkDecapIp.innerHTML = 'IP Header<br><small>(' + (cn||'CN') + ' &rarr; MN)</small>';
     }
-    }
   })();
   </script>
 
@@ -1448,11 +1448,6 @@
       if (bulletsEl) {
         bulletsEl.innerHTML = data.bullets.map(function(b){ return '<li>' + b + '</li>'; }).join('');
       }
-    });
-      var activeBtn = document.getElementById('btn-' + mod.toLowerCase());
-      if (activeBtn) activeBtn.classList.add('active');
-      var descEl = document.getElementById('mod-desc');
-      if (descEl) descEl.innerHTML = modDescriptions[mod];
     }
 
     (function(){
@@ -1492,38 +1487,94 @@
         }
         if (!bits) bits = '101011001101';
 
-        for (var x = 0; x <= w; x++) {
-          var segment = Math.floor((x / w) * 12);
-          var bit = bits[segment % bits.length] || '1';
+        var numBits = 8;
+        var bitWidth = (w - 40) / numBits;
+        var startX = 35;
+
+        // Draw bit badges and dashed interval dividers
+        for (var b = 0; b < numBits; b++) {
+          var bx = startX + b * bitWidth;
+          var bitVal = bits[b % bits.length] || '1';
+
+          // Vertical dashed divider
+          ctx.strokeStyle = 'rgba(0, 210, 255, 0.25)';
+          ctx.setLineDash([4, 4]);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(bx, 28);
+          ctx.lineTo(bx, h - 18);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Bit badge at top
+          var badgeX = bx + bitWidth / 2;
+          ctx.fillStyle = 'rgba(14, 28, 64, 0.9)';
+          ctx.strokeStyle = 'rgba(0, 210, 255, 0.6)';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.roundRect(badgeX - 10, 6, 20, 18, 4);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#00d2ff';
+          ctx.font = 'bold 11px Outfit, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(bitVal, badgeX, 19);
+        }
+
+        // Draw axes: +1, 0, -1 and Time ->
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText('+1', 28, cy - amp + 4);
+        ctx.fillText('0', 28, cy + 3);
+        ctx.fillText('-1', 28, cy + amp + 4);
+
+        // Baseline
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(startX, cy);
+        ctx.lineTo(w - 10, cy);
+        ctx.stroke();
+
+        // Time arrow
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px Outfit, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Time →', w / 2 - 20, h - 4);
+
+        // RF carrier waveform
+        ctx.lineWidth = 2.4;
+        ctx.strokeStyle = '#00d2ff';
+        ctx.shadowColor = 'rgba(0, 210, 255, 0.6)';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+
+        for (var x = startX; x <= w - 10; x++) {
+          var segIdx = Math.floor((x - startX) / bitWidth);
+          if (segIdx < 0) segIdx = 0;
+          if (segIdx >= numBits) segIdx = numBits - 1;
+          var bit = bits[segIdx % bits.length] || '1';
           var y = cy;
 
           if (currentModulation === 'BPSK') {
-            // 180° phase inversion for bit 0
             var pOffset = (bit === '0') ? Math.PI : 0;
-            y = cy + amp * Math.sin(0.045 * x + phase + pOffset);
+            y = cy + amp * Math.sin(0.06 * (x - startX) + phase + pOffset);
           } else if (currentModulation === 'QPSK') {
-            // 4 phase offsets (0, pi/2, pi, 3pi/2)
-            var dibit = bits.substr(Math.floor((x / w) * 6) * 2, 2);
+            var dibit = bits.substr((Math.floor(segIdx / 2) * 2) % bits.length, 2);
             var qOffset = (dibit === '00') ? 0 : (dibit === '01' ? Math.PI*0.5 : (dibit === '11' ? Math.PI : Math.PI*1.5));
-            y = cy + amp * Math.sin(0.045 * x + phase + qOffset);
+            y = cy + amp * Math.sin(0.06 * (x - startX) + phase + qOffset);
           } else if (currentModulation === 'FSK') {
-            // Lower vs higher frequency
-            var freq = (bit === '1') ? 0.08 : 0.03;
-            y = cy + amp * Math.sin(freq * x + phase);
+            var freq = (bit === '1') ? 0.09 : 0.04;
+            y = cy + amp * Math.sin(freq * (x - startX) + phase);
           }
 
-          if (x === 0) ctx.moveTo(x, y);
+          if (x === startX) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
         ctx.stroke();
-
-        // Baseline reference line
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(0, cy);
-        ctx.lineTo(w, cy);
-        ctx.stroke();
+        ctx.shadowBlur = 0;
 
         if (isRunning) {
           phase += 0.09;

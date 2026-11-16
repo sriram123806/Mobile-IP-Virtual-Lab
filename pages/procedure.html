@@ -8,284 +8,218 @@
   <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
   <style>
-    /* Clean, non-neon white page title */
-    .lab-page-title {
-      font-family: var(--lab-font-title);
-      font-weight: 800;
-      color: #ffffff;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.85);
-      letter-spacing: 0.08em;
-    }
-
-    /* Light glass panels with dark text */
-    .lab-panel {
-      background: rgba(255, 255, 255, 0.94) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.8) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
-      color: #18233B !important;
-    }
-    .lab-panel h2 {
-      color: #101A35 !important;
-      border-bottom: 2px solid #56B8E8;
-      padding-bottom: 6px;
-      display: inline-block;
-      margin-bottom: 16px;
-    }
-
-    /* Step cards with selective pastel coordination */
-    .proc-steps-grid {
+    .proc-grid {
       display: grid;
-      gap: 14px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .proc-card {
-      display: flex;
-      align-items: flex-start;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 16px;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px 20px;
-      box-shadow: 0 2px 8px rgba(10, 15, 36, 0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      list-style: none;
+      padding: 0;
+      margin-top: 18px;
     }
-    .proc-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      border-color: #56B8E8;
-    }
-
-    /* Selected Pastel Accents */
-    .proc-card.tint-blue {
-      background: #f0f7ff;
-      border-color: #bfdbfe;
-    }
-    .proc-card.tint-mint {
-      background: #f0fdf4;
-      border-color: #bbf7d0;
-    }
-    .proc-card.tint-pink {
-      background: #fff1f2;
-      border-color: #fecdd3;
-    }
-    .proc-card.tint-lavender {
-      background: #f5f3ff;
-      border-color: #ddd6fe;
-    }
-
-    .proc-badge {
-      flex-shrink: 0;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: #ffffff;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
-    }
-
-    .proc-body {
-      flex: 1;
-    }
-    .proc-body h3 {
-      margin: 0 0 4px;
-      font-size: 1.02rem;
-      font-weight: 700;
-      color: #0f172a !important;
-      line-height: 1.35;
-    }
-    .proc-body p {.proc-body p {
-      margin: 0;
-      font-size: 0.92rem;
-      color: #334155;
-      line-height: 1.55;
-    }
-
-    /* Video placeholder */
-    .proc-video-card {
+    .proc-item {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 24px;
-    }
-    .proc-video-card h3 {
-      margin: 0 0 16px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: #0f172a;
-    }
-    .proc-video-box {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* 16:9 */
-      border: 2px dashed #94a3b8;
-      border-radius: 12px;
-      background: #0f172a;
-      overflow: hidden;
-    }
-    .proc-video-box-inner {
-      position: absolute;
-      inset: 0;
+      padding: 16px 18px;
       display: flex;
-      flex-direction: column;
+      gap: 14px;
+      align-items: flex-start;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+    .proc-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      border-color: #cbd5e1;
+    }
+    .proc-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #ffffff;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 20px;
-      text-align: center;
-      color: #94a3b8;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
     }
-    .proc-video-icon {
-      font-size: 2.8rem;
-      color: #ef4444;
+    .proc-badge.tint-purple {
+      background: linear-gradient(135deg, #9333ea, #a855f7);
+      box-shadow: 0 2px 8px rgba(147, 51, 234, 0.35);
     }
-    .proc-video-box-inner p {
+    .proc-badge.tint-cyan {
+      background: linear-gradient(135deg, #0284c7, #00d2ff);
+      box-shadow: 0 2px 8px rgba(0, 210, 255, 0.35);
+    }
+    .proc-badge.tint-mint {
+      background: linear-gradient(135deg, #059669, #10b981);
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+    }
+    .proc-body h3 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+      border: none;
+      padding: 0;
+      text-transform: none;
+    }
+    .proc-body p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #475569;
       margin: 0;
-      font-size: 0.95rem;
-      color: #cbd5e1;
-      font-weight: 600;
     }
-    .proc-video-note {
-      margin-top: 12px;
-      font-size: 0.85rem;
-      color: #64748b;
-      font-style: italic;
+    .proc-video-box {
+      width: 100%;
+      max-width: 760px;
+      margin: 16px auto;
+      aspect-ratio: 16/9;
+      background: #040c20;
+      border: 1.5px solid var(--lab-cyan);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 24px rgba(0, 210, 255, 0.3);
     }
   </style>
 </head>
 <body class="lab-page">
 
-  <!-- Background Video: New black-themed video -->
-  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-procedure-poster.jpg" aria-hidden="true">
-    <source src="../assets/videos/video-procedure.mp4" type="video/mp4">
-  </video>
-  <div class="bg-video-overlay" aria-hidden="true"></div>
-
-  <!-- Navigation -->
-  <nav id="lab-nav" data-active="procedure"></nav>
+  <!-- Navigation Bar -->
+  <nav id="lab-nav" data-active="procedure" role="navigation" aria-label="Virtual Lab Sections"></nav>
 
   <main class="lab-wrap">
 
-    <section class="lab-hero">
-      <h1 class="lab-page-title">PROCEDURE</h1>
-      <p class="lab-page-sub">Step-by-step operating instructions for the Mobile IP Virtual Laboratory</p>
-      <div class="lab-page-bar"></div>
-    </section>
+    <!-- Hero / Procedure Header -->
+    <header class="lab-hero">
+      <div class="lab-hero-content">
+        <h1 class="lab-page-title">PROCEDURE</h1>
+        <p class="lab-page-sub">Comprehensive 14-Step Operating Guide for the Mobile IP Virtual Simulator</p>
+        <div class="lab-page-bar"></div>
+      </div>
+    </header>
 
-    <section class="lab-panel" aria-labelledby="proc-steps-h">
-      <h2 id="proc-steps-h">Step-by-Step Instructions</h2>
-      <ol class="proc-steps-grid" id="lab-steps">
+    <!-- SECTION 1: 14 STEP-BY-STEP INSTRUCTIONS (Crisp White Card) -->
+    <section class="lab-panel-white" aria-labelledby="proc-step-title">
+      <h2 id="proc-step-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/>
+          <line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        Step-by-Step Instructions
+      </h2>
 
-        <li class="proc-card">
+      <ol class="proc-grid">
+        <li class="proc-item">
           <div class="proc-badge" aria-hidden="true">1</div>
           <div class="proc-body">
             <h3>Open the Simulation Page</h3>
-            <p>Navigate to the Simulation tab from the main horizontal navigation bar.</p>
+            <p>Click on <b>SIMULATION</b> in the top navigation bar to access the interactive environment.</p>
           </div>
         </li>
 
-        <li class="proc-card">
-          <div class="proc-badge" aria-hidden="true">2</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-purple" aria-hidden="true">2</div>
           <div class="proc-body">
             <h3>Select Correspondent Node Location</h3>
-            <p>Choose the CN location (origin of data packets) from the location dropdown selector.</p>
+            <p>Choose the geographic sending station from the 18 Tamil Nadu cities dropdown menu.</p>
           </div>
         </li>
 
-        <li class="proc-card">
-          <div class="proc-badge" aria-hidden="true">3</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-cyan" aria-hidden="true">3</div>
           <div class="proc-body">
             <h3>Select Home Agent Location</h3>
-            <p>Choose the HA location (home network where the Mobile Node is originally registered) from the dropdown selector.</p>
+            <p>Choose the home network router responsible for intercepting the Mobile Node's traffic.</p>
           </div>
         </li>
 
-        <li class="proc-card tint-blue">
-          <div class="proc-badge" aria-hidden="true">4</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-mint" aria-hidden="true">4</div>
           <div class="proc-body">
             <h3>Select Foreign Agent Location</h3>
-            <p>Choose the FA location (visited network where the Mobile Node is currently roaming) from the dropdown selector.</p>
+            <p>Choose the visited foreign network where the Mobile Node is currently registered.</p>
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-item">
           <div class="proc-badge" aria-hidden="true">5</div>
           <div class="proc-body">
             <h3>Confirm Selected Locations</h3>
-            <p>Click the location OK button and verify that all three distinct node markers and route lines appear on the Tamil Nadu map.</p>
+            <p>Ensure distinct cities are assigned so the triangular routing path is clearly visible.</p>
           </div>
         </li>
 
-        <li class="proc-card tint-mint">
-          <div class="proc-badge" aria-hidden="true">6</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-purple" aria-hidden="true">6</div>
           <div class="proc-body">
             <h3>Enter a Transmission Message</h3>
-            <p>Type your alphanumeric message (up to 40 characters) into the ASCII message input field.</p>
+            <p>Type a transmission string (e.g. "HELLO" or "NETWORKING") into the simulation input field.</p>
           </div>
         </li>
 
-        <li class="proc-card">
-          <div class="proc-badge" aria-hidden="true">7</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-cyan" aria-hidden="true">7</div>
           <div class="proc-body">
             <h3>Press OK to Convert</h3>
-            <p>Click the message OK button to encode the text into its standard 8-bit ASCII binary representation.</p>
+            <p>Click the <b>OK</b> button to convert your character message into 8-bit ASCII binary code.</p>
           </div>
         </li>
 
-        <li class="proc-card tint-lavender">
-          <div class="proc-badge" aria-hidden="true">8</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-mint" aria-hidden="true">8</div>
           <div class="proc-body">
             <h3>Check Binary Representation</h3>
-            <p>Inspect the generated binary bit stream and verify each character's 8-bit sequence and byte length.</p>
+            <p>Verify that each ASCII character displays its correct 8-bit binary representation in real time.</p>
           </div>
         </li>
 
-        <li class="proc-card">
+        <li class="proc-item">
           <div class="proc-badge" aria-hidden="true">9</div>
           <div class="proc-body">
             <h3>Start the Simulation</h3>
-            <p>Click the START button to initiate the live packet animation and signal wave generation.</p>
+            <p>Click <b>START SIMULATION</b> to initiate live animated packet transmission across Tamil Nadu.</p>
           </div>
         </li>
 
-        <li class="proc-card">
-          <div class="proc-badge" aria-hidden="true">10</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-purple" aria-hidden="true">10</div>
           <div class="proc-body">
             <h3>Observe Packet Generation at CN</h3>
-            <p>Watch the original IP packet form at the Correspondent Node addressed to the Mobile Node's home address.</p>
+            <p>Witness the Correspondent Node encapsulate data with Destination = Permanent Home Address.</p>
           </div>
         </li>
 
-        <li class="proc-card tint-pink">
-          <div class="proc-badge" aria-hidden="true">11</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-cyan" aria-hidden="true">11</div>
           <div class="proc-body">
             <h3>Observe Packet Interception at HA</h3>
-            <p>See the Home Agent intercept the packet using proxy ARP and look up the Care-of Address in its binding table.</p>
+            <p>Watch the Home Agent intercept packets and encapsulate them with an outer IP header.</p>
           </div>
         </li>
 
-        <li class="proc-card tint-blue">
-          <div class="proc-badge" aria-hidden="true">12</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-mint" aria-hidden="true">12</div>
           <div class="proc-body">
             <h3>Observe Forward Tunnel Transmission</h3>
             <p>Watch the encapsulated IP-in-IP datagram travel across intermediate routers to the Foreign Agent.</p>
           </div>
         </li>
 
-        <li class="proc-card tint-lavender">
+        <li class="proc-item">
           <div class="proc-badge" aria-hidden="true">13</div>
           <div class="proc-body">
             <h3>Observe Decapsulation at FA</h3>
@@ -293,35 +227,38 @@
           </div>
         </li>
 
-        <li class="proc-card tint-mint">
-          <div class="proc-badge" aria-hidden="true">14</div>
+        <li class="proc-item">
+          <div class="proc-badge tint-purple" aria-hidden="true">14</div>
           <div class="proc-body">
             <h3>Observe Final Delivery to Mobile Node</h3>
             <p>Confirm the final delivery of the datagram to the Mobile Node over the visited local link.</p>
           </div>
         </li>
-
       </ol>
     </section>
 
-    <!-- Video placeholder -->
-    <section class="lab-panel" aria-labelledby="proc-vid-h">
-      <h2 id="proc-vid-h">Simulation Procedure Video</h2>
-      <div class="proc-video-card">
-        <h3>SIMULATION PROCEDURE VIDEO</h3>
-        <div class="proc-video-box">
-          <div class="proc-video-box-inner">
-            <div class="proc-video-icon">🎬</div>
-            <p>Video walkthrough will be displayed here.</p>
-          </div>
+    <!-- SECTION 2: SIMULATION PROCEDURE VIDEO (Dark Navy Panel with Cyan Border) -->
+    <section class="lab-panel-dark" aria-labelledby="proc-vid-title">
+      <h2 id="proc-vid-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        SIMULATION PROCEDURE VIDEO
+      </h2>
+
+      <div class="proc-video-box">
+        <div style="text-align:center;color:#94a3b8;padding:20px;">
+          <div style="font-size:3rem;color:var(--lab-cyan);margin-bottom:10px;">▶</div>
+          <div style="font-weight:700;font-size:1.1rem;color:#ffffff;">SIMULATION WALKTHROUGH VIDEO</div>
+          <div style="font-size:0.88rem;color:#94a3b8;margin-top:6px;">Follow the step-by-step video demonstration of node selection and packet tunneling.</div>
         </div>
-        <p class="proc-video-note">This placeholder will be linked to the final recorded simulation procedure walkthrough.</p>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <a class="lab-btn" href="../pages/simulation.html">LAUNCH LIVE SIMULATOR &rarr;</a>
       </div>
     </section>
 
   </main>
-
-  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
 
   <script src="../scripts/global-nav.js"></script>
 </body>

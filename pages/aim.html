@@ -4,122 +4,242 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Aim | Mobile IP Virtual Lab</title>
-  <meta name="description" content="Aim and overview of the Home Agent and Foreign Agent Tunneling virtual lab project.">
+  <meta name="description" content="Aim and objectives of the Home Agent and Foreign Agent Tunneling virtual laboratory.">
   <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
 </head>
 <body class="lab-page">
 
-  <!-- Background -->
-  <div class="lab-bg lab-bg-aim" aria-hidden="true"></div>
-
-  <!-- Navigation -->
+  <!-- Navigation Bar -->
   <nav id="lab-nav" data-active="aim" role="navigation" aria-label="Virtual Lab Sections"></nav>
 
   <main class="lab-wrap">
 
-    <!-- Hero -->
-    <section class="lab-hero">
-      <h1 class="lab-page-title">AIM</h1>
-      <p class="lab-page-sub">Home Agent &amp; Foreign Agent Tunneling in Mobile IP</p>
-      <div class="lab-page-bar"></div>
-    </section>
+    <!-- Hero / Aim Header with Floating Badges and Curved Orbital Glow -->
+    <header class="lab-hero">
+      <!-- Left Floating Glass Badge (WiFi) -->
+      <div class="lab-hero-floating floating-left" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+          <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+          <line x1="12" y1="20" x2="12.01" y2="20"/>
+        </svg>
+      </div>
 
-    <!-- 1. Project Objective -->
-    <section class="lab-panel" aria-labelledby="aim-obj-h">
-      <h2 id="aim-obj-h">Project Objective</h2>
-      <div class="lab-objective-list" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;">
-        <!-- Card 1: Soft Pale Blue -->
-        <div style="display:flex;align-items:flex-start;gap:16px;background:#f0f7ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 18px;box-shadow:0 2px 6px rgba(191,219,254,0.3);">
-          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(37,99,235,0.35);">1</div>
-          <div style="font-size:1rem;line-height:1.65;color:#0f172a;padding-top:4px;">
-            <b>Demonstrate Mobile IP Mobility:</b> Explain how the Home Agent (HA) and Foreign Agent (FA) cooperate to maintain transparent, uninterrupted connectivity when a Mobile Node roams away from its home network.
+      <!-- Center Title & Subtitle -->
+      <div class="lab-hero-content">
+        <h1 class="lab-page-title">AIM</h1>
+        <p class="lab-page-sub">Home Agent &amp; Foreign Agent Tunneling in Mobile IP</p>
+        <div class="lab-page-bar"></div>
+      </div>
+
+      <!-- Right Floating Glass Badge (Server Stack) -->
+      <div class="lab-hero-floating floating-right" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+          <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+          <line x1="6" y1="6" x2="6.01" y2="6"/>
+          <line x1="6" y1="18" x2="6.01" y2="18"/>
+        </svg>
+      </div>
+    </header>
+
+    <!-- SECTION 1: PROJECT OBJECTIVE (Dark Navy Panel with Electric Cyan Border) -->
+    <section class="lab-panel-dark" aria-labelledby="aim-obj-title">
+      <h2 id="aim-obj-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+        PROJECT OBJECTIVE
+      </h2>
+
+      <div class="aim-obj-list">
+        <!-- Objective 1 -->
+        <div class="aim-obj-item">
+          <div class="aim-obj-num aim-num-1">1</div>
+          <div class="aim-obj-divider"></div>
+          <div class="aim-obj-text">
+            <b>Demonstrate Mobile IP Mobility :</b> Explain how the Home Agent (HA) and Foreign Agent (FA) cooperate to maintain transparent, uninterrupted connectivity when a Mobile Node roams away from its home network.
           </div>
         </div>
-        <!-- Card 2: Soft Pale Pink -->
-        <div style="display:flex;align-items:flex-start;gap:16px;background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:14px 18px;box-shadow:0 2px 6px rgba(254,205,211,0.3);">
-          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#e11d48,#f43f5e);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(225,29,72,0.35);">2</div>
-          <div style="font-size:1rem;line-height:1.65;color:#0f172a;padding-top:4px;">
-            <b>Illustrate Packet Interception &amp; Encapsulation:</b> Show how packets sent to a Mobile Node's permanent home address are intercepted by the Home Agent and wrapped in an outer IP header using IP-in-IP tunneling (RFC 2003).
+
+        <!-- Objective 2 -->
+        <div class="aim-obj-item">
+          <div class="aim-obj-num aim-num-2">2</div>
+          <div class="aim-obj-divider"></div>
+          <div class="aim-obj-text">
+            <b>Illustrate Packet Interception &amp; Encapsulation :</b> Show how packets sent to a Mobile Node's permanent home address are intercepted by the Home Agent and wrapped in an outer IP header using IP-in-IP tunneling (RFC 2003).
           </div>
         </div>
-        <!-- Card 3: Soft Mint -->
-        <div style="display:flex;align-items:flex-start;gap:16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px 18px;box-shadow:0 2px 6px rgba(187,247,208,0.3);">
-          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(5,150,105,0.35);">3</div>
-          <div style="font-size:1rem;line-height:1.65;color:#0f172a;padding-top:4px;">
-            <b>Visualize Tunneling &amp; Decapsulation:</b> Track the encapsulated datagram across intermediate network routers to the Foreign Agent, which strips the outer header and delivers the original packet to the Mobile Node.
+
+        <!-- Objective 3 -->
+        <div class="aim-obj-item">
+          <div class="aim-obj-num aim-num-3">3</div>
+          <div class="aim-obj-divider"></div>
+          <div class="aim-obj-text">
+            <b>Visualize Tunneling &amp; Decapsulation :</b> Track the encapsulated datagram across intermediate network routers to the Foreign Agent, which strips the outer header and delivers the original packet to the Mobile Node.
           </div>
         </div>
-        <!-- Card 4: Soft Pale Lavender -->
-        <div style="display:flex;align-items:flex-start;gap:16px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:14px 18px;box-shadow:0 2px 6px rgba(221,214,254,0.3);">
-          <div style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;box-shadow:0 3px 10px rgba(124,58,237,0.35);">4</div>
-          <div style="font-size:1rem;line-height:1.65;color:#0f172a;padding-top:4px;">
-            <b>Provide Hands-On Interactive Simulation:</b> Enable engineering students to configure real geographical nodes across Tamil Nadu, examine real-time 8-bit ASCII binary encoding, and inspect physical RF signal modulation (BPSK/QPSK/FSK).
+
+        <!-- Objective 4 -->
+        <div class="aim-obj-item">
+          <div class="aim-obj-num aim-num-4">4</div>
+          <div class="aim-obj-divider"></div>
+          <div class="aim-obj-text">
+            <b>Provide Hands-On Interactive Simulation :</b> Enable engineering students to configure real geographical nodes across Tamil Nadu, examine real-time 8-bit ASCII binary encoding, and inspect physical RF signal modulation (BPSK/QPSK/FSK).
           </div>
         </div>
       </div>
     </section>
 
-    <!-- What is this project? -->
-    <section class="lab-panel" aria-labelledby="aim-what-h">
-      <h2 id="aim-what-h">What Is This Project About?</h2>
-      <div class="lab-split">
+    <!-- SECTION 2: WHAT IS THIS PROJECT ABOUT? (Crisp White Card with Architecture Diagram) -->
+    <section class="lab-panel-white" aria-labelledby="aim-what-title">
+      <h2 id="aim-what-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        WHAT IS THIS PROJECT ABOUT?
+      </h2>
+
+      <div class="aim-what-grid">
+        <!-- Left Column: Explanation and Bullets -->
         <div>
-          <p><b>Mobile IP</b> is an Internet standard (RFC&nbsp;5944) that lets a device keep one permanent IP address &mdash; its <i>home address</i> &mdash; while it moves from one network to another.</p>
-          <p>Normal IP routing sends packets by network prefix. A device that moves to a new network would need a new address, and every open connection would break. Mobile IP adds mobility support so the device stays reachable at all times.</p>
-          <p>This project demonstrates the problem and its solution. The <b>Home Agent</b> receives packets meant for the away device, wraps them in a new IP header and sends them through a tunnel to the <b>Foreign Agent</b>. The Foreign Agent unwraps them and delivers them to the <b>Mobile Node</b>.</p>
+          <p style="font-size:1.02rem;color:#1e293b;line-height:1.65;margin-bottom:14px;">
+            <b>Mobile IP</b> is an Internet standard (RFC 5944) that lets a device keep one permanent IP address &mdash; its <i>home address</i> &mdash; while it moves from one network to another.
+          </p>
+          <ul class="aim-bullet-list">
+            <li>
+              <span class="aim-bullet-dot"></span>
+              <span>The <b>Home Agent (HA)</b> intercepts packets for the Mobile Node.</span>
+            </li>
+            <li>
+              <span class="aim-bullet-dot"></span>
+              <span>It encapsulates and tunnels them to the <b>Foreign Agent (FA)</b>.</span>
+            </li>
+            <li>
+              <span class="aim-bullet-dot"></span>
+              <span>The <b>Foreign Agent</b> decapsulates the packets and delivers them to the <b>Mobile Node (MN)</b>.</span>
+            </li>
+          </ul>
         </div>
-        <figure class="lab-fig">
-          <img src="../assets/diagrams/mobile-ip-architecture.svg" alt="Mobile IP overview: CN sends to Home Agent, which tunnels to Foreign Agent, which delivers to Mobile Node">
-          <figcaption>Mobile IP overview: CN &rarr; HA &rarr; FA &rarr; MN</figcaption>
-        </figure>
+
+        <!-- Right Column: Interactive Clean Architecture Diagram (SVG) -->
+        <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:16px;text-align:center;">
+          <svg viewBox="0 0 460 220" width="100%" height="auto" style="max-height:210px;display:block;margin:0 auto;" aria-label="Mobile IP Architecture Diagram">
+            <defs>
+              <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e0e7ff"/>
+                <stop offset="100%" stop-color="#c7d2fe"/>
+              </linearGradient>
+              <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#1e293b"/>
+              </marker>
+              <marker id="arrBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#0284c7"/>
+              </marker>
+            </defs>
+
+            <!-- Correspondent Node (CN) -->
+            <rect x="15" y="80" width="90" height="50" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="60" y="102" font-size="11" font-weight="700" fill="#0369a1" text-anchor="middle">Correspondent</text>
+            <text x="60" y="118" font-size="11" font-weight="700" fill="#0369a1" text-anchor="middle">Node (CN)</text>
+
+            <!-- Arrow CN <-> Internet -->
+            <line x1="105" y1="105" x2="135" y2="105" stroke="#1e293b" stroke-width="2" marker-end="url(#arr)" marker-start="url(#arr)"/>
+
+            <!-- Internet Cloud -->
+            <ellipse cx="185" cy="105" rx="48" ry="32" fill="url(#cloudGrad)" stroke="#6366f1" stroke-width="2"/>
+            <text x="185" y="110" font-size="13" font-weight="800" fill="#3730a3" text-anchor="middle">Internet</text>
+
+            <!-- Arrows to Networks -->
+            <path d="M225,90 L265,55" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#arr)"/>
+            <path d="M225,120 L265,155" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#arr)"/>
+
+            <!-- Home Network Container -->
+            <rect x="270" y="15" width="175" height="85" rx="10" fill="#ffffff" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="357" y="32" font-size="11" font-weight="700" fill="#0284c7" text-anchor="middle">Home Network</text>
+            <!-- HA Box -->
+            <rect x="280" y="42" width="70" height="45" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+            <text x="315" y="62" font-size="10" font-weight="700" fill="#5b21b6" text-anchor="middle">Home Agent</text>
+            <text x="315" y="76" font-size="10" font-weight="700" fill="#5b21b6" text-anchor="middle">(HA)</text>
+            <!-- MN at Home -->
+            <rect x="365" y="42" width="70" height="45" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="400" y="62" font-size="10" font-weight="600" fill="#475569" text-anchor="middle">MN</text>
+            <text x="400" y="76" font-size="9" fill="#64748b" text-anchor="middle">(at home)</text>
+
+            <!-- Roaming path (dotted arrow from Home to Foreign) -->
+            <line x1="400" y1="90" x2="400" y2="135" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrBlue)"/>
+
+            <!-- Foreign Network Container -->
+            <rect x="270" y="125" width="175" height="85" rx="10" fill="#ffffff" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="357" y="142" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle">Foreign Network</text>
+            <!-- FA Box -->
+            <rect x="280" y="152" width="70" height="45" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="315" y="172" font-size="10" font-weight="700" fill="#166534" text-anchor="middle">Foreign Agent</text>
+            <text x="315" y="186" font-size="10" font-weight="700" fill="#166534" text-anchor="middle">(FA)</text>
+            <!-- Arrow FA <-> MN -->
+            <line x1="350" y1="174" x2="365" y2="174" stroke="#1e293b" stroke-width="2" marker-end="url(#arr)" marker-start="url(#arr)"/>
+            <!-- MN in Foreign Network -->
+            <rect x="368" y="152" width="70" height="45" rx="6" fill="#ede9fe" stroke="#6366f1" stroke-width="1.5"/>
+            <text x="403" y="172" font-size="10" font-weight="700" fill="#3730a3" text-anchor="middle">Mobile Node</text>
+            <text x="403" y="186" font-size="10" font-weight="700" fill="#3730a3" text-anchor="middle">(MN)</text>
+          </svg>
+          <div style="font-size:0.84rem;color:#64748b;margin-top:6px;font-weight:600;">Standard Mobile IPv4 Routing &amp; Tunneling Architecture</div>
+        </div>
       </div>
     </section>
 
-    <!-- Team -->
-    <section class="lab-panel" aria-labelledby="aim-team-h">
-      <h2 id="aim-team-h">Our Team</h2>
-      <p style="margin-bottom:18px;color:#4a5578;font-size:.93rem;">Replace the placeholder details below with your actual names and registration numbers.</p>
-      <div class="lab-team" id="lab-team">
-        <article class="lab-member">
-          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
-          <p class="lab-mname">Team Member Name 1</p>
-          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
-        </article>
-        <article class="lab-member">
-          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
-          <p class="lab-mname">Team Member Name 2</p>
-          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
-        </article>
-        <article class="lab-member">
-          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
-          <p class="lab-mname">Team Member Name 3</p>
-          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
-        </article>
-        <article class="lab-member">
-          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
-          <p class="lab-mname">Team Member Name 4</p>
-          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
-        </article>
-        <article class="lab-member">
-          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
-          <p class="lab-mname">Team Member Name 5</p>
-          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
-        </article>
-        <article class="lab-member">
-          <div class="lab-photo"><span aria-hidden="true">&#128100;</span></div>
-          <p class="lab-mname">Team Member Name 6</p>
-          <p class="lab-mreg">Reg. No. XXXXXXXXXX</p>
-        </article>
+    <!-- SECTION 3: OUR TEAM (Crisp White Card with 3 Student Cards) -->
+    <section class="lab-panel-white" aria-labelledby="aim-team-title">
+      <h2 id="aim-team-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        OUR TEAM
+      </h2>
+
+      <div class="lab-team-row">
+        <!-- Student 1 -->
+        <div class="lab-team-card">
+          <div class="lab-team-avatar" aria-hidden="true">&#128100;</div>
+          <div class="lab-team-info">
+            <span class="lab-team-name">Student 1</span>
+            <span class="lab-team-reg">Reg. No: XXXXX</span>
+          </div>
+        </div>
+
+        <!-- Student 2 -->
+        <div class="lab-team-card">
+          <div class="lab-team-avatar" aria-hidden="true">&#128100;</div>
+          <div class="lab-team-info">
+            <span class="lab-team-name">Student 2</span>
+            <span class="lab-team-reg">Reg. No: XXXXX</span>
+          </div>
+        </div>
+
+        <!-- Student 3 -->
+        <div class="lab-team-card">
+          <div class="lab-team-avatar" aria-hidden="true">&#128100;</div>
+          <div class="lab-team-info">
+            <span class="lab-team-name">Student 3</span>
+            <span class="lab-team-reg">Reg. No: XXXXX</span>
+          </div>
+        </div>
       </div>
     </section>
 
   </main>
-
-  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
 
   <script src="../scripts/global-nav.js"></script>
 </body>

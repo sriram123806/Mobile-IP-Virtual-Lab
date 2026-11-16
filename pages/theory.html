@@ -4,61 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Theory | Mobile IP Virtual Lab</title>
-  <meta name="description" content="Detailed Mobile IP theory: Mobile Node, Home Agent, Foreign Agent, care-of addresses, encapsulation, tunneling, and complete packet delivery process.">
+  <meta name="description" content="Comprehensive fundamentals of Mobile IPv4, specialized nodes, care-of addresses, and IP-in-IP encapsulation tunneling.">
   <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
 
   <style>
-    /* Clean, non-neon white page title */
-    .theory-page-title {
-      font-family: var(--lab-font-title);
-      font-weight: 800;
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
-      color: #ffffff;
-      text-align: center;
-      letter-spacing: 0.08em;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.85);
-      margin: 0 0 6px;
-      padding: 32px 0 8px;
-    }
-
-    /* Light glass panels with dark, legible text */
-    .lab-panel {
-      background: rgba(255, 255, 255, 0.94) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.8) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
-      color: #18233B !important;
-      margin-bottom: 24px;
-    }
-    .lab-panel h2 {
-      color: #101A35 !important;
-      border-bottom: 2px solid #56B8E8;
-      padding-bottom: 6px;
-      display: inline-block;
-      margin-bottom: 14px;
-      font-weight: 700;
-    }
-    .lab-panel p {
-      color: #1f293d !important;
-      font-size: 0.98rem;
-      line-height: 1.8;
-      margin-bottom: 12px;
-    }
-
-    /* Detailed Theory */
-    .theory-detail-section p {
-      margin-bottom: 14px;
-      line-height: 1.8;
-      color: #18233B !important;
-      font-size: 1rem;
-    }
-
-    /* 3D Cover-Flow Conceptual Gallery */
+    /* 3D Coverflow Specific Styles */
     .coverflow-stage-wrap {
       position: relative;
       width: 100%;
@@ -86,9 +40,9 @@
       max-width: 82vw;
       height: 280px;
       background: #ffffff;
-      border-radius: 22px;
-      border: 1px solid rgba(148, 120, 232, 0.35);
-      box-shadow: 0 10px 25px rgba(10, 15, 36, 0.15);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 210, 255, 0.35);
+      box-shadow: 0 10px 25px rgba(10, 15, 36, 0.4);
       overflow: hidden;
       cursor: pointer;
       display: flex;
@@ -112,7 +66,7 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      border-radius: 14px;
+      border-radius: 12px;
       pointer-events: none;
       display: block;
       margin: auto;
@@ -121,57 +75,49 @@
       position: absolute;
       bottom: 8px;
       left: 12px;
-      background: rgba(16, 26, 53, 0.85);
-      color: #ffffff;
-      font-size: 0.72rem;
+      background: rgba(10, 20, 50, 0.88);
+      color: var(--lab-cyan);
+      font-size: 0.76rem;
       font-weight: 700;
-      padding: 3px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
       letter-spacing: 0.04em;
       pointer-events: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      border: 1px solid rgba(0, 210, 255, 0.4);
     }
-
-    /* Centre Card (Prominent, Elevated, Foreground) */
     .cf-card.is-center {
       transform: translateX(0) translateZ(60px) scale(1.0);
       opacity: 1;
       z-index: 10;
-      box-shadow: 0 22px 50px rgba(10, 15, 36, 0.3), 0 0 0 2px #56B8E8;
-      border-color: #56B8E8;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 210, 255, 0.6);
+      border: 2px solid var(--lab-cyan);
       pointer-events: auto;
       cursor: zoom-in;
     }
-
-    /* Left Card (Smaller, Shifted Back, Left Side) */
     .cf-card.is-left {
-      transform: translateX(-56%) translateZ(-40px) scale(0.82) rotateY(12deg);
-      opacity: 0.88;
+      transform: translateX(-56%) translateZ(-40px) scale(0.82) rotateY(14deg);
+      opacity: 0.85;
       z-index: 5;
-      box-shadow: 0 12px 28px rgba(10, 15, 36, 0.2);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
       pointer-events: auto;
       cursor: pointer;
     }
     .cf-card.is-left:hover {
-      opacity: 0.98;
+      opacity: 1;
       transform: translateX(-54%) translateZ(-20px) scale(0.85) rotateY(10deg);
     }
-
-    /* Right Card (Smaller, Shifted Back, Right Side) */
     .cf-card.is-right {
-      transform: translateX(56%) translateZ(-40px) scale(0.82) rotateY(-12deg);
-      opacity: 0.88;
+      transform: translateX(56%) translateZ(-40px) scale(0.82) rotateY(-14deg);
+      opacity: 0.85;
       z-index: 5;
-      box-shadow: 0 12px 28px rgba(10, 15, 36, 0.2);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
       pointer-events: auto;
       cursor: pointer;
     }
     .cf-card.is-right:hover {
-      opacity: 0.98;
+      opacity: 1;
       transform: translateX(54%) translateZ(-20px) scale(0.85) rotateY(-10deg);
     }
-
-    /* Hidden cards offstage */
     .cf-card.is-far-left {
       transform: translateX(-95%) translateZ(-120px) scale(0.65);
       opacity: 0;
@@ -184,58 +130,36 @@
       pointer-events: none;
       z-index: 1;
     }
-
-    /* Navigation Arrows */
     .cf-nav-btn {
-      background: #ffffff;
-      border: 1px solid rgba(148, 120, 232, 0.35);
-      color: #18233B;
-      width: 38px;
-      height: 38px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--lab-cyan);
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 0.95rem;
-      box-shadow: 0 2px 8px rgba(10, 15, 36, 0.12);
+      font-size: 1rem;
       transition: all 0.2s ease;
     }
     .cf-nav-btn:hover {
-      background: #56B8E8;
-      color: #ffffff;
-      border-color: #56B8E8;
-      transform: scale(1.08);
-      box-shadow: 0 4px 12px rgba(86, 184, 232, 0.4);
+      background: var(--lab-cyan);
+      color: #041028;
+      box-shadow: 0 0 16px var(--lab-cyan);
     }
 
-    @media (max-width: 680px) {
-      .coverflow-container {
-        height: 250px;
-      }
-      .cf-card {
-        width: 300px;
-        height: 210px;
-        border-radius: 16px;
-      }
-      .cf-card.is-left {
-        transform: translateX(-48%) translateZ(-30px) scale(0.78) rotateY(10deg);
-      }
-      .cf-card.is-right {
-        transform: translateX(48%) translateZ(-30px) scale(0.78) rotateY(-10deg);
-      }
-    }
-
-    /* Lightbox Modal *//* Lightbox Modal *//* Lightbox Modal */
+    /* Lightbox Modal */
     #lightbox-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(5, 10, 25, 0.92);
+      background: rgba(4, 10, 28, 0.94);
       z-index: 9999;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
     #lightbox-overlay.open { display: flex; }
     #lightbox-img-wrap {
@@ -245,29 +169,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
     #lightbox-img {
       max-width: 85vw;
       max-height: 80vh;
       object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
       background: #ffffff;
-      transition: transform 0.2s ease;
+      border: 1px solid var(--lab-cyan);
     }
     #lightbox-caption {
       position: absolute;
       bottom: 12px;
       left: 0; right: 0;
       text-align: center;
-      color: #e2e8f0;
+      color: #ffffff;
       font-size: 0.9rem;
-      background: rgba(0,0,0,0.6);
-      padding: 6px 12px;
+      background: rgba(4, 10, 28, 0.85);
+      padding: 6px 16px;
       border-radius: 20px;
       width: fit-content;
       margin: 0 auto;
+      border: 1px solid rgba(0, 210, 255, 0.4);
     }
     .lb-controls {
       position: fixed;
@@ -279,7 +203,7 @@
     }
     .lb-btn {
       background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid var(--lab-cyan);
       color: #ffffff;
       border-radius: 8px;
       width: 40px;
@@ -290,15 +214,14 @@
       cursor: pointer;
       font-size: 1.2rem;
       font-weight: 700;
-      transition: background 0.2s;
     }
-    .lb-btn:hover { background: #2563eb; }
+    .lb-btn:hover { background: var(--lab-cyan); color: #041028; }
     .lb-nav-btn {
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
       background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid var(--lab-cyan);
       color: #ffffff;
       border-radius: 50%;
       width: 50px;
@@ -307,11 +230,10 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       z-index: 10000;
-      transition: all 0.2s;
     }
-    .lb-nav-btn:hover { background: #2563eb; }
+    .lb-nav-btn:hover { background: var(--lab-cyan); color: #041028; }
     #lb-prev { left: 20px; }
     #lb-next { right: 20px; }
 
@@ -322,14 +244,14 @@
       max-width: 760px;
       margin: 0 auto 20px;
       aspect-ratio: 16/9;
-      background: #0f172a;
-      border: 1px solid #cbd5e1;
-      border-radius: 14px;
+      background: #081434;
+      border: 1.5px solid var(--lab-cyan);
+      border-radius: 16px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 0 24px rgba(0, 210, 255, 0.3);
     }
     .video-placeholder-wrap iframe {
       position: absolute;
@@ -346,15 +268,15 @@
     }
     .video-placeholder-inner .vp-icon {
       font-size: 3rem;
-      color: #ef4444;
+      color: var(--lab-cyan);
       margin-bottom: 8px;
     }
     .yt-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #dc2626;
-      color: #ffffff;
+      background: linear-gradient(135deg, #00d2ff, #0284c7);
+      color: #041028;
       font-weight: 700;
       font-size: 0.95rem;
       letter-spacing: 0.05em;
@@ -362,26 +284,25 @@
       border-radius: 50px;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(220,38,38,0.35);
+      box-shadow: 0 4px 14px rgba(0, 210, 255, 0.4);
       transition: all 0.2s;
     }
     .yt-btn:hover {
-      background: #b91c1c;
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(220,38,38,0.5);
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.7);
     }
 
-    /* FAQ accordion with dark text */
+    /* FAQ accordion */
     .faq-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .faq-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
       overflow: hidden;
-      background: #f8fafc;
+      background: #ffffff;
     }
     .faq-q {
       width: 100%;
@@ -389,9 +310,9 @@
       background: #ffffff;
       border: none;
       color: #0f172a;
-      font-size: 0.98rem;
-      font-weight: 600;
-      padding: 14px 44px 14px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 44px 14px 18px;
       cursor: pointer;
       position: relative;
       transition: background 0.2s;
@@ -400,23 +321,23 @@
     .faq-q::after {
       content: '+';
       position: absolute;
-      right: 16px;
+      right: 18px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.3rem;
-      color: #2563eb;
+      font-size: 1.4rem;
+      color: var(--lab-blue);
       font-weight: 700;
     }
     .faq-q[aria-expanded="true"]::after { content: '−'; }
     .faq-q[aria-expanded="true"] {
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1.5px solid #e2e8f0;
       background: #f8fafc;
       color: #1d4ed8;
     }
     .faq-num {
       display: inline-block;
-      color: #2563eb;
-      font-weight: 700;
+      color: var(--lab-blue);
+      font-weight: 800;
       margin-right: 10px;
     }
     .faq-answer-wrap {
@@ -427,105 +348,151 @@
     }
     .faq-answer-wrap.open { max-height: 400px; }
     .faq-answer-inner {
-      padding: 14px 18px;
+      padding: 14px 20px;
       color: #334155;
-      font-size: 0.93rem;
+      font-size: 0.94rem;
       line-height: 1.7;
     }
   </style>
 </head>
 <body class="lab-page">
 
-  <!-- Background Video: Existing landing page video -->
-  <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="../assets/videos/video-theory-poster.jpg" aria-hidden="true">
-    <source src="../assets/videos/video-theory.mp4" type="video/mp4">
-  </video>
-  <div class="bg-video-overlay" aria-hidden="true"></div>
-
-  <!-- Navigation -->
-  <nav id="lab-nav" data-active="theory"></nav>
+  <!-- Navigation Bar -->
+  <nav id="lab-nav" data-active="theory" role="navigation" aria-label="Virtual Lab Sections"></nav>
 
   <main class="lab-wrap">
 
-    <!-- Hero Heading -->
-    <section class="lab-hero">
-      <h1 class="theory-page-title">THEORY</h1>
-      <p class="lab-page-sub">Comprehensive Fundamentals of Mobile IPv4 &amp; Packet Tunneling</p>
-      <div class="lab-page-bar"></div>
+    <!-- Hero / Theory Header with Curved Orbital Glow -->
+    <header class="lab-hero">
+      <div class="lab-hero-content">
+        <h1 class="lab-page-title">THEORY</h1>
+        <p class="lab-page-sub">Comprehensive Fundamentals of Mobile IPv4 &amp; Packet Tunneling</p>
+        <div class="lab-page-bar"></div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: 1. OVERVIEW (Crisp White Card matching Reference media_1794820196997_40f220ae) -->
+    <section class="lab-panel-white" aria-labelledby="th-ov-title">
+      <h2 id="th-ov-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        1. OVERVIEW
+      </h2>
+
+      <ul class="aim-bullet-list">
+        <li>
+          <span class="aim-bullet-dot"></span>
+          <span><b>Mobile IP (RFC 5944)</b> enables a device to keep a permanent IP address (home address) while moving across different networks.</span>
+        </li>
+        <li>
+          <span class="aim-bullet-dot"></span>
+          <span>It avoids connection breaks during mobility (e.g., file transfer, calls, or live sessions).</span>
+        </li>
+        <li>
+          <span class="aim-bullet-dot"></span>
+          <span>It uses a <b>Home Agent (HA)</b> and a <b>Foreign Agent (FA)</b> to maintain continuous connectivity for the <b>Mobile Node (MN)</b>.</span>
+        </li>
+      </ul>
     </section>
 
-    <!-- 1. OVERVIEW SECTION -->
-    <section class="lab-panel" aria-labelledby="th-ov-h">
-      <h2 id="th-ov-h">1. Overview</h2>
-      <p>The standard Internet Protocol architecture relies on network-prefix routing: an IP address defines both a device's identity and its topological point of attachment to the Internet. When a laptop or smartphone moves between physical networks, its IP address must either change (breaking active TCP sessions, file transfers, and socket bindings) or packets become undeliverable.</p>
-      <p><b>Mobile IP (RFC 5944)</b> solves this limitation by decoupling identity from location. It assigns each mobile device a permanent <b>Home Address</b> for identification and a temporary <b>Care-of Address (CoA)</b> for routing in foreign networks. The Home Agent intercepts packets and tunnels them to the Foreign Agent, allowing seamless mobility without requiring any modifications to correspondent hosts or transport protocols.</p>
-    </section>
+    <!-- SECTION 2: 2. DETAILED THEORY (Dark Navy Panel with 4 Chevrons and White Cards) -->
+    <section class="lab-panel-dark" aria-labelledby="th-det-title">
+      <h2 id="th-det-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/>
+          <polyline points="2 12 12 17 22 12"/>
+        </svg>
+        2. DETAILED THEORY
+      </h2>
 
-    <!-- 2. DETAILED THEORY SECTION -->
-    <section class="lab-panel" aria-labelledby="th-det-h">
-      <h2 id="th-det-h">2. Detailed Theory</h2>
-      <div class="theory-detail-section" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;">
-        
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #2563eb;border-radius:10px;padding:14px 18px;">
-          <h3 style="margin:0 0 6px;color:#1e3a8a;font-size:1.05rem;">• Mobile IP Architecture &amp; Specialized Nodes</h3>
-          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
-            Mobile IP establishes an elegant division of responsibilities across specialized network entities:
-          </p>
-          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
-            <li><b>Mobile Node (MN):</b> The roaming host or router that changes its point of attachment from one network to another while preserving its permanent IP address.</li>
-            <li><b>Correspondent Node (CN):</b> Any standard peer device or server communicating with the Mobile Node; it remains unaware of physical mobility and routes packets to the permanent Home Address.</li>
-          </ul>
+      <div class="theory-detailed-grid">
+        <!-- Row 1: Mobile IP Architecture (Cyan Chevron + White Card) -->
+        <div class="theory-row">
+          <div class="theory-pill-cyan">
+            <div class="theory-pill-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.93 4.93a10 10 0 0 1 14.14 0"/>
+                <path d="M7.76 7.76a6 6 0 0 1 8.48 0"/>
+                <circle cx="12" cy="12" r="2"/>
+                <path d="M12 14v8"/>
+              </svg>
+            </div>
+            <span>Mobile IP Architecture &amp; Specialized Nodes</span>
+          </div>
+          <div class="theory-card-white">
+            <ul>
+              <li><b>Entities:</b> Mobile Node (MN), Correspondent Node (CN), Home Agent (HA), Foreign Agent (FA).</li>
+              <li>Works together to keep the MN reachable at its permanent home address.</li>
+            </ul>
+          </div>
         </div>
 
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #3b82f6;border-radius:10px;padding:14px 18px;">
-          <h3 style="margin:0 0 6px;color:#1e3a8a;font-size:1.05rem;">• Home Agent &amp; Foreign Agent Functions</h3>
-          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
-            Mobility routing relies on coordinated agent discovery and interception:
-          </p>
-          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
-            <li><b>Home Agent (HA):</b> A router situated on the Mobile Node's home network that intercepts datagrams using Proxy ARP and constructs the encapsulation tunnel when the MN roams.</li>
-            <li><b>Foreign Agent (FA):</b> A router located in the visited foreign network that advertises mobility services, assigns the Care-of Address (CoA), and acts as the tunnel egress endpoint.</li>
-          </ul>
+        <!-- Row 2: HA & FA Functions (Purple Chevron + White Card) -->
+        <div class="theory-row">
+          <div class="theory-pill-purple">
+            <div class="theory-pill-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                <line x1="6" y1="6" x2="6.01" y2="6"/>
+                <line x1="6" y1="18" x2="6.01" y2="18"/>
+              </svg>
+            </div>
+            <span>Home Agent &amp; Foreign Agent Functions</span>
+          </div>
+          <div class="theory-card-white">
+            <ul>
+              <li><b>HA:</b> Intercepts packets and tunnels them to the FA.</li>
+              <li><b>FA:</b> Provides a Care-of Address (CoA) and delivers packets to the MN.</li>
+            </ul>
+          </div>
         </div>
 
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #0284c7;border-radius:10px;padding:14px 18px;">
-          <h3 style="margin:0 0 6px;color:#1e3a8a;font-size:1.05rem;">• Care-of Address (CoA) &amp; Registration Handshake</h3>
-          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
-            When attaching to a visited link, the MN acquires a Care-of Address and establishes binding:
-          </p>
-          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
-            <li><b>Agent Discovery:</b> The MN discovers the visited network through periodic ICMP Agent Advertisements or sends an active Agent Solicitation request.</li>
-            <li><b>Registration Handshake:</b> The MN transmits a registration request over UDP port 434 through the FA to the HA, establishing a valid mobility binding table entry for a negotiated lifetime.</li>
-          </ul>
+        <!-- Row 3: Care-of Address & Registration (Cyan Chevron + White Card) -->
+        <div class="theory-row">
+          <div class="theory-pill-cyan">
+            <div class="theory-pill-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <span>Care-of Address (CoA) &amp; Registration</span>
+          </div>
+          <div class="theory-card-white">
+            <ul>
+              <li>The MN gets a temporary CoA in a foreign network.</li>
+              <li>The MN registers this CoA with the HA (via agents) to create a mobility binding.</li>
+            </ul>
+          </div>
         </div>
 
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #059669;border-radius:10px;padding:14px 18px;">
-          <h3 style="margin:0 0 6px;color:#065f46;font-size:1.05rem;">• IP-in-IP Encapsulation &amp; Forward Tunneling</h3>
-          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
-            Packets traverse intermediate Internet routers without modifying the original payload:
-          </p>
-          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
-            <li><b>Encapsulation (RFC 2003, Protocol 4):</b> The Home Agent wraps the original IP packet inside a new 20-byte outer IP header where Source IP is HA and Destination IP is the CoA (FA).</li>
-            <li><b>Tunnel Transit:</b> Intermediate routers examine only the outer header, safely routing the datagram across arbitrary topological networks to the visited location.</li>
-          </ul>
+        <!-- Row 4: IP-in-IP Encapsulation & Tunneling (Purple Chevron + White Card) -->
+        <div class="theory-row">
+          <div class="theory-pill-purple">
+            <div class="theory-pill-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+            </div>
+            <span>IP-in-IP Encapsulation &amp; Tunneling</span>
+          </div>
+          <div class="theory-card-white">
+            <ul>
+              <li><b>HA</b> adds a new outer IP header (IP-in-IP, RFC 2003) with destination = CoA.</li>
+              <li><b>FA</b> removes the outer header (decapsulation) and forwards the original packet to the MN.</li>
+            </ul>
+          </div>
         </div>
-
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #7c3aed;border-radius:10px;padding:14px 18px;">
-          <h3 style="margin:0 0 6px;color:#5b21b6;font-size:1.05rem;">• Decapsulation, Local Delivery &amp; Reverse Tunneling</h3>
-          <p style="margin:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
-            The Foreign Agent processes the arrival and delivers the original datagram:
-          </p>
-          <ul style="margin:6px 0 0;padding-left:22px;color:#334155;line-height:1.6;font-size:0.92rem;">
-            <li><b>Decapsulation:</b> The Foreign Agent strips the outer IP header, validates the visitor table, and extracts the original inner IP datagram intact.</li>
-            <li><b>Local Link Delivery:</b> The FA forwards the recovered packet directly to the Mobile Node's MAC address over the local wireless or wired link.</li>
-            <li><b>Reverse Tunneling (RFC 3024):</b> Outbound packets from the MN can be tunneled back to the HA to avoid packet rejection caused by ingress filtering on edge firewalls.</li>
-          </ul>
-        </div>
-
       </div>
     </section>
 
-            <!-- 3. CONCEPTUAL GALLERY SECTION - 3D COVER-FLOW -->
+<!-- 3. CONCEPTUAL GALLERY SECTION - 3D COVER-FLOW -->
     <section class="lab-panel lab-gallery-dark-panel" aria-labelledby="th-gal-h" style="background:linear-gradient(145deg, rgba(12, 18, 42, 0.95), rgba(16, 26, 60, 0.92));border:1px solid rgba(86, 184, 232, 0.35);box-shadow:0 16px 40px rgba(5, 8, 22, 0.45);border-radius:20px;padding:28px 24px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <h2 id="th-gal-h" style="margin:0;color:#ffffff !important;border-bottom:2px solid #56B8E8;display:inline-block;padding-bottom:4px;">Conceptual Gallery</h2>
@@ -646,7 +613,9 @@
       <button class="lb-nav-btn" id="lb-next" aria-label="Next image">&#9654;</button>
     </div>
 
-    <!-- 4. YOUTUBE VIDEO SECTION -->
+    
+
+<!-- 4. YOUTUBE VIDEO SECTION -->
     <section class="lab-panel" aria-labelledby="th-vid-h">
       <h2 id="th-vid-h">4. Video Learning</h2>
       <div class="video-placeholder-wrap">
@@ -726,7 +695,11 @@
 
   <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
 
-  <script src="../scripts/global-nav.js"></script>
+  
+
+  </main>
+
+<script src="../scripts/global-nav.js"></script>
 
   <!-- Carousel & Lightbox Script -->
   <script>
