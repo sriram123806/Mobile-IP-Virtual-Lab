@@ -331,13 +331,15 @@ body.lab-page {
   filter: drop-shadow(0 0 6px var(--lab-cyan));
 }
 
-/* 2. Crisp White Card (Information / Clarity) */
+/* 2. Frosted Glassmorphism Card (Information / Clarity with Translucency) */
 .lab-panel-white, .lab-panel.is-light {
-  background: #ffffff !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
   color: var(--lab-text-dark) !important;
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   border-radius: 20px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 12px 36px rgba(4, 10, 28, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
   padding: 28px 32px !important;
   margin-bottom: 26px !important;
   position: relative;
@@ -496,8 +498,10 @@ body.lab-page {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  background: rgba(241, 245, 249, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(203, 213, 225, 0.85);
   border-radius: 999px;
   padding: 12px 20px;
 }
@@ -592,11 +596,14 @@ body.lab-page {
 }
 
 .theory-card-white {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
   color: #0f172a;
   border-radius: 12px;
   padding: 16px 22px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(4, 10, 28, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1074,12 +1081,14 @@ body.lab-page {
 }
 
 .step-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 14px;
   padding: 16px 18px;
   color: #0f172a;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(4, 10, 28, 0.12);
   display: flex;
   gap: 14px;
   align-items: flex-start;
@@ -1113,13 +1122,15 @@ body.lab-page {
 
 /* Diagnostic Flowcharts (Learning Page) */
 .mip-case-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
   border-radius: 16px;
   padding: 20px;
   color: #0f172a;
   margin-bottom: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(4, 10, 28, 0.12);
 }
 
 .mip-case-card h3 {
@@ -1281,12 +1292,14 @@ body.lab-page {
 }
 
 .mip-ref {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
   border-radius: 14px;
   padding: 16px 20px;
   color: #0f172a;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(4, 10, 28, 0.12);
 }
 
 .mip-ref a {

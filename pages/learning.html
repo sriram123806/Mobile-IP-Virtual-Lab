@@ -46,15 +46,17 @@
       margin-top: 14px;
     }
     .concept-row {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: rgba(248, 250, 252, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
       border-left: 4px solid #2563eb;
       border-radius: 8px;
       padding: 12px 18px;
       display: flex;
       align-items: baseline;
       gap: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 4px rgba(4, 10, 28, 0.04);
     }
     .concept-row strong {
       color: #1d4ed8;
@@ -85,14 +87,16 @@
       margin-top: 16px;
     }
     .case-book-panel {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      border: 1.5px solid rgba(255, 255, 255, 0.75);
       border-radius: 12px;
       padding: 18px 24px;
       display: flex;
       align-items: center;
       gap: 22px;
-      box-shadow: 0 3px 10px rgba(10,15,36,0.06);
+      box-shadow: 0 4px 16px rgba(4, 10, 28, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
       transition: all 0.22s ease;
     }
     .case-book-panel:hover {
@@ -406,7 +410,7 @@
     <!-- Study Cases Section -->
     <section class="lab-panel-dark" aria-labelledby="study-cases-h" id="study-cases">
       <h2 id="study-cases-h">Troubleshooting Study Cases</h2>
-      <p style="margin-bottom:14px;color:#475569;">Click <b>VIEW</b> on any study case below to open its dedicated full-screen diagnostic flowchart, troubleshooting checklist, and resolution guide:</p>
+
 
       <div class="cases-stacked-list">
 
