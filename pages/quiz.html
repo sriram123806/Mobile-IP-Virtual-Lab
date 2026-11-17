@@ -55,13 +55,13 @@
       transform: translateY(-1px);
     }
 
-    /* Distinct Selected Highlight */
+    /* Distinct Selected Highlight - GREEN */
     .mip-opt.mip-sel {
-      border: 2px solid #2563eb !important;
-      background: #eff6ff !important;
-      color: #1e3a8a !important;
+      border: 2px solid #16a34a !important;
+      background: #f0fdf4 !important;
+      color: #14532d !important;
       font-weight: 600;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18), 0 4px 12px rgba(37, 99, 235, 0.12) !important;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2), 0 4px 12px rgba(22, 163, 74, 0.12) !important;
     }
 
     .opt-badge {
@@ -79,8 +79,8 @@
       transition: all 0.2s;
     }
     .mip-opt.mip-sel .opt-badge {
-      background: #2563eb;
-      color: #ffffff;
+      background: #16a34a !important;
+      color: #ffffff !important;
     }
     .opt-text {
       flex: 1;
@@ -90,8 +90,8 @@
     .opt-check {
       font-size: 0.85rem;
       font-weight: 700;
-      color: #2563eb;
-      background: #dbeafe;
+      color: #16a34a !important;
+      background: #dcfce7 !important;
       padding: 3px 10px;
       border-radius: 20px;
       white-space: nowrap;
@@ -171,13 +171,6 @@
       <!-- Active Quiz Card -->
       <section class="lab-panel-white" id="mip-quiz-box" aria-live="polite">
         <!-- Renders dynamically via scripts/quiz.js -->
-      </section>
-
-      <!-- Attempt History Panel -->
-      <section class="lab-panel-dark">
-        <h2>Attempt History</h2>
-        <p style="font-size:0.88rem;color:#475569;margin-bottom:12px;">Your recent assessment scores stored locally in your browser session:</p>
-        <div id="mip-history"></div>
       </section>
     </div>
   </main>

@@ -149,6 +149,10 @@
     .case-view-btn {
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: #ffffff !important;
+      text-decoration: none !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: none;
       padding: 11px 24px;
       border-radius: 30px;
@@ -417,7 +421,7 @@
             <p>Packets reach the home network, but the Home Agent has no valid mobility binding for the Mobile Node, causing datagrams to be dropped or misrouted.</p>
           </div>
           <div class="case-book-action">
-            <button class="case-view-btn" type="button" onclick="openCase(1)" aria-label="View case 1 details">VIEW CASE 1 &rarr;</button>
+            <a class="case-view-btn" href="case-1.html" aria-label="View case 1 details">VIEW CASE 1 &rarr;</a>
           </div>
         </article>
 
@@ -432,7 +436,7 @@
             <p>The Mobile Node attempts attachment in a foreign network, but the Foreign Agent refuses or fails to relay registration, preventing Care-of Address binding.</p>
           </div>
           <div class="case-book-action">
-            <button class="case-view-btn" type="button" onclick="openCase(2)" aria-label="View case 2 details">VIEW CASE 2 &rarr;</button>
+            <a class="case-view-btn" href="case-2.html" aria-label="View case 2 details">VIEW CASE 2 &rarr;</a>
           </div>
         </article>
 
@@ -447,7 +451,7 @@
             <p>The Home Agent successfully intercepts the datagram but fails to construct or transmit the outer IP-in-IP tunnel packet toward the Care-of Address.</p>
           </div>
           <div class="case-book-action">
-            <button class="case-view-btn" type="button" onclick="openCase(3)" aria-label="View case 3 details">VIEW CASE 3 &rarr;</button>
+            <a class="case-view-btn" href="case-3.html" aria-label="View case 3 details">VIEW CASE 3 &rarr;</a>
           </div>
         </article>
 
@@ -462,7 +466,7 @@
             <p>Tunneled packets arrive at the Foreign Agent, but the outer header cannot be stripped or visitor list validation fails, dropping the inner datagram.</p>
           </div>
           <div class="case-book-action">
-            <button class="case-view-btn" type="button" onclick="openCase(4)" aria-label="View case 4 details">VIEW CASE 4 &rarr;</button>
+            <a class="case-view-btn" href="case-4.html" aria-label="View case 4 details">VIEW CASE 4 &rarr;</a>
           </div>
         </article>
 
@@ -477,7 +481,7 @@
             <p>The Mobile Node transitions between foreign links mid-transfer while packets are in flight, causing datagrams sent to the old Care-of Address to be lost.</p>
           </div>
           <div class="case-book-action">
-            <button class="case-view-btn" type="button" onclick="openCase(5)" aria-label="View case 5 details">VIEW CASE 5 &rarr;</button>
+            <a class="case-view-btn" href="case-5.html" aria-label="View case 5 details">VIEW CASE 5 &rarr;</a>
           </div>
         </article>
 

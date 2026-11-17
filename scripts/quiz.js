@@ -23,24 +23,12 @@ function score(qs){return qs.filter(function(q){return q.chosen===q.correct;}).l
 root.MIP_QUIZ={BANK:BANK,shuffle:shuffle,comboKey:comboKey,pick:pick,build:build,score:score,KEY:KEY};
 if(typeof document==='undefined')return;
 
-var box=document.getElementById('mip-quiz-box'),hist=document.getElementById('mip-history'),run;
+var box=document.getElementById('mip-quiz-box'),run;
 var LETTERS=['A','B','C','D'];
 
-function load(){try{return JSON.parse(localStorage.getItem(KEY))||[];}catch(e){return [];}}
-function save(h){try{localStorage.setItem(KEY,JSON.stringify(h.slice(-50)));}catch(e){}}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 
-function renderHistory(){
-  var h=load();
-  if(!h.length){hist.innerHTML='<p class="mip-empty" style="color:#64748b;font-style:italic;">No quiz attempts recorded yet.</p>';return;}
-  hist.innerHTML='<table class="mip-hist"><thead><tr><th>#</th><th>Date &amp; Time</th><th>Score</th></tr></thead><tbody>'+
-    h.slice().reverse().map(function(x,i){
-      return '<tr><td>'+(h.length-i)+'</td><td>'+esc(new Date(x.date).toLocaleString())+'</td><td><b>'+x.score+' / 5</b></td></tr>';
-    }).join('')+'</tbody></table><p style="margin-top:14px;"><button class="lab-btn" id="mip-clear" type="button" style="background:#64748b;font-size:0.8rem;padding:6px 16px;">Clear History</button></p>';
-  document.getElementById('mip-clear').onclick=function(){save([]);renderHistory();};
-}
-
-function start(){run={qs:build(BANK,load()),i:0};renderQ();}
+function start(){run={qs:build(BANK,[]),i:0};renderQ();}
 
 function renderQ(){
   var q=run.qs[run.i],last=run.i===run.qs.length-1;
@@ -83,9 +71,7 @@ function renderQ(){
 }
 
 function finish(){
-  var s=score(run.qs),h=load();
-  h.push({date:new Date().toISOString(),score:s,combo:comboKey(run.qs.map(function(q){return q.id;}))});
-  save(h);
+  var s=score(run.qs);
 
   var scoreColor = (s >= 4) ? '#10b981' : ((s >= 3) ? '#f59e0b' : '#ef4444');
   var feedbackMsg = (s === 5) ? 'Outstanding! Perfect score on Mobile IP concepts!' :
@@ -115,10 +101,8 @@ function finish(){
     '</div>';
 
   document.getElementById('mip-retake').onclick=start;
-  renderHistory();
   box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-renderHistory();
 start();
 })(typeof window!=='undefined'?window:globalThis);

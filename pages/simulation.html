@@ -748,10 +748,10 @@
     </header>
 
     <!-- ================================================================
-         SECTION 1: CONFIGURATION
+         NETWORK CONFIGURATION & MESSAGE ENCODING
          ================================================================ -->
     <section class="lab-panel-white" aria-labelledby="sec1-config-h">
-      <h2 id="sec1-config-h">SECTION 1 &mdash; Network Configuration &amp; Message Encoding</h2>
+      <h2 id="sec1-config-h">Network Configuration &amp; Message Encoding</h2>
       <p style="margin-bottom:16px;">Select the geographical locations across Tamil Nadu for the Correspondent Node, Home Agent, and Foreign Agent, then enter your transmission message.</p>
 
       <!-- Row 1: 3 Location Selectors on ONE horizontal row on desktop with short labels CN, HA, FA -->
@@ -791,10 +791,10 @@
     </section>
 
     <!-- ================================================================
-         SECTION 2: LIVE PACKET SIMULATION (Two-Column Layout)
+         LIVE PACKET SIMULATION (Two-Column Layout)
          ================================================================ -->
     <section class="lab-panel-dark" aria-labelledby="sec2-sim-h">
-      <h2 id="sec2-sim-h">SECTION 2 &mdash; Live Packet Simulation &amp; Stage Flow</h2>
+      <h2 id="sec2-sim-h">Live Packet Simulation &amp; Geographical Routing</h2>
       <p style="margin-bottom:16px;">Observe live packet traversal across real Tamil Nadu coordinates. When you press START, the right panel dynamically updates stage-by-stage without requiring scrolling.</p>
 
       <div class="sim-sec2-grid">
@@ -849,21 +849,20 @@
          SECTION 3: SIGNAL AND PACKET VISUALIZATION
          ================================================================ -->
     <!-- ================================================================
-         SECTION 3: PACKET, BITSTREAM & MODULATION (SESSION 3)
+         PACKET HEADER TRANSFORMATION & DIGITAL BITSTREAM
          ================================================================ -->
     <section class="session3-panel" aria-labelledby="sec3-vis-h">
       <div class="session3-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:8px;">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span class="session3-badge">Session 3</span>
-          <h2 class="session3-title" id="sec3-vis-h" style="margin:0;">Packet, Bitstream &amp; Modulation</h2>
+        <div>
+          <h2 class="session3-title" id="sec3-vis-h" style="margin:0;">Packet Header Transformation &amp; Digital Bitstream</h2>
         </div>
-        <button class="session3-run-btn" id="btn-run-session3" type="button" onclick="runSession3Solo()">▶ RUN SESSION 3</button>
+        <button class="session3-run-btn" id="btn-run-session3" type="button" onclick="runSession3Solo()" style="padding:7px 18px;font-size:0.84rem;">▶ Run</button>
       </div>
-      <p class="session3-subtitle">See how the packet changes, how data becomes bits and how it is transmitted using modulation.</p>
+      <p class="session3-subtitle">Real-time packet header encapsulation/decapsulation tracking across intermediate stages and continuous 8-bit ASCII bitstream transmission.</p>
 
       <!-- Subsection A: Packet Transformation -->
       <div class="session3-box">
-        <div class="session3-pill">A. Packet Transformation (Encapsulation &amp; Decapsulation)</div>
+        <div class="session3-pill">Packet Transformation (Encapsulation &amp; Decapsulation)</div>
 
         <div class="pkt-transform-row" id="pkt-transform-flow">
           <!-- Card 1: Original Packet (from CN) -->
@@ -933,9 +932,9 @@
       </div>
 
       <!-- Subsection B: Digital Bitstream -->
-      <div class="session3-box">
+      <div class="session3-box" style="margin-bottom:0;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
-          <div class="session3-pill" style="margin:0;">B. Digital Bitstream (NRZ-L Encoding)</div>
+          <div class="session3-pill" style="margin:0;">Digital Bitstream (NRZ-L Encoding)</div>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
             <div class="session3-info-badge" id="bit-msg-badge">Message: <b id="bit-msg-val">HELLO</b></div>
             <div class="session3-info-badge" id="bit-ascii-badge">ASCII (8-bit): <span id="bit-ascii-val">01001000 01000101 01001100 01001100 01001111</span></div>
@@ -951,51 +950,6 @@
         </div>
         <div id="mip-binary-out" style="display:none;"></div>
         <div id="mip-packet" style="display:none;"></div>
-      </div>
-
-      <!-- Subsection C: RF Transmission & Modulation -->
-      <div class="session3-box" style="margin-bottom:0;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
-          <div class="session3-pill" style="margin:0;">C. Radio-Frequency Transmission &amp; Modulation</div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:0.88rem;color:#cbd5e1;font-weight:600;">Select Modulation:</span>
-            <div class="mod-btn-group" style="display:inline-flex;gap:8px;">
-              <button class="mod-btn active" id="btn-bpsk" type="button" onclick="setModulation('BPSK')">BPSK</button>
-              <button class="mod-btn" id="btn-qpsk" type="button" onclick="setModulation('QPSK')">QPSK</button>
-              <button class="mod-btn" id="btn-fsk" type="button" onclick="setModulation('FSK')">FSK</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="rf-two-col-layout">
-          <!-- Left: Waveform canvas with +1, 0, -1, Time -> -->
-          <div class="rf-canvas-wrap">
-            <canvas id="mip-rf-canvas" height="120" style="width:100%;display:block;"></canvas>
-          </div>
-
-          <!-- Right: Sleek Info Card with Title, Bullets & Antenna Tower -->
-          <div class="rf-info-card">
-            <div style="flex:1;">
-              <div class="rf-pill-title" id="rf-card-title">BPSK (Binary Phase Shift Keying)</div>
-              <ul class="rf-bullets" id="rf-bullets">
-                <li>Represents bit '1' and bit '0' using two phase values (0° and 180°).</li>
-                <li>Simple and robust, suitable for low-power and noisy links.</li>
-              </ul>
-            </div>
-            <div class="rf-tower-graphic">
-              <svg width="56" height="70" viewBox="0 0 60 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M30 18L18 70H42L30 18Z" stroke="#8b5cf6" stroke-width="2.5" fill="rgba(139,92,246,0.15)"/>
-                <line x1="22" y1="36" x2="38" y2="36" stroke="#8b5cf6" stroke-width="2"/>
-                <line x1="20" y1="52" x2="40" y2="52" stroke="#8b5cf6" stroke-width="2"/>
-                <circle cx="30" cy="14" r="5" fill="#00f0ff" stroke="#fff" stroke-width="1.5"/>
-                <path d="M20 10C16 13 16 18 20 21" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
-                <path d="M14 6C8 11 8 20 14 25" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
-                <path d="M40 10C44 13 44 18 40 21" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
-                <path d="M46 6C52 11 52 20 46 25" stroke="#e879f9" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
       </div>
 
     </section>
@@ -1458,187 +1412,8 @@
   })();
   </script>
 
-  <!-- MODULATION & RF VISUALIZATION SCRIPT -->
+  <!-- NRZ-L DIGITAL BITSTREAM RENDERER -->
   <script>
-    var currentModulation = 'BPSK';
-    var modData = {
-      'BPSK': {
-        title: 'BPSK (Binary Phase Shift Keying)',
-        bullets: [
-          "Represents bit '1' and bit '0' using two phase values (0° and 180°).",
-          "Simple and robust, suitable for low-power and noisy links."
-        ]
-      },
-      'QPSK': {
-        title: 'QPSK (Quadrature Phase Shift Keying)',
-        bullets: [
-          "Encodes 2 bits per symbol into 4 discrete phase states (45°, 135°, 225°, 315°).",
-          "Doubles spectral bandwidth efficiency while maintaining high noise resistance."
-        ]
-      },
-      'FSK': {
-        title: 'FSK (Frequency Shift Keying)',
-        bullets: [
-          "Shifts carrier between two distinct frequencies (lower for '0', higher for '1').",
-          "Widely deployed in legacy wireless systems and resilient against amplitude fading."
-        ]
-      }
-    };
-
-    function setModulation(mod) {
-      currentModulation = mod;
-      ['btn-bpsk', 'btn-qpsk', 'btn-fsk'].forEach(function(id) {
-        var btn = document.getElementById(id);
-        if (btn) btn.classList.remove('active');
-      });
-      var activeBtn = document.getElementById('btn-' + mod.toLowerCase());
-      if (activeBtn) activeBtn.classList.add('active');
-
-      var data = modData[mod] || modData['BPSK'];
-      var titleEl = document.getElementById('rf-card-title');
-      var bulletsEl = document.getElementById('rf-bullets');
-      if (titleEl) titleEl.textContent = data.title;
-      if (bulletsEl) {
-        bulletsEl.innerHTML = data.bullets.map(function(b){ return '<li>' + b + '</li>'; }).join('');
-      }
-    }
-
-    (function(){
-      var canvas = document.getElementById('mip-rf-canvas');
-      if (!canvas) return;
-      var ctx   = canvas.getContext('2d');
-      var phase = 0;
-
-      function resizeRf() {
-        var dpr = window.devicePixelRatio || 1;
-        var w = canvas.clientWidth || 600;
-        canvas.width  = w * dpr;
-        canvas.height = 90 * dpr;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      resizeRf();
-      window.addEventListener('resize', resizeRf);
-
-      function drawRfWave() {
-        var dpr = window.devicePixelRatio || 1;
-        var w = canvas.width  / dpr;
-        var h = canvas.height / dpr;
-        ctx.clearRect(0, 0, w, h);
-
-        var isRunning = window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.running;
-        var cy = h / 2;
-        var amp = h * 0.36;
-
-        ctx.lineWidth = 2.2;
-        ctx.strokeStyle = '#38bdf8';
-        ctx.beginPath();
-
-        var bitIndex = 0;
-        var bits = '';
-        if (window.MIP_SIM && window.MIP_SIM.state && window.MIP_SIM.state.chars) {
-          bits = window.MIP_SIM.state.chars.map(function(c){ return c.bin; }).join('');
-        }
-        if (!bits) bits = '101011001101';
-
-        var numBits = 8;
-        var bitWidth = (w - 40) / numBits;
-        var startX = 35;
-
-        // Draw bit badges and dashed interval dividers
-        for (var b = 0; b < numBits; b++) {
-          var bx = startX + b * bitWidth;
-          var bitVal = bits[b % bits.length] || '1';
-
-          // Vertical dashed divider
-          ctx.strokeStyle = 'rgba(0, 210, 255, 0.25)';
-          ctx.setLineDash([4, 4]);
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(bx, 28);
-          ctx.lineTo(bx, h - 18);
-          ctx.stroke();
-          ctx.setLineDash([]);
-
-          // Bit badge at top
-          var badgeX = bx + bitWidth / 2;
-          ctx.fillStyle = 'rgba(14, 28, 64, 0.9)';
-          ctx.strokeStyle = 'rgba(0, 210, 255, 0.6)';
-          ctx.lineWidth = 1.2;
-          ctx.beginPath();
-          ctx.roundRect(badgeX - 10, 6, 20, 18, 4);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = '#00d2ff';
-          ctx.font = 'bold 11px Outfit, sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(bitVal, badgeX, 19);
-        }
-
-        // Draw axes: +1, 0, -1 and Time ->
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px monospace';
-        ctx.textAlign = 'right';
-        ctx.fillText('+1', 28, cy - amp + 4);
-        ctx.fillText('0', 28, cy + 3);
-        ctx.fillText('-1', 28, cy + amp + 4);
-
-        // Baseline
-        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(startX, cy);
-        ctx.lineTo(w - 10, cy);
-        ctx.stroke();
-
-        // Time arrow
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px Outfit, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('Time →', w / 2 - 20, h - 4);
-
-        // RF carrier waveform
-        ctx.lineWidth = 2.4;
-        ctx.strokeStyle = '#00d2ff';
-        ctx.shadowColor = 'rgba(0, 210, 255, 0.6)';
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-
-        for (var x = startX; x <= w - 10; x++) {
-          var segIdx = Math.floor((x - startX) / bitWidth);
-          if (segIdx < 0) segIdx = 0;
-          if (segIdx >= numBits) segIdx = numBits - 1;
-          var bit = bits[segIdx % bits.length] || '1';
-          var y = cy;
-
-          if (currentModulation === 'BPSK') {
-            var pOffset = (bit === '0') ? Math.PI : 0;
-            y = cy + amp * Math.sin(0.06 * (x - startX) + phase + pOffset);
-          } else if (currentModulation === 'QPSK') {
-            var dibit = bits.substr((Math.floor(segIdx / 2) * 2) % bits.length, 2);
-            var qOffset = (dibit === '00') ? 0 : (dibit === '01' ? Math.PI*0.5 : (dibit === '11' ? Math.PI : Math.PI*1.5));
-            y = cy + amp * Math.sin(0.06 * (x - startX) + phase + qOffset);
-          } else if (currentModulation === 'FSK') {
-            var freq = (bit === '1') ? 0.09 : 0.04;
-            y = cy + amp * Math.sin(freq * (x - startX) + phase);
-          }
-
-          if (x === startX) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-
-        if (isRunning) {
-          phase += 0.09;
-        } else {
-          phase += 0.02; // subtle continuous idle motion
-        }
-        requestAnimationFrame(drawRfWave);
-      }
-      drawRfWave();
-
-    // Independent NRZ-L waveform renderer
     (function(){
       var waveCanvas = document.getElementById('mip-wave');
       if (!waveCanvas) return;
@@ -1744,8 +1519,6 @@
         requestAnimationFrame(drawNrzl);
       }
       drawNrzl();
-    })();
-
     })();
   </script>
 

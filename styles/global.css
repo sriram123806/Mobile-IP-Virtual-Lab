@@ -90,10 +90,12 @@ body.lab-page {
   pointer-events: none;
 }
 
-.lab-bg-aim        { background-image: url('../assets/backgrounds/bg-aim.png'); }
-.lab-bg-learning   { background-image: url('../assets/backgrounds/bg-learning-new.png'), url('../assets/backgrounds/bg-learning.jpg'); }
-.lab-bg-quiz       { background-image: url('../assets/backgrounds/bg-quiz.jpg'); }
-.lab-bg-references { background-image: url('../assets/backgrounds/bg-references.jpg'); }
+.lab-bg-aim         { background-image: url('../assets/backgrounds/bg-aim-new.png'); }
+.lab-bg-procedure   { background-image: url('../assets/backgrounds/bg-procedure-new.png'); }
+.lab-bg-learning    { background-image: url('../assets/backgrounds/bg-learning-new.png'), url('../assets/backgrounds/bg-learning.jpg'); }
+.lab-bg-quiz        { background-image: url('../assets/backgrounds/bg-quiz-new.png'); }
+.lab-bg-references  { background-image: url('../assets/backgrounds/bg-references-new.png'); }
+.lab-bg-case-study  { background-image: url('../assets/backgrounds/bg-case-study.png'); }
 
 /* Content Container */
 .lab-wrap {

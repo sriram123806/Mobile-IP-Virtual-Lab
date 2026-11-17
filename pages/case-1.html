@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Case Study 1: Home Agent Cannot Find the Mobile Node | Mobile IP Virtual Lab</title>
+  <meta name="description" content="Diagnostic case study: Home Agent Cannot Find the Mobile Node. Problem description, possible causes, step-by-step diagnostic procedure and Yes/No decision flowchart.">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
+  <style>
+    .fc-flowchart {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 8px;
+    }
+    .fc-node {
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+    }
+    .fc-start {
+      background: #dbeafe;
+      border: 2px solid #3b82f6;
+      color: #1e3a8a;
+      font-weight: 700;
+      text-align: center;
+    }
+    .fc-arrow {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #64748b;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .fc-step {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .fc-q-title {
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .fc-q-badge {
+      background: #2563eb;
+      color: #ffffff;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+    .fc-branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    @media (max-width: 650px) {
+      .fc-branches { grid-template-columns: 1fr; }
+    }
+    .fc-branch-no {
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      color: #991b1b;
+      line-height: 1.5;
+    }
+    .fc-branch-no b { color: #dc2626; }
+    .fc-branch-yes {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      color: #166534;
+      line-height: 1.5;
+    }
+    .fc-branch-yes b { color: #16a34a; }
+    .fc-outcome {
+      background: #ecfdf5;
+      border: 2px solid #10b981;
+      color: #065f46;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-weight: 700;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="lab-page">
+
+  <!-- Case Study Background Image -->
+  <div class="lab-bg lab-bg-case-study" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav id="lab-nav" data-active="learning"></nav>
+
+  <main class="lab-wrap">
+    <!-- Header with Back Button -->
+    <header class="lab-hero" style="margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;width:100%;">
+        <div>
+          <span style="background:#2563eb;color:#ffffff;font-size:0.82rem;font-weight:800;padding:4px 12px;border-radius:6px;text-transform:uppercase;letter-spacing:0.06em;">Case Study 01</span>
+          <h1 class="lab-page-title" style="margin:8px 0 4px;font-size:clamp(1.5rem,3.2vw,2.4rem);">Home Agent Cannot Find the Mobile Node</h1>
+          <p class="lab-page-sub" style="margin:0;">Mobile IP Diagnostic Procedure &amp; Decision Flowchart</p>
+        </div>
+        <a class="lab-btn" href="learning.html#study-cases" style="background:#0f172a;color:#ffffff;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">&larr; Back to Learning Page</a>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+      <!-- Left Column: Details -->
+      <div>
+        <section class="lab-panel-white" style="margin-bottom:20px;">
+          <h2 style="font-size:1.25rem;color:#0f172a;margin-top:0;">Problem Description</h2>
+          <p style="font-size:0.98rem;color:#1e293b;line-height:1.65;margin-bottom:18px;">Packets reach the home network but the Home Agent has no valid mobility binding for the Mobile Node, so it cannot tunnel them.</p>
+
+          <h3 style="font-size:1.05rem;color:#1d4ed8;margin-bottom:8px;">Possible Causes</h3>
+          <ul class="aim-bullet-list" style="margin-bottom:0;">
+            <li>Registration never reached the HA or was rejected</li><li>Binding lifetime expired and was not renewed</li><li>HA does not intercept packets for the MN home address (proxy ARP missing)</li><li>Wrong MN home address or HA address configured</li>
+          </ul>
+        </section>
+
+        <section class="lab-panel-white">
+          <h2 style="font-size:1.25rem;color:#0f172a;margin-top:0;">Diagnostic Procedure</h2>
+          <ol style="margin:0 0 18px 20px;padding:0;color:#1e293b;line-height:1.65;font-size:0.95rem;">
+            <li>Check the HA mobility binding table for the MN home address</li><li>Check the binding lifetime and remaining time</li><li>Confirm the HA answers ARP for the MN home address</li><li>Verify registration messages in the HA log</li>
+          </ol>
+
+          <h3 style="font-size:1.05rem;color:#1d4ed8;margin-bottom:8px;">Corrective Actions</h3>
+          <ul class="aim-bullet-list" style="margin-bottom:18px;">
+            <li>Re-register the MN with a correct care-of address</li><li>Renew the binding lifetime</li><li>Enable interception on the home network</li>
+          </ul>
+
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px 16px;">
+            <strong style="color:#166534;font-size:0.95rem;">Expected Outcome:</strong>
+            <p style="color:#14532d;margin:4px 0 0;font-size:0.92rem;line-height:1.5;">The HA finds the binding, intercepts the packet and tunnels it to the care-of address.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Decision Flowchart -->
+      <div>
+        <section class="lab-panel-white">
+          <h2 style="font-size:1.25rem;color:#0f172a;margin-top:0;">Decision &amp; Troubleshooting Flowchart</h2>
+          <p style="font-size:0.9rem;color:#64748b;margin-bottom:14px;">Evaluate each condition sequentially. Follow Green branches when checks pass, or execute the Red corrective actions when a check fails.</p>
+
+          <div class="fc-flowchart">
+            <div class="fc-node fc-start"><span style="font-size:0.75rem;display:block;opacity:0.85;">DIAGNOSTIC START</span> Home Agent Cannot Find the Mobile Node</div>
+            <div class="fc-arrow">&darr;</div>
+            
+        <div class="fc-step">
+          <div class="fc-q-title"><span class="fc-q-badge">CHECK 1</span> Does the HA binding table contain an entry for the MN home address?</div>
+          <div class="fc-branches">
+            <div class="fc-branch-no"><b>NO &rarr;</b> Re-register the MN (Registration Request to HA) and check the HA log for a reply code.</div>
+            <div class="fc-branch-yes"><b>YES &darr;</b> Condition verified. Proceed to next step.</div>
+          </div>
+        </div>
+        <div class="fc-arrow">&darr;</div>
+        
+        <div class="fc-step">
+          <div class="fc-q-title"><span class="fc-q-badge">CHECK 2</span> Is the binding lifetime still valid?</div>
+          <div class="fc-branches">
+            <div class="fc-branch-no"><b>NO &rarr;</b> Renew the registration before the lifetime expires.</div>
+            <div class="fc-branch-yes"><b>YES &darr;</b> Condition verified. Proceed to next step.</div>
+          </div>
+        </div>
+        <div class="fc-arrow">&darr;</div>
+        
+        <div class="fc-step">
+          <div class="fc-q-title"><span class="fc-q-badge">CHECK 3</span> Does the HA intercept packets for the MN (proxy ARP active)?</div>
+          <div class="fc-branches">
+            <div class="fc-branch-no"><b>NO &rarr;</b> Enable proxy ARP / gratuitous ARP for the MN home address on the home link.</div>
+            <div class="fc-branch-yes"><b>YES &darr;</b> Condition verified. Proceed to next step.</div>
+          </div>
+        </div>
+        <div class="fc-arrow">&darr;</div>
+        
+            <div class="fc-node fc-outcome"><span style="font-size:0.75rem;display:block;opacity:0.85;">FINAL RESOLUTION</span> The HA finds the binding, intercepts the packet and tunnels it to the care-of address.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:30px;">
+      <a class="lab-btn" href="learning.html#study-cases" style="font-size:1rem;padding:12px 32px;">&larr; Return to All Study Cases</a>
+    </div>
+  </main>
+
+  <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
+
+  <script src="../scripts/global-nav.js"></script>
+</body>
+</html>
