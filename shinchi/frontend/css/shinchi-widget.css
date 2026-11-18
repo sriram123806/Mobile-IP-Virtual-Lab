@@ -108,13 +108,15 @@
 .panel {
   display: flex;
   flex-direction: column;
-  background: var(--bg);
-  border: 1.5px solid var(--line);
+  background-color: #08122a;
+  background-image: linear-gradient(rgba(6, 14, 34, 0.50), rgba(4, 10, 26, 0.65)), url("../../../assets/backgrounds/bg-shinchi-retro.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 1.5px solid rgba(0, 210, 255, 0.55);
   border-radius: var(--radius);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65), 0 0 24px rgba(0, 210, 255, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 210, 255, 0.25);
   overflow: hidden;
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -165,7 +167,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  background: var(--glass2);
+  background: #091432;
   border-bottom: 1.5px solid var(--line);
   flex-shrink: 0;
 }
@@ -266,7 +268,11 @@ summary:focus-visible,
 .welcome {
   text-align: center;
   margin: auto;
-  padding: 14px 10px;
+  padding: 18px 20px;
+  background: #091535;
+  border: 1.5px solid rgba(0, 210, 255, 0.4);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65);
   animation: pop 0.3s ease-out;
   max-width: 520px;
 }
@@ -319,20 +325,20 @@ summary:focus-visible,
 .chip {
   font: inherit;
   font-size: 12.5px;
-  padding: 7px 13px;
+  padding: 8px 14px;
   min-height: 32px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: rgba(14, 28, 68, 0.85);
-  color: #e2e8f0;
+  background: #0d1e46;
+  color: #f1f5f9;
   cursor: pointer;
   transition: all 0.18s ease;
-  backdrop-filter: blur(8px);
+  font-weight: 500;
 }
 
 .chip:hover {
   border-color: var(--shinchi-blue);
-  background: rgba(0, 210, 255, 0.18);
+  background: #152d64;
   color: #ffffff;
   transform: translateY(-1px);
 }
@@ -378,14 +384,14 @@ summary:focus-visible,
 }
 
 .bubble {
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 16px 16px 16px 4px;
-  background: var(--bot);
-  border: 1px solid var(--line);
+  background: #0a1738;
+  border: 1.5px solid rgba(0, 210, 255, 0.4);
   overflow-wrap: anywhere;
-  color: var(--ink);
+  color: #f8fafc;
   line-height: 1.55;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
 }
 
 .bubble.err {
@@ -618,7 +624,7 @@ li.flash {
   align-items: flex-end;
   gap: 8px;
   padding: 12px 14px;
-  background: var(--glass2);
+  background: #091432;
   border-top: 1.5px solid var(--line);
   position: relative;
   flex-shrink: 0;
@@ -626,8 +632,8 @@ li.flash {
 
 .composer textarea {
   flex: 1;
-  background: rgba(4, 10, 28, 0.7);
-  border: 1.5px solid var(--line);
+  background: #050c20;
+  border: 1.5px solid rgba(0, 210, 255, 0.45);
   border-radius: 12px;
   padding: 10px 14px;
   color: #ffffff;
@@ -638,11 +644,12 @@ li.flash {
   max-height: 140px;
   min-height: 42px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .composer textarea:focus {
   border-color: var(--shinchi-blue);
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.35);
 }
 
 .composer textarea::placeholder {
