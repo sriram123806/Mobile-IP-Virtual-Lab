@@ -150,7 +150,7 @@
       '<div class="log" role="log" aria-live="polite" aria-label="Conversation" tabindex="0"></div>' +
       '<form class="composer" autocomplete="off"><label class="sr" for="shin-in">Message Shinchi</label><textarea id="shin-in" rows="1" maxlength="1500" placeholder="Ask about Mobile IP, tunneling, DCN..."></textarea>' +
       '<button class="send" type="submit" aria-label="Send">&#10148;</button><div class="count" hidden></div></form>' +
-      '<div class="foot">Shinchi can make mistakes. Check important facts against your course notes and the RFCs.</div></section>';
+      '<div class="foot"></div></section>';
     root.appendChild(shell);
     shell.style.setProperty("--ph", "0");
     var Q = function (s) { return shell.querySelector(s); };
@@ -462,10 +462,16 @@
         .then(function (res) {
           if (res.ok) { msgs.push({ role: "bot", text: res.j.reply || "", ts: res.j.timestamp, data: res.j }); }
           else {
+            // For 402, 403, 405 and similar codes, fall back to local knowledge base
+            if (res.status === 402 || res.status === 403 || res.status === 405 || res.status === 401 || (res.status >= 400 && res.status < 500 && res.status !== 422 && res.status !== 429)) {
+              var fb = getOfflineKBReply(text);
+              if (fb) { msgs.push({ role: "bot", text: fb.text, ts: new Date().toISOString(), data: fb.data }); return; }
+            }
             var m = res.status === 429 ? "You're sending messages quickly. Please wait " + ((res.j && res.j.retry_after) || 10) + " seconds and try again."
               : res.status === 422 ? "That message couldn't be sent. Keep it under 1500 characters."
-              : res.status >= 500 ? "Shinchi had a problem answering. Please try again in a moment." : "Something went wrong (" + res.status + ").";
-            msgs.push({ role: "bot", error: true, text: m, retry: text, ts: new Date().toISOString() });
+              : res.status >= 500 ? (function(){ var fb = getOfflineKBReply(text); if(fb){ msgs.push({role:"bot",text:fb.text,ts:new Date().toISOString(),data:fb.data}); return null; } return "Shinchi had a problem answering. Please try again in a moment."; })()
+              : "Something went wrong (" + res.status + ").";
+            if (m) msgs.push({ role: "bot", error: true, text: m, retry: text, ts: new Date().toISOString() });
           }
         })
         .catch(function () {
