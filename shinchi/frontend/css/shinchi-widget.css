@@ -416,6 +416,7 @@ summary:focus-visible,
 }
 
 .bubble {
+  position: relative;
   padding: 14px 18px;
   border-radius: 16px 16px 16px 4px;
   background: #091535;
@@ -424,6 +425,31 @@ summary:focus-visible,
   color: #ffffff;
   line-height: 1.6;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+.copy-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 6px;
+  padding: 4px;
+  color: #7dd3fc;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+  transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+  line-height: 1;
+}
+
+.copy-icon:hover {
+  opacity: 1;
+  background: rgba(0, 210, 255, 0.2);
+  border-color: #00d2ff;
+  color: #ffffff;
 }
 
 .bubble.err {
