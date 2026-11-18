@@ -292,14 +292,39 @@
 
     function setBusy(v) { busy = v; sendBtn.disabled = v; input.setAttribute("aria-busy", v ? "true" : "false"); }
 
-    /* ------------------------------------------------------------------ Shinchi RAG Retrieval System */
+    /* ------------------------------------------------------------------ Shinchi RAG Retrieval System v2 */
+
+    // Synonym map for semantic normalization
+    var SYNONYMS = {
+      "triangular": "triangle", "routing": "route", "routed": "route", "routes": "route",
+      "tunneling": "tunnel", "tunneled": "tunnel", "tunnels": "tunnel",
+      "encapsulating": "encapsulation", "encapsulated": "encapsulation", "encapsulate": "encapsulation",
+      "decapsulating": "decapsulation", "decapsulated": "decapsulation", "decapsulate": "decapsulation",
+      "registering": "registration", "registered": "registration", "registers": "registration",
+      "discovering": "discovery", "discovered": "discovery", "discovers": "discovery",
+      "addresses": "address", "addr": "address",
+      "ha": "home agent", "fa": "foreign agent", "mn": "mobile node", "cn": "correspondent node",
+      "coa": "care of address"
+    };
+
+    var STOP_WORDS = {
+      "what": 1, "is": 1, "a": 1, "an": 1, "the": 1, "in": 1, "and": 1, "or": 1, "of": 1,
+      "how": 1, "does": 1, "do": 1, "to": 1, "for": 1, "explain": 1, "tell": 1, "me": 1,
+      "about": 1, "can": 1, "you": 1, "are": 1, "it": 1, "its": 1, "with": 1, "by": 1,
+      "at": 1, "on": 1, "from": 1, "as": 1, "please": 1, "give": 1, "define": 1, "describe": 1,
+      "briefly": 1, "detail": 1, "details": 1, "overview": 1, "work": 1, "works": 1,
+      "which": 1, "why": 1, "who": 1, "where": 1, "when": 1
+    };
+
     function stemWord(w) {
       w = String(w || "").toLowerCase().trim();
-      var suffixes = ["ing", "tions", "tion", "ular", "ulate", "ulation", "ed", "es", "s"];
+      if (SYNONYMS[w]) return SYNONYMS[w];
+      var suffixes = ["ing", "tions", "tion", "ments", "ment", "ity", "ers", "er", "ed", "es", "s"];
       for (var i = 0; i < suffixes.length; i++) {
         var s = suffixes[i];
         if (w.length > s.length + 3 && w.slice(-s.length) === s) {
-          return w.slice(0, -s.length);
+          var base = w.slice(0, -s.length);
+          return SYNONYMS[base] || base;
         }
       }
       return w;
@@ -309,15 +334,15 @@
       return String(s || "").toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
     }
 
-    var STOP_WORDS = {
-      "what": 1, "is": 1, "a": 1, "an": 1, "the": 1, "in": 1, "and": 1, "or": 1, "of": 1,
-      "how": 1, "does": 1, "do": 1, "to": 1, "for": 1, "explain": 1, "tell": 1, "me": 1,
-      "about": 1, "can": 1, "you": 1, "are": 1, "it": 1, "its": 1, "with": 1, "by": 1,
-      "at": 1, "on": 1, "from": 1, "as": 1, "please": 1, "give": 1
-    };
+    function getTokens(s) {
+      var words = normQuery(s).split(" ").filter(function(w) { return w.length > 0; });
+      var stems = words.filter(function(w) { return !STOP_WORDS[w]; }).map(stemWord);
+      return { words: words, stems: stems };
+    }
 
     function extractCoreSubject(s) {
-      return s.replace(/^(what\s+is\s+(a\s+|an\s+|the\s+)?|what\s+are\s+(the\s+)?|explain\s+(the\s+)?|how\s+does\s+(an?\s+|the\s+)?|how\s+is\s+(an?\s+|the\s+)?|describe\s+(the\s+)?)/i, "")
+      return normQuery(s)
+        .replace(/^(what\s+is\s+(a\s+|an\s+|the\s+)?|what\s+are\s+(the\s+)?|explain\s+(the\s+)?|define\s+(the\s+)?|how\s+does\s+(an?\s+|the\s+)?|how\s+is\s+(an?\s+|the\s+)?|describe\s+(the\s+)?|why\s+(is|are|do|does)\s+)/i, "")
         .replace(/\(ha\)|\(fa\)|\(mn\)|\(cn\)|\(coa\)/gi, "")
         .trim();
     }
@@ -334,9 +359,12 @@
         };
       }
 
-      var qWords = qNorm.split(" ").filter(function (w) { return w.length > 0; });
-      var qStems = qWords.filter(function (w) { return !STOP_WORDS[w]; }).map(stemWord);
+      var qT = getTokens(query);
+      var qWords = qT.words;
+      var qStems = qT.stems;
       var qCore = extractCoreSubject(qNorm);
+      var qCoreT = getTokens(qCore);
+      var qCoreStems = qCoreT.stems;
 
       // Special Viva / Exam query handling
       if (qNorm.indexOf("viva") !== -1 || qNorm.indexOf("exam question") !== -1 || qNorm.indexOf("quiz question") !== -1) {
@@ -378,15 +406,21 @@
         var examples = g.user_examples || [];
         for (var ei = 0; ei < examples.length; ei++) {
           var exNorm = normQuery(examples[ei]);
-          if (qNorm === exNorm) { gScore = 180; break; }
-          if (exNorm.split(" ").length > 1 && qNorm.indexOf(exNorm) !== -1) {
-            if (gScore < 95) gScore = 95;
+          if (qNorm === exNorm) { gScore = Math.max(gScore, 300); break; }
+          if (exNorm.split(" ").length > 1 && (" " + qNorm + " ").indexOf(" " + exNorm + " ") !== -1) {
+            gScore = Math.max(gScore, 160);
           }
         }
         var gKeywords = g.keywords || [];
         for (var ki = 0; ki < gKeywords.length; ki++) {
           var kwNorm = normQuery(gKeywords[ki]);
-          if (qWords.indexOf(kwNorm) !== -1) gScore += 40;
+          if (kwNorm === qNorm) {
+            gScore = Math.max(gScore, 250);
+          } else if ((" " + qNorm + " ").indexOf(" " + kwNorm + " ") !== -1) {
+            gScore += 60;
+          } else if (qWords.indexOf(kwNorm) !== -1) {
+            gScore += 40;
+          }
         }
         if (gScore > bestGScore) {
           bestGScore = gScore;
@@ -399,59 +433,86 @@
       var bestM = null;
       for (var mi = 0; mi < technicalKB.length; mi++) {
         var rec = technicalKB[mi];
-        var qRecNorm = normQuery(rec.question);
-        var recCore = extractCoreSubject(qRecNorm);
+        var recQNorm = normQuery(rec.question);
+        var recT = getTokens(rec.question);
+        var recWords = recT.words;
+        var recStems = recT.stems;
+        var recCore = extractCoreSubject(recQNorm);
+        var recCoreStems = getTokens(recCore).stems;
         var mScore = 0;
 
-        // Exact title match or core subject match
-        if (qNorm === qRecNorm) {
-          mScore += 350;
-        } else if (qNorm.length >= 8 && qRecNorm.indexOf(qNorm) !== -1) {
-          mScore += 180;
-        } else if (qRecNorm.length >= 8 && qNorm.indexOf(qRecNorm) !== -1) {
-          mScore += 180;
-        }
+        // Exact title match
+        if (qNorm === recQNorm) { mScore += 500; }
 
-        if (qCore.length >= 4 && recCore.indexOf(qCore) === 0) {
-          mScore += 170;
-        }
-
-        var recWords = qRecNorm.split(" ").filter(function (w) { return w.length > 0; });
-        var recStems = recWords.filter(function (w) { return !STOP_WORDS[w]; }).map(stemWord);
-
-        // Question words & stems overlap
-        for (var qsi = 0; qsi < qStems.length; qsi++) {
-          var qs = qStems[qsi];
-          if (recStems.indexOf(qs) !== -1) mScore += 50;
-        }
-        for (var qwi = 0; qwi < qWords.length; qwi++) {
-          var qw = qWords[qwi];
-          if (!STOP_WORDS[qw] && recWords.indexOf(qw) !== -1) mScore += 30;
-        }
-
-        // Keyword matches
-        var keywords = rec.keywords || [];
-        for (var kwi = 0; kwi < keywords.length; kwi++) {
-          var kw = normQuery(keywords[kwi]);
-          if (kw.length >= 3 && qNorm.indexOf(kw) !== -1) {
-            mScore += 75;
-          } else {
-            var kwStems = kw.split(" ").map(stemWord);
-            for (var si = 0; si < qStems.length; si++) {
-              if (kwStems.indexOf(qStems[si]) !== -1) mScore += 25;
+        // Core subject matching
+        if (qCore && recCore) {
+          if (qCore === recCore) {
+            mScore += 350;
+          } else if (qCore.length >= 4 && (" " + recCore + " ").indexOf(" " + qCore + " ") !== -1) {
+            mScore += 200;
+          } else if (recCore.length >= 4 && (" " + qCore + " ").indexOf(" " + recCore + " ") !== -1) {
+            mScore += 180;
+          }
+          // All core stems match
+          if (qCoreStems.length > 0) {
+            var allMatch = true;
+            for (var ci2 = 0; ci2 < qCoreStems.length; ci2++) {
+              if (recCoreStems.indexOf(qCoreStems[ci2]) === -1) { allMatch = false; break; }
+            }
+            if (allMatch) {
+              mScore += 250;
+              // Boost for introductory queries hitting definitional questions
+              if (qCoreStems.length <= 2 && /what is|explain|what are|define/i.test(recQNorm)) {
+                mScore += 120;
+              }
             }
           }
         }
 
-        // Answer stem overlap
-        if (mScore < 50 && qStems.length > 0) {
-          var ansNorm = normQuery(rec.answer);
-          var ansStems = ansNorm.split(" ").filter(function (w) { return w.length > 2; }).map(stemWord);
+        // Stem overlap between query and record question
+        var stemMatches = 0;
+        for (var qsi = 0; qsi < qStems.length; qsi++) {
+          if (recStems.indexOf(qStems[qsi]) !== -1) stemMatches++;
+        }
+        if (stemMatches > 0) {
+          mScore += stemMatches * 60;
+          if (qStems.length > 0 && stemMatches === qStems.length) {
+            mScore += 150; // All query terms present in record
+          }
+        }
+
+        // Keyword matching
+        var keywords = rec.keywords || [];
+        for (var kwi = 0; kwi < keywords.length; kwi++) {
+          var kw = normQuery(keywords[kwi]);
+          var kwStems = getTokens(kw).stems;
+          if (kw === qNorm || (qCore && kw === qCore)) {
+            mScore += 300;
+          } else if (kw.length >= 3 && (" " + qNorm + " ").indexOf(" " + kw + " ") !== -1) {
+            mScore += 160;
+          } else if (kwStems.length > 0) {
+            var kwAllMatch = true;
+            for (var kci = 0; kci < kwStems.length; kci++) {
+              if (qStems.indexOf(kwStems[kci]) === -1) { kwAllMatch = false; break; }
+            }
+            if (kwAllMatch) {
+              mScore += 120;
+            } else {
+              for (var ksi = 0; ksi < qStems.length; ksi++) {
+                if (kwStems.indexOf(qStems[ksi]) !== -1) { mScore += 35; break; }
+              }
+            }
+          }
+        }
+
+        // Answer body matching for deeper/paraphrased queries
+        if (mScore < 100 && qStems.length >= 2) {
+          var ansStems = getTokens(rec.answer).stems;
           var aCount = 0;
           for (var asi = 0; asi < qStems.length; asi++) {
             if (ansStems.indexOf(qStems[asi]) !== -1) aCount++;
           }
-          if (aCount >= 2) mScore += aCount * 14;
+          if (aCount >= 2) mScore += aCount * 15;
         }
 
         if (mScore > bestMScore) {
@@ -460,63 +521,52 @@
         }
       }
 
-      // 3. Construct Final RAG Response
-      // If strong technical match, return technical answer
-      if (bestMScore >= 50 && bestMScore >= bestGScore) {
-        var ansText = bestM.answer;
-
-        // Include structured flow steps / flowchart if available
-        if (bestM.flow_steps && bestM.flow_steps.length > 0) {
-          var steps = bestM.flow_steps;
-          ansText += "\n\n**📋 Operational Flow:**\n";
-          if (steps.length >= 3) {
-            var chart = steps.map(function (s, idx) {
-              var shortTitle = s.length > 25 ? s.slice(0, 22) + "…" : s;
-              return "[" + (idx + 1) + ". " + shortTitle + "]";
-            }).join(" ➔ ");
-            ansText += chart + "\n\n";
-          }
-          for (var stepIdx = 0; stepIdx < steps.length; stepIdx++) {
-            ansText += (stepIdx + 1) + ". " + steps[stepIdx] + "\n";
-          }
-        }
-
-        // Generate contextually relevant suggestions
-        var suggs = [];
-        var cat = bestM.category;
-        for (var ci = 0; ci < technicalKB.length; ci++) {
-          var other = technicalKB[ci];
-          if (other.id !== bestM.id && other.category === cat && suggs.length < 3) {
-            suggs.push(other.question);
-          }
-        }
-        if (suggs.length < 3) {
-          var defaultPool = ["What is a Home Agent?", "What is Care-of Address?", "Explain Encapsulation vs Decapsulation", "What is Triangular Routing?"];
-          for (var dpi = 0; dpi < defaultPool.length; dpi++) {
-            if (defaultPool[dpi] !== bestM.question && suggs.indexOf(defaultPool[dpi]) === -1 && suggs.length < 3) {
-              suggs.push(defaultPool[dpi]);
-            }
-          }
-        }
-
+      // 3. Decision: Greetings beat technical only when greeting score is high and no strong tech match
+      if (bestGScore >= 100 && bestGScore > bestMScore) {
+        var gResps = bestG.responses || ["Hello! How can I help with your Mobile IP studies today?"];
         return {
-          text: ansText,
-          data: { suggestions: suggs }
-        };
-      }
-
-      // If greeting match, return greeting response
-      if (bestGScore >= 45) {
-        var responses = bestG.responses || ["Hello! How can I help with your Mobile IP studies today?"];
-        var chosenResponse = responses[Math.floor(Math.random() * responses.length)];
-        return {
-          text: chosenResponse,
+          text: gResps[Math.floor(Math.random() * gResps.length)],
           data: { suggestions: ["What is Mobile IP?", "What is a Home Agent?", "Explain Encapsulation", "How does Packet Delivery work?"] }
         };
       }
 
-      // Weak technical match
-      if (bestMScore >= 35) {
+      // Strong technical match
+      if (bestMScore >= 160) {
+        var ansText = bestM.answer;
+        if (bestM.flow_steps && bestM.flow_steps.length > 0) {
+          var steps = bestM.flow_steps;
+          ansText += "\n\n**Flow:**\n";
+          for (var stepIdx = 0; stepIdx < steps.length; stepIdx++) {
+            ansText += (stepIdx + 1) + ". " + steps[stepIdx] + "\n";
+          }
+        }
+        var suggs = [];
+        for (var sci = 0; sci < technicalKB.length; sci++) {
+          var other = technicalKB[sci];
+          if (other.id !== bestM.id && other.category === bestM.category && suggs.length < 3) {
+            suggs.push(other.question);
+          }
+        }
+        if (suggs.length < 3) {
+          var pool = ["What is a Home Agent?", "What is Care-of Address?", "Explain Encapsulation", "What is Triangular Routing?", "What is Reverse Tunneling?"];
+          for (var pi = 0; pi < pool.length; pi++) {
+            if (pool[pi] !== bestM.question && suggs.indexOf(pool[pi]) === -1 && suggs.length < 3) suggs.push(pool[pi]);
+          }
+        }
+        return { text: ansText, data: { suggestions: suggs } };
+      }
+
+      // Greeting fallback (lower confidence)
+      if (bestGScore >= 60) {
+        var gResps2 = bestG.responses || ["Hello! How can I help?"];
+        return {
+          text: gResps2[Math.floor(Math.random() * gResps2.length)],
+          data: { suggestions: ["What is Mobile IP?", "What is a Home Agent?", "Explain Encapsulation", "How does Packet Delivery work?"] }
+        };
+      }
+
+      // Weaker technical match
+      if (bestMScore >= 120) {
         return {
           text: bestM.answer,
           data: { suggestions: ["What is a Home Agent?", "What is a Foreign Agent?", "What is Care-of Address?"] }
