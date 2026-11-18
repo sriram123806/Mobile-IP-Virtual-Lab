@@ -754,6 +754,17 @@ body.lab-page {
   padding: 28px 30px;
   margin-bottom: 28px;
   color: #ffffff;
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+.session3-box-outer,
+.session3-box,
+.pkt-transform-row,
+.pkt-step-card,
+.pkt-step-desc {
+  overflow-y: visible !important;
+  max-height: none !important;
 }
 
 .session3-top {

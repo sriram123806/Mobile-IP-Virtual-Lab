@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Packet Dash – Live Gameplay | Mobile IP Virtual Lab</title>
+  <meta name="description" content="Play Packet Dash: Experience Mobile IP Home Agent encapsulation, tunneling, and Foreign Agent decapsulation in an interactive adventure.">
+  <meta name="theme-color" content="#050816">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
+
+  <style>
+    /* ================================================================
+       SQUID GAME STAIRCASE BACKGROUND
+       ================================================================ */
+    .lab-bg-game {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('../assets/backgrounds/bg-game-staircase.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .lab-bg-game::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(4, 9, 24, 0.42);
+    }
+
+    /* Page container */
+    .play-page-wrap {
+      position: relative;
+      z-index: 1;
+      min-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 20px 40px;
+      box-sizing: border-box;
+    }
+
+    /* Controls header strip */
+    .play-header-strip {
+      width: 100%;
+      max-width: 1060px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .play-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .play-title {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: 0.04em;
+      text-shadow: 0 0 16px rgba(0, 210, 255, 0.6);
+    }
+
+    .play-payload-pill {
+      font-size: 0.88rem;
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      color: #d1fae5;
+      background: #064e3b;
+      border: 1px solid #10b981;
+      padding: 4px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .play-payload-pill b {
+      color: #ffffff;
+    }
+
+    .play-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-fs-toggle {
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: #ffffff;
+      border: 1px solid #38bdf8;
+      border-radius: 10px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.86rem;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-fs-toggle:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.6);
+      background: linear-gradient(135deg, #38bdf8, #1d4ed8);
+    }
+
+    .btn-change-msg {
+      background: #0f1c3d;
+      color: #7dd3fc;
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      border-radius: 10px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      font-size: 0.86rem;
+      padding: 8px 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-change-msg:hover {
+      background: #182c60;
+      color: #ffffff;
+      border-color: #00d2ff;
+    }
+
+    /* Embedded Game Container (Medium-to-large, solid, sharp) */
+    .game-embed-container {
+      width: 100%;
+      max-width: 1060px;
+      height: 610px;
+      background: #060d24;
+      border: 2px solid rgba(0, 210, 255, 0.6);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 210, 255, 0.25);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .game-embed-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #000000;
+    }
+
+    /* Fullscreen Mode on Container */
+    .game-embed-container.is-fullscreen {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      max-height: none !important;
+      border-radius: 0 !important;
+      border: none !important;
+      z-index: 999999 !important;
+      margin: 0 !important;
+    }
+
+    .btn-exit-fs-float {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      z-index: 10;
+      background: rgba(239, 68, 68, 0.9);
+      color: #ffffff;
+      border: 1.5px solid #ffffff;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s;
+    }
+
+    .btn-exit-fs-float:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+
+    .game-embed-container.is-fullscreen .btn-exit-fs-float {
+      display: block;
+    }
+
+    /* Bottom Quick Guide Bar */
+    .game-controls-bar {
+      width: 100%;
+      max-width: 1060px;
+      margin-top: 14px;
+      background: #091330;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      border-radius: 12px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      box-sizing: border-box;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+    }
+
+    .controls-keys {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .controls-keys kbd {
+      background: #04091c;
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      border-radius: 6px;
+      padding: 2px 8px;
+      color: #38bdf8;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.82rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .game-embed-container {
+        height: 480px;
+      }
+      .play-header-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body class="lab-page">
+
+  <!-- Squid Game Colorful Staircase Background Visual -->
+  <div class="lab-bg-game" aria-hidden="true"></div>
+
+  <!-- Global Website Navigation Bar (Always Accessible During Gameplay) -->
+  <nav id="lab-nav" data-active="game" role="navigation" aria-label="Virtual Lab Sections"></nav>
+
+  <div class="play-page-wrap">
+
+    <!-- Top Action & Info Bar -->
+    <div class="play-header-strip">
+      <div class="play-title-wrap">
+        <h1 class="play-title">PACKET DASH</h1>
+        <div class="play-payload-pill">
+          <span>Payload:</span>
+          <b id="active-payload-text">"Hello, I'm Sriram!"</b>
+        </div>
+      </div>
+      <div class="play-actions">
+        <button id="btn-fs" class="btn-fs-toggle" type="button" title="Toggle Full Screen view">
+          <span>⛶</span> Full Screen
+        </button>
+        <a href="game-message.html" class="btn-change-msg" title="Change your packet message">
+          ✏️ Change Message
+        </a>
+        <a href="game.html" class="btn-change-msg" title="Back to Game Overview">
+          ← Game Overview
+        </a>
+      </div>
+    </div>
+
+    <!-- Medium-to-Large Embedded Game Container -->
+    <div class="game-embed-container" id="game-container">
+      <button id="btn-exit-fs" class="btn-exit-fs-float" type="button" title="Exit Full Screen">
+        ✕ Exit Full Screen
+      </button>
+      <iframe id="game-frame" class="game-embed-frame" title="Packet Dash Game" allow="autoplay"></iframe>
+    </div>
+
+    <!-- Bottom Quick Controls Bar -->
+    <div class="game-controls-bar">
+      <div class="controls-keys">
+        <span><b>Controls:</b></span>
+        <span><kbd>←</kbd> <kbd>→</kbd> Move</span>
+        <span><kbd>SPACE</kbd> Jump</span>
+        <span><kbd>P</kbd> Pause</span>
+        <span><kbd>M</kbd> Mute</span>
+      </div>
+      <div>
+        <span style="color:#a7f3d0;">Goal:</span> Deliver packet from CN through HA encapsulation and FA decapsulation to Mobile Node.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Global Navigation Script -->
+  <script src="../scripts/global-nav.js"></script>
+
+  <!-- Gameplay Page Logic -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Read message from URL parameter or sessionStorage
+      var params = new URLSearchParams(window.location.search);
+      var msg = params.get('msg');
+      if (!msg) {
+        try {
+          var saved = sessionStorage.getItem('packet_dash_msg');
+          if (saved && saved.trim()) msg = saved.trim();
+        } catch (e) {}
+      }
+      if (!msg) msg = "Hello, I'm Sriram!";
+
+      // Update payload text display
+      var payloadEl = document.getElementById('active-payload-text');
+      if (payloadEl) payloadEl.textContent = '"' + msg + '"';
+
+      // Load Game in Iframe
+      var frame = document.getElementById('game-frame');
+      var container = document.getElementById('game-container');
+      var btnFs = document.getElementById('btn-fs');
+      var btnExitFs = document.getElementById('btn-exit-fs');
+
+      var encoded = encodeURIComponent(msg);
+      frame.src = '../game/index.html?msg=' + encoded;
+
+      // Full-screen Toggle
+      var isFullscreen = false;
+      function toggleFullScreen() {
+        isFullscreen = !isFullscreen;
+        container.classList.toggle('is-fullscreen', isFullscreen);
+        btnFs.innerHTML = isFullscreen ? '<span>✕</span> Window View' : '<span>⛶</span> Full Screen';
+        if (isFullscreen) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+
+      btnFs.addEventListener('click', toggleFullScreen);
+      btnExitFs.addEventListener('click', toggleFullScreen);
+
+      // Escape key exits fullscreen
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && isFullscreen) {
+          toggleFullScreen();
+        }
+      });
+
+      // Listen for postMessage from game iframe
+      window.addEventListener('message', function (e) {
+        if (!e.data) return;
+        if (e.data.type === 'EXIT_GAME') {
+          window.location.href = 'game.html';
+        } else if (e.data.type === 'CHANGE_MESSAGE') {
+          window.location.href = 'game-message.html';
+        }
+      });
+
+    })();
+  </script>
+
+  <!-- Shinchi Floating Chatbot Widget Script -->
+  <script src="../shinchi/frontend/js/shinchi-widget.js" data-mode="floating"></script>
+
+</body>
+</html>

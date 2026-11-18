@@ -136,7 +136,7 @@ addEventListener('keydown',e=>{if(['Space','ArrowUp','ArrowLeft','ArrowRight'].i
 addEventListener('keyup',e=>keys[e.code]=0);addEventListener('blur',()=>{for(const k in keys)keys[k]=0});
 const hold=(id,k)=>{const b=$(id);b.onpointerdown=e=>{e.preventDefault();keys[k]=1};['pointerup','pointerleave','pointercancel'].forEach(v=>b.addEventListener(v,()=>keys[k]=0))};
 hold('tl','ArrowLeft');hold('tr','ArrowRight');$('tj').onpointerdown=e=>{e.preventDefault();jump()};
-$('go').onclick=()=>{snd(440,.25,'triangle',.1,880);try{const r=document.documentElement.requestFullscreen;r&&!document.fullscreenElement&&r.call(document.documentElement).catch(()=>{})}catch(e){}reset()};
+$('go').onclick=()=>{snd(440,.25,'triangle',.1,880);reset()};
 $('hw').onclick=()=>{snd(660,.12,'triangle');sh('how')};$('hb').onclick=()=>{snd(500,.12,'triangle');sh('how',0)};$('ra').onclick=reset;setLives();$('again').onclick=reset;$('br').onclick=reset;$('bp').onclick=pause;$('bm').onclick=mute;
 const exitGame = () => {
   if (window.parent && window.parent !== window) {

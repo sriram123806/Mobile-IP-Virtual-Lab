@@ -163,13 +163,26 @@
 
   /* ---- Public API ---- */
   
-  /* Auto-mount Shinchi Chatbot across all lab pages if not present */
+  /* Auto-mount Shinchi Chatbot across all lab pages except landing page */
   function mountShinchi() {
+    var p = window.location.pathname.toLowerCase();
+    var isLanding = p === '/' || p.endsWith('/index.html') || p.endsWith('/mobile-ip-virtual-lab/') || p.endsWith('/mobile-ip-virtual-lab/index.html');
+    if (isLanding) {
+      return;
+    }
     if (document.getElementById('shinchi-host') || document.querySelector('script[src*="shinchi-widget.js"]')) {
       return;
     }
     var inPages = window.location.pathname.indexOf('/pages/') !== -1;
+    var kbPath = inPages ? '../shinchi/frontend/js/shinchi-kb-data.js' : 'shinchi/frontend/js/shinchi-kb-data.js';
     var scriptPath = inPages ? '../shinchi/frontend/js/shinchi-widget.js' : 'shinchi/frontend/js/shinchi-widget.js';
+
+    if (!window.SHINCHI_KB_GREETINGS && !document.querySelector('script[src*="shinchi-kb-data.js"]')) {
+      var kb = document.createElement('script');
+      kb.src = kbPath;
+      document.body.appendChild(kb);
+    }
+
     var s = document.createElement('script');
     s.src = scriptPath;
     s.setAttribute('data-mode', 'floating');

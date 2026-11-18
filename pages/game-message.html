@@ -471,20 +471,6 @@
     </div>
   </div>
 
-  <!-- GAMEPLAY EMBED (fixed fullscreen overlay — no browser Fullscreen API) -->
-  <div class="gameplay-section" id="gameplay-section" aria-hidden="true">
-    <div class="gameplay-topbar">
-      <div class="gameplay-topbar-title">
-        <span>&#127918; Packet Dash</span>
-        <span class="gameplay-topbar-payload">Active Payload: <b id="topbar-msg">Hello, I'm Sriram!</b></span>
-      </div>
-      <button id="btn-exit-game" class="btn-exit-game" type="button">
-        &#10005; EXIT GAME — Back to Website
-      </button>
-    </div>
-    <iframe id="game-iframe" class="gameplay-iframe" title="Packet Dash Gameplay" allow="autoplay"></iframe>
-  </div>
-
   <!-- Global Navigation Script -->
   <script src="../scripts/global-nav.js"></script>
 
@@ -501,10 +487,6 @@
       var confirmedDisplay = document.getElementById('confirmed-msg-display');
       var btnChangeMsg = document.getElementById('btn-change-msg');
       var btnStartGame = document.getElementById('btn-start-game');
-      var gameplaySection = document.getElementById('gameplay-section');
-      var gameIframe = document.getElementById('game-iframe');
-      var topbarMsg = document.getElementById('topbar-msg');
-      var btnExitGame = document.getElementById('btn-exit-game');
 
       var activeMessage = "Hello, I'm Sriram!";
 
@@ -567,45 +549,14 @@
         btnOk.style.background = '';
       });
 
-      // Launch game — embed iframe
+      // Start Game — Navigate to dedicated gameplay page
       btnStartGame.addEventListener('click', function () {
-        topbarMsg.textContent = activeMessage;
         var encodedMsg = encodeURIComponent(activeMessage);
-        gameIframe.src = '../game/index.html?msg=' + encodedMsg;
-        gameplaySection.classList.add('is-active');
-        gameplaySection.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        window.location.href = 'game-play.html?msg=' + encodedMsg;
       });
 
-      // Exit game
-      function exitGame() {
-        gameplaySection.classList.remove('is-active');
-        gameplaySection.setAttribute('aria-hidden', 'true');
-        gameIframe.src = 'about:blank';
-        document.body.style.overflow = '';
-      }
-
-      btnExitGame.addEventListener('click', exitGame);
-
-      // Listen for postMessage from game iframe
-      window.addEventListener('message', function (e) {
-        if (!e.data) return;
-        if (e.data.type === 'EXIT_GAME') {
-          exitGame();
-        } else if (e.data.type === 'CHANGE_MESSAGE') {
-          exitGame();
-          input.focus();
-          input.select();
-          startSection.classList.remove('is-visible');
-        }
-      });
-
-      // Escape to exit game
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && gameplaySection.classList.contains('is-active')) {
-          exitGame();
-        }
-      });
+    })();
+  </script>
 
     })();
   </script>

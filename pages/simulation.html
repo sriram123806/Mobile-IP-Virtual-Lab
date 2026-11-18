@@ -35,6 +35,9 @@
       padding: 26px 28px !important;
       color: #ffffff !important;
       margin-bottom: 24px;
+      overflow: visible !important;
+      max-height: none !important;
+      height: auto !important;
     }
     .session3-header {
       display: flex;
@@ -75,6 +78,9 @@
       padding: 18px 22px;
       margin-bottom: 22px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      overflow-y: visible !important;
+      max-height: none !important;
+      height: auto !important;
     }
     .session3-pill {
       background: linear-gradient(135deg, #7c3aed, #4f46e5);
@@ -92,10 +98,13 @@
     /* A. Packet Transformation Cards */
     .pkt-transform-row {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: space-between;
       gap: 8px;
       overflow-x: auto;
+      overflow-y: visible !important;
+      max-height: none !important;
+      height: auto !important;
       padding: 6px 2px 14px;
       scrollbar-width: thin;
     }
@@ -113,6 +122,9 @@
       text-align: center;
       transition: all 0.3s ease;
       position: relative;
+      overflow: visible !important;
+      max-height: none !important;
+      height: auto !important;
     }
     .pkt-step-card.is-active-step {
       border-color: #00f0ff;
