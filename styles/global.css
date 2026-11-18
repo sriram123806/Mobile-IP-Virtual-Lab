@@ -90,6 +90,16 @@ body.lab-page {
   pointer-events: none;
 }
 
+
+/* Game Page Dreamcore Background */
+.lab-bg-game {
+  background-image: url('../assets/backgrounds/bg-game-dreamcore.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
 .lab-bg-aim         { background-image: url('../assets/backgrounds/bg-aim-new.png'); }
 .lab-bg-procedure   { background-image: url('../assets/backgrounds/bg-procedure-new.png'); }
 .lab-bg-learning    { background-image: url('../assets/backgrounds/bg-learning-new.png'), url('../assets/backgrounds/bg-learning.jpg'); }
@@ -146,19 +156,19 @@ body.lab-page {
 .lab-nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   list-style: none;
 }
 
 .lab-nav-links a {
   display: inline-block;
-  padding: 8px 18px;
+  padding: 7px 14px;
   border-radius: 999px;
   text-decoration: none;
   color: #94a3b8;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   transition: all 0.2s ease;
 }

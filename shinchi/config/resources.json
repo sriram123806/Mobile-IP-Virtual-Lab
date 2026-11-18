@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "resources": [
+    {
+      "id": "rfc5944",
+      "title": "RFC 5944 - IP Mobility Support for IPv4, Revised",
+      "url": "https://www.rfc-editor.org/rfc/rfc5944",
+      "kind": "standard",
+      "status": "current",
+      "badge": null,
+      "description": "The current Mobile IPv4 specification: agent discovery, registration, tunneling, mobility bindings.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "mobile ip",
+        "registration",
+        "agent discovery",
+        "home agent",
+        "foreign agent",
+        "care-of address",
+        "mobility binding",
+        "mobile node",
+        "correspondent node",
+        "home address",
+        "packet delivery",
+        "rfc",
+        "standards"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "rfc3344",
+      "title": "RFC 3344 - IP Mobility Support for IPv4",
+      "url": "https://www.rfc-editor.org/info/rfc3344/",
+      "kind": "standard",
+      "status": "superseded",
+      "badge": "Superseded by RFC 5944",
+      "description": "The earlier Mobile IPv4 specification, kept for historical reference. Use RFC 5944 for the current text.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "mobile ip",
+        "registration",
+        "agent discovery",
+        "home agent",
+        "foreign agent",
+        "care-of address",
+        "rfc",
+        "standards"
+      ],
+      "priority": 9
+    },
+    {
+      "id": "rfc2003",
+      "title": "RFC 2003 - IP Encapsulation within IP",
+      "url": "https://www.rfc-editor.org/info/rfc2003/",
+      "kind": "standard",
+      "status": "current",
+      "badge": null,
+      "description": "Defines IP-in-IP: how an outer IP header is added around an original datagram and removed at the tunnel exit.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "encapsulation",
+        "decapsulation",
+        "ip-in-ip",
+        "tunneling",
+        "ip header",
+        "outer header",
+        "inner header",
+        "tunnel"
+      ],
+      "priority": 2
+    },
+    {
+      "id": "rfc3024",
+      "title": "RFC 3024 - Reverse Tunneling for Mobile IP, revised",
+      "url": "https://www.rfc-editor.org/rfc/rfc3024",
+      "kind": "standard",
+      "status": "current",
+      "badge": null,
+      "description": "Explains reverse tunneling from the care-of address to the home agent, and why it avoids ingress-filtering and triangle-routing problems.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "reverse tunneling",
+        "triangle routing",
+        "ingress filtering"
+      ],
+      "priority": 2
+    },
+    {
+      "id": "ietf",
+      "title": "Internet Engineering Task Force (IETF)",
+      "url": "https://www.ietf.org/",
+      "kind": "website",
+      "status": "reference",
+      "badge": null,
+      "description": "The standards body behind the RFCs; starting point for finding and following internet standards.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "rfc",
+        "standards",
+        "mobile ip",
+        "networking basics"
+      ],
+      "priority": 20
+    },
+    {
+      "id": "netacad",
+      "title": "Cisco Networking Academy",
+      "url": "https://www.netacad.com/",
+      "kind": "website",
+      "status": "reference",
+      "badge": null,
+      "description": "Structured networking courses: IP addressing, routing, switching and network fundamentals.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "networking basics",
+        "osi model",
+        "ip addressing",
+        "routing",
+        "data communication",
+        "subnetting"
+      ],
+      "priority": 30
+    },
+    {
+      "id": "cloudflare",
+      "title": "Cloudflare Learning Center",
+      "url": "https://www.cloudflare.com/learning/",
+      "kind": "website",
+      "status": "reference",
+      "badge": null,
+      "description": "Short, readable explainers on networking concepts such as IP addresses, DNS, TCP/UDP and tunneling.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "networking basics",
+        "osi model",
+        "ip addressing",
+        "tcp",
+        "udp",
+        "tunneling",
+        "routing",
+        "data communication"
+      ],
+      "priority": 31
+    },
+    {
+      "id": "gfg",
+      "title": "GeeksforGeeks: Computer Networks",
+      "url": "https://www.geeksforgeeks.org/computer-network-tutorials/",
+      "kind": "website",
+      "status": "reference",
+      "badge": null,
+      "description": "Tutorial articles on computer-network topics (layers, addressing, routing, error control) with worked examples.",
+      "authors": null,
+      "note": null,
+      "topics": [
+        "networking basics",
+        "osi model",
+        "ip addressing",
+        "routing",
+        "subnetting",
+        "error detection",
+        "flow control",
+        "data communication",
+        "switching",
+        "multiplexing"
+      ],
+      "priority": 32
+    },
+    {
+      "id": "forouzan",
+      "title": "Data Communications and Networking",
+      "url": null,
+      "kind": "book",
+      "status": "reference",
+      "badge": null,
+      "authors": "Behrouz A. Forouzan",
+      "description": "A widely used first textbook on data communication and networking.",
+      "covers": "Layer-by-layer coverage from signals and modulation up to the application layer, with many worked examples. A good first book for an ECE data communication course.",
+      "note": "No verified publisher link was available when this list was prepared. Check your library or the publisher's website for the current edition.",
+      "topics": [
+        "book",
+        "textbook",
+        "data communication",
+        "data communication networks",
+        "dcn",
+        "networking basics",
+        "modulation",
+        "multiplexing",
+        "error detection"
+      ],
+      "priority": 40
+    },
+    {
+      "id": "kurose",
+      "title": "Computer Networking: A Top-Down Approach",
+      "url": null,
+      "kind": "book",
+      "status": "reference",
+      "badge": null,
+      "authors": "James F. Kurose and Keith W. Ross",
+      "description": "A top-down textbook that starts from applications and works down to the link layer.",
+      "covers": "Starts with applications and works down to the link layer, with a strong treatment of transport, routing and wireless/mobile networks.",
+      "note": "No verified publisher link was available when this list was prepared. Check your library or the publisher's website for the current edition.",
+      "topics": [
+        "book",
+        "textbook",
+        "data communication",
+        "data communication networks",
+        "dcn",
+        "networking basics",
+        "routing",
+        "tcp"
+      ],
+      "priority": 41
+    },
+    {
+      "id": "tanenbaum",
+      "title": "Computer Networks",
+      "url": null,
+      "kind": "book",
+      "status": "reference",
+      "badge": null,
+      "authors": "Andrew S. Tanenbaum and David J. Wetherall (newer editions list additional authors)",
+      "description": "A layered, in-depth textbook on computer networks.",
+      "covers": "Follows the layers from physical to application, with detailed explanations of protocols and design trade-offs. Good for depth after a first course.",
+      "note": "Newer editions may list additional authors. Check your library or the publisher's website for the current edition; no verified link was available here.",
+      "topics": [
+        "book",
+        "textbook",
+        "data communication",
+        "data communication networks",
+        "dcn",
+        "networking basics",
+        "osi model"
+      ],
+      "priority": 42
+    }
+  ]
+}

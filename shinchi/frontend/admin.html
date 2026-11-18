@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shinchi - Knowledge base admin</title><link rel="stylesheet" href="css/admin.css"></head>
+<body><main>
+<h1>Shinchi knowledge base</h1><div class="small">Upload notes, check indexing status, rebuild the index.</div>
+<section><h2>Connection</h2>
+<div class="row"><label>API base <input id="api" type="text" placeholder="same origin"></label>
+<label>Admin token <input id="tok" type="password" autocomplete="off"></label>
+<button class="primary" id="connect">Connect</button><button id="forget">Forget token</button></div>
+<div id="health" class="small"></div><div id="conn"></div></section>
+<section><h2>Upload documents</h2>
+<div class="drop" id="drop">Drag files here or <button id="pick">choose files</button><input id="file" type="file" multiple hidden accept=".pdf,.docx,.txt,.md,.markdown,.html,.htm"><div class="small">PDF, DOCX, TXT, MD, HTML. Same file name replaces the old version.</div></div>
+<div id="uploads"></div></section>
+<section><h2>Index</h2><div class="row"><button id="sync">Sync new/changed files</button><button id="rebuild" class="danger">Rebuild full index</button></div><div id="idxjob"></div>
+<div id="docs"></div></section>
+</main><script src="js/shinchi-admin.js"></script></body></html>

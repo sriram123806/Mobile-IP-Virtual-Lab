@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t">
+  <title id="t">Shinchi, a friendly chibi network assistant with a headset and a signal antenna tuft</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9eaff"/><stop offset="1" stop-color="#d4f6e6"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d52c9"/><stop offset="1" stop-color="#2a38a0"/>
+    </linearGradient>
+    <linearGradient id="iris" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f7cf0"/><stop offset="1" stop-color="#27c79a"/>
+    </linearGradient>
+    <clipPath id="clip"><circle cx="128" cy="128" r="124"/></clipPath>
+  </defs>
+  <circle cx="128" cy="128" r="124" fill="url(#bg)"/>
+  <g clip-path="url(#clip)">
+    <!-- soft background rings: network feel -->
+    <circle cx="40" cy="214" r="46" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3"/>
+    <circle cx="222" cy="70" r="26" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3"/>
+    <!-- body / hoodie -->
+    <path d="M44 262 C44 212 86 192 128 192 C170 192 212 212 212 262 Z" fill="#2f6fe4"/>
+    <path d="M104 194 L128 222 L152 194 Z" fill="#ffffff"/>
+    <path d="M110 196 L128 216 L146 196" fill="none" stroke="#17b385" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- neck -->
+    <rect x="116" y="168" width="24" height="28" rx="8" fill="#f6cdb4"/>
+    <!-- back hair -->
+    <ellipse cx="128" cy="112" rx="86" ry="82" fill="url(#hair)"/>
+    <path d="M52 120 C46 150 54 176 66 188 C70 160 70 140 66 120 Z" fill="#2a38a0"/>
+    <path d="M204 120 C210 150 202 176 190 188 C186 160 186 140 190 120 Z" fill="#2a38a0"/>
+    <!-- face -->
+    <ellipse cx="128" cy="126" rx="66" ry="58" fill="#ffe4d2"/>
+    <!-- bangs -->
+    <path d="M60 114 C58 62 94 38 128 38 C164 38 200 62 196 114 C184 94 172 84 160 80 C152 96 138 102 126 94 C116 104 98 100 92 86 C80 94 68 102 60 114 Z" fill="url(#hair)"/>
+    <path d="M128 40 C122 58 126 74 134 86" fill="none" stroke="#2a38a0" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+    <!-- pink hair clip -->
+    <g transform="rotate(-18 82 70)"><rect x="70" y="64" width="26" height="9" rx="4.5" fill="#f08cb0"/><rect x="76" y="66" width="8" height="5" rx="2.5" fill="#fff" opacity=".7"/></g>
+    <!-- antenna tuft + signal waves -->
+    <path d="M126 42 C116 26 126 16 146 20" fill="none" stroke="#3d52c9" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="148" cy="20" r="7.5" fill="#2fd39a"/>
+    <circle cx="146" cy="18" r="2.4" fill="#fff" opacity=".8"/>
+    <path d="M159 9 A14 14 0 0 1 162 27" fill="none" stroke="#17b385" stroke-width="4" stroke-linecap="round"/>
+    <path d="M164 3 A22 22 0 0 1 169 31" fill="none" stroke="#17b385" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+    <!-- headset -->
+    <path d="M58 122 C54 70 92 44 128 44" fill="none" stroke="#33425f" stroke-width="7" stroke-linecap="round" opacity="0"/>
+    <path d="M56 126 C50 60 100 30 128 32 C160 32 208 62 200 126" fill="none" stroke="#33425f" stroke-width="7" stroke-linecap="round"/>
+    <rect x="42" y="108" width="24" height="46" rx="12" fill="#17b385"/>
+    <rect x="48" y="116" width="12" height="30" rx="6" fill="#0f8a65"/>
+    <rect x="190" y="108" width="24" height="46" rx="12" fill="#17b385"/>
+    <rect x="196" y="116" width="12" height="30" rx="6" fill="#0f8a65"/>
+    <path d="M202 152 C204 182 186 192 160 186" fill="none" stroke="#33425f" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="155" cy="186" rx="10" ry="6.5" fill="#17b385"/>
+    <!-- eyes -->
+    <g>
+      <ellipse cx="100" cy="132" rx="13" ry="17" fill="#1c2760"/>
+      <ellipse cx="100" cy="134" rx="10" ry="13" fill="url(#iris)"/>
+      <ellipse cx="100" cy="136" rx="4.5" ry="6" fill="#14204f"/>
+      <circle cx="105" cy="126" r="4.6" fill="#fff"/><circle cx="95" cy="141" r="2.2" fill="#fff"/>
+      <ellipse cx="156" cy="132" rx="13" ry="17" fill="#1c2760"/>
+      <ellipse cx="156" cy="134" rx="10" ry="13" fill="url(#iris)"/>
+      <ellipse cx="156" cy="136" rx="4.5" ry="6" fill="#14204f"/>
+      <circle cx="161" cy="126" r="4.6" fill="#fff"/><circle cx="151" cy="141" r="2.2" fill="#fff"/>
+    </g>
+    <!-- brows, blush, mouth -->
+    <path d="M86 108 Q100 101 112 108" fill="none" stroke="#2a38a0" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M144 108 Q156 101 170 108" fill="none" stroke="#2a38a0" stroke-width="3.5" stroke-linecap="round"/>
+    <ellipse cx="82" cy="156" rx="10" ry="5.5" fill="#ff8fb3" opacity=".5"/>
+    <ellipse cx="174" cy="156" rx="10" ry="5.5" fill="#ff8fb3" opacity=".5"/>
+    <path d="M116 158 Q128 172 140 158 Q128 162 116 158 Z" fill="#c4546e" stroke="#c4546e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

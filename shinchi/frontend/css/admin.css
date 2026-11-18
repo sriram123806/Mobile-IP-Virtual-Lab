@@ -1,0 +1,15 @@
+:root{--blue:#2f7cf0;--green:#17b385;--pink:#ff8fb8;--ink:#16213a;--ink2:#4a5775;--line:#d5e0f5;--card:#fff}
+@media(prefers-color-scheme:dark){:root{--ink:#e8eefc;--ink2:#a9b6d3;--line:#2c3b63;--card:#1a2442}body{background:#0f1830!important}}
+body{margin:0;font-family:ui-rounded,"Segoe UI",system-ui,sans-serif;background:linear-gradient(160deg,#e6f0ff,#e3f8ee 60%,#ffeef5);color:var(--ink)}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}h1{margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0}
+input,button{font:inherit}input[type=text],input[type=password]{padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);min-width:240px}
+button{padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.primary{background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;border:0}button.danger{color:#b42318}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.drop{border:2px dashed var(--blue);border-radius:14px;padding:26px;text-align:center;color:var(--ink2)}.drop.over{background:rgba(47,124,240,.1)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.b{padding:2px 8px;border-radius:999px;font-size:12px;background:rgba(23,179,133,.2)}.b.failed,.b.empty{background:rgba(239,68,68,.2)}.b.starter{background:rgba(255,143,184,.35)}
+.msg{padding:9px 12px;border-radius:10px;margin:8px 0}.msg.err{background:rgba(239,68,68,.15)}.msg.warn{background:rgba(255,143,184,.25)}.msg.ok{background:rgba(23,179,133,.15)}
+.steps{display:flex;gap:6px;flex-wrap:wrap;font-size:12px;margin:6px 0}.steps span{padding:2px 8px;border-radius:999px;background:var(--line)}.steps span.on{background:var(--blue);color:#fff}.steps span.done{background:var(--green);color:#fff}
+progress{width:100%;height:10px}.small{font-size:12.5px;color:var(--ink2)}

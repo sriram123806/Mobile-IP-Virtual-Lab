@@ -1,0 +1,16 @@
+# Render.com blueprint (free tier sleeps when idle; first request after sleep is slow)
+services:
+  - type: web
+    name: shinchi-backend
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://YOUR-USERNAME.github.io
+      - key: EMBEDDING_PROVIDER
+        value: auto

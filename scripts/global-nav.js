@@ -11,6 +11,7 @@
     { key: 'theory',     label: 'THEORY',     href: 'theory.html' },
     { key: 'procedure',  label: 'PROCEDURE',  href: 'procedure.html' },
     { key: 'simulation', label: 'SIMULATION', href: 'simulation.html' },
+    { key: 'game',       label: 'GAME',       href: 'game.html' },
     { key: 'learning',   label: 'LEARNING',   href: 'learning.html' },
     { key: 'quiz',       label: 'QUIZ',       href: 'quiz.html' },
     { key: 'references', label: 'REFERENCES', href: 'references.html' }
@@ -161,6 +162,20 @@
   }
 
   /* ---- Public API ---- */
+  
+  /* Auto-mount Shinchi Chatbot across all lab pages if not present */
+  function mountShinchi() {
+    if (document.getElementById('shinchi-host') || document.querySelector('script[src*="shinchi-widget.js"]')) {
+      return;
+    }
+    var inPages = window.location.pathname.indexOf('/pages/') !== -1;
+    var scriptPath = inPages ? '../shinchi/frontend/js/shinchi-widget.js' : 'shinchi/frontend/js/shinchi-widget.js';
+    var s = document.createElement('script');
+    s.src = scriptPath;
+    s.setAttribute('data-mode', 'floating');
+    document.body.appendChild(s);
+  }
+
   window.LAB = {
     buildNav: buildNav,
     toast: toast,
@@ -176,5 +191,6 @@
     }
     initFaq();
     initVideos(window.MIP_VIDEOS || {});
+    mountShinchi();
   });
 })();
