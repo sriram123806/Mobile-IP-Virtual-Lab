@@ -239,59 +239,105 @@
     #lb-prev { left: 20px; }
     #lb-next { right: 20px; }
 
-    /* Video section */
-    .video-placeholder-wrap {
+    /* Video section - White Glassmorphism Style */
+    .video-glass-container {
       position: relative;
       width: 100%;
-      max-width: 760px;
-      margin: 0 auto 20px;
-      aspect-ratio: 16/9;
-      background: #081434;
-      border: 1.5px solid var(--lab-cyan);
-      border-radius: 16px;
-      overflow: hidden;
+      max-width: 780px;
+      margin: 0 auto 22px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+      transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+    }
+    .video-glass-container.is-expanded {
+      max-width: 100%;
+      box-shadow: 0 24px 64px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+    .video-toolbar {
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 24px rgba(0, 210, 255, 0.3);
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 0 4px;
     }
-    .video-placeholder-wrap iframe {
-      position: absolute;
-      inset: 0;
+    .video-info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: rgba(2, 132, 199, 0.1);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+    .video-expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #0f172a;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+    }
+    .video-expand-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+      transform: translateY(-1px);
+    }
+    .video-screen-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000000;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .video-screen-wrap video {
       width: 100%;
       height: 100%;
-      border: none;
-    }
-    .video-placeholder-inner {
-      text-align: center;
-      color: #94a3b8;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    .video-placeholder-inner .vp-icon {
-      font-size: 3rem;
-      color: var(--lab-cyan);
-      margin-bottom: 8px;
+      display: block;
+      object-fit: contain;
+      background: #000000;
     }
     .yt-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #00d2ff, #0284c7);
-      color: #041028;
+      gap: 10px;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
       font-weight: 700;
       font-size: 0.95rem;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.02em;
       padding: 12px 28px;
-      border-radius: 50px;
+      border-radius: 30px;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0, 210, 255, 0.4);
-      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+      transition: all 0.25s ease;
+      margin-top: 6px;
     }
     .yt-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.7);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.5);
+      background: linear-gradient(135deg, #0369a1, #075985);
+      color: #ffffff;
     }
 
     /* FAQ accordion */
@@ -636,20 +682,48 @@
 
     
 
-<!-- 4. YOUTUBE VIDEO SECTION -->
-    <section class="lab-panel-dark" aria-labelledby="th-vid-h">
-      <h2 id="th-vid-h">4. Video Learning</h2>
-      <div class="video-placeholder-wrap">
-        <div class="video-placeholder-inner">
-          <div class="vp-icon">▶</div>
-          <div>THEORY EXPLANATION VIDEO</div>
-          <div style="font-size:0.85rem;color:#64748b;margin-top:6px;font-weight:normal;">Comprehensive lecture on Mobile IP encapsulation and tunneling.</div>
+<!-- 4. VIDEO LEARNING SECTION (Clean White Glassmorphism Style) -->
+    <section class="lab-panel-white video-learning-panel" aria-labelledby="th-vid-h">
+      <h2 id="th-vid-h">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        4. Video Learning
+      </h2>
+      <p style="margin-bottom:18px;color:#475569;font-size:0.95rem;">Comprehensive 3-minute 33-second video lecture exploring Mobile IP encapsulation, packet tunneling, and mobility binding.</p>
+
+      <div class="video-glass-container" id="theory-video-container">
+        <div class="video-toolbar">
+          <span class="video-info-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            Theory Lecture &bull; 3m 33s
+          </span>
+          <button type="button" class="video-expand-btn" id="th-expand-btn" onclick="toggleVideoExpansion('theory-video-container', this)">
+            <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"/>
+              <polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/>
+              <line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+            <span class="expand-label">Expand Size</span>
+          </button>
         </div>
-        <iframe src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <div class="video-screen-wrap">
+          <video id="theory-video-player" controls preload="metadata" playsinline controlsList="nofullscreen" poster="../assets/videos/video-theory-poster.jpg">
+            <source src="../assets/videos/Mobile_IP_improved_voice.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
-      <div style="text-align:center;">
-        <a class="yt-btn" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">▶ WATCH ON YOUTUBE</a>
-        <p style="color:#64748b;font-size:0.84rem;margin-top:10px;">Video stream will be linked here once the university presentation is published.</p>
+
+      <div style="text-align:center;margin-top:14px;">
+        <a class="yt-btn" href="https://youtu.be/9Hi5rqfDPhc?si=o40u_Va80PfxP-r6" target="_blank" rel="noopener noreferrer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:#ff0033;">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+          Watch the Shinchan Video for Further Explanation
+        </a>
       </div>
     </section>
 
@@ -979,6 +1053,43 @@
         });
       });
     })();
+
+    // In-Container Video Expansion Helper
+    function toggleVideoExpansion(containerId, btn) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      var isExpanded = container.classList.toggle('is-expanded');
+      var label = btn.querySelector('.expand-label');
+      var icon = btn.querySelector('.expand-icon');
+
+      if (isExpanded) {
+        if (label) label.textContent = 'Collapse Size';
+        if (icon) {
+          icon.innerHTML = '<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>';
+        }
+        btn.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('title', 'Collapse back to default size');
+        container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        if (label) label.textContent = 'Expand Size';
+        if (icon) {
+          icon.innerHTML = '<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>';
+        }
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('title', 'Expand size within container');
+      }
+    }
+
+    // Press Escape to collapse any expanded in-container video
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var exp = document.querySelectorAll('.is-expanded');
+        exp.forEach(function (el) {
+          var btn = el.querySelector('.video-expand-btn');
+          if (btn) toggleVideoExpansion(el.id, btn);
+        });
+      }
+    });
   </script>
 
   <!-- Shinchi Floating Chatbot Assistant -->

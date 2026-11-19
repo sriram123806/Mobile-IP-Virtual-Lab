@@ -81,19 +81,78 @@
       color: #334155;
       margin: 0;
     }
-    .proc-video-box {
+    /* Video Section with In-Container Expand */
+    .proc-video-container {
       width: 100%;
-      max-width: 760px;
-      margin: 16px auto;
-      aspect-ratio: 16/9;
-      background: #040c20;
+      max-width: 780px;
+      margin: 16px auto 22px;
+      background: rgba(8, 20, 52, 0.9);
       border: 1.5px solid var(--lab-cyan);
-      border-radius: 16px;
-      overflow: hidden;
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 0 24px rgba(0, 210, 255, 0.25);
+      transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+    }
+    .proc-video-container.is-expanded {
+      max-width: 100%;
+      box-shadow: 0 0 36px rgba(0, 210, 255, 0.45);
+    }
+    .proc-video-toolbar {
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 24px rgba(0, 210, 255, 0.3);
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 0 4px;
+    }
+    .proc-video-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--lab-cyan);
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+    .proc-expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(0, 210, 255, 0.15);
+      border: 1.5px solid var(--lab-cyan);
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+      transition: all 0.2s ease;
+    }
+    .proc-expand-btn:hover {
+      background: var(--lab-cyan);
+      color: #041028;
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
+      transform: translateY(-1px);
+    }
+    .proc-video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .proc-video-frame video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: #000;
     }
   </style>
 </head>
@@ -206,13 +265,31 @@
         SIMULATION WALKTHROUGH &amp; LAUNCH
       </h2>
 
-      <div class="proc-video-box">
-        <div style="text-align:center;color:#94a3b8;padding:20px;">
-          <div style="font-size:3rem;color:var(--lab-cyan);margin-bottom:10px;">▶</div>
-          <div style="font-weight:700;font-size:1.15rem;color:#ffffff;letter-spacing:0.04em;">SIMULATION READY</div>
-          <div style="font-size:0.9rem;color:#94a3b8;margin-top:6px;max-width:480px;margin-left:auto;margin-right:auto;">Ready to experiment with real Tamil Nadu network nodes and live packet tunneling?</div>
+      <div class="proc-video-container" id="proc-video-container">
+        <div class="proc-video-toolbar">
+          <span class="proc-video-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            Procedural Walkthrough &bull; ~1 min
+          </span>
+          <button type="button" class="proc-expand-btn" id="proc-expand-btn" onclick="toggleVideoExpansion('proc-video-container', this)">
+            <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"/>
+              <polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/>
+              <line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+            <span class="expand-label">Expand Size</span>
+          </button>
+        </div>
+
+        <div class="proc-video-frame">
+          <video id="proc-video-player" controls preload="metadata" playsinline controlsList="nofullscreen" poster="../assets/videos/video-procedure-poster.jpg">
+            <source src="../assets/videos/Mobile_IP_Lab_Procedure_Voiceover.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
+
       <div style="text-align:center;margin-top:20px;">
         <a class="lab-btn" href="../pages/simulation.html" style="font-size:1.05rem;padding:14px 36px;">LAUNCH LIVE SIMULATOR &rarr;</a>
       </div>
@@ -223,6 +300,45 @@
   <footer class="lab-foot">Home Agent and Foreign Agent Tunneling &middot; An Interactive Mobile IP Virtual Laboratory</footer>
 
   <script src="../scripts/global-nav.js"></script>
+
+  <script>
+    // In-Container Video Expansion Helper
+    function toggleVideoExpansion(containerId, btn) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      var isExpanded = container.classList.toggle('is-expanded');
+      var label = btn.querySelector('.expand-label');
+      var icon = btn.querySelector('.expand-icon');
+
+      if (isExpanded) {
+        if (label) label.textContent = 'Collapse Size';
+        if (icon) {
+          icon.innerHTML = '<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>';
+        }
+        btn.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('title', 'Collapse back to default size');
+        container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        if (label) label.textContent = 'Expand Size';
+        if (icon) {
+          icon.innerHTML = '<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>';
+        }
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('title', 'Expand size within container');
+      }
+    }
+
+    // Press Escape to collapse any expanded in-container video
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var exp = document.querySelectorAll('.is-expanded');
+        exp.forEach(function (el) {
+          var btn = el.querySelector('.proc-expand-btn');
+          if (btn) toggleVideoExpansion(el.id, btn);
+        });
+      }
+    });
+  </script>
 
   <!-- Shinchi Floating Chatbot Assistant -->
   <script src="../shinchi/frontend/js/shinchi-kb-data.js"></script>
